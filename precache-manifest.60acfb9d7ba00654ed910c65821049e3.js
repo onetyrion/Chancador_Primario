@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "fff04271c9165a84c0d388d9d0801bf8",
+    "revision": "c9cc4df99a8c8fb80f078be1fa279014",
     "url": "/Chancador_Primario/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Chancador_Primario/static/css/2.d0176e96.chunk.css"
   },
   {
-    "revision": "6068980cb4a2b56e7e08",
+    "revision": "5919cb5f37d6cef44d46",
     "url": "/Chancador_Primario/static/css/main.23eb9b45.chunk.css"
   },
   {
@@ -20,12 +20,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Chancador_Primario/static/js/2.51bcf971.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6068980cb4a2b56e7e08",
-    "url": "/Chancador_Primario/static/js/main.943cb99b.chunk.js"
+    "revision": "5919cb5f37d6cef44d46",
+    "url": "/Chancador_Primario/static/js/main.3f902895.chunk.js"
   },
   {
     "revision": "f7bdf0cfc9ea0dd44285692948c2d84f",
-    "url": "/Chancador_Primario/static/js/main.943cb99b.chunk.js.LICENSE.txt"
+    "url": "/Chancador_Primario/static/js/main.3f902895.chunk.js.LICENSE.txt"
   },
   {
     "revision": "59b84f44c613e0554789",
