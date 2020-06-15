@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/Chancador_Primario/static/css/main.23eb9b45.chunk.css",
-    "main.js": "/Chancador_Primario/static/js/main.86333dab.chunk.js",
-    "main.js.map": "/Chancador_Primario/static/js/main.86333dab.chunk.js.map",
+    "main.js": "/Chancador_Primario/static/js/main.fc0b9a3c.chunk.js",
+    "main.js.map": "/Chancador_Primario/static/js/main.fc0b9a3c.chunk.js.map",
     "runtime-main.js": "/Chancador_Primario/static/js/runtime-main.c400029d.js",
     "runtime-main.js.map": "/Chancador_Primario/static/js/runtime-main.c400029d.js.map",
     "static/css/2.d0176e96.chunk.css": "/Chancador_Primario/static/css/2.d0176e96.chunk.css",
     "static/js/2.8ebbd292.chunk.js": "/Chancador_Primario/static/js/2.8ebbd292.chunk.js",
     "static/js/2.8ebbd292.chunk.js.map": "/Chancador_Primario/static/js/2.8ebbd292.chunk.js.map",
     "index.html": "/Chancador_Primario/index.html",
-    "precache-manifest.53d094cba0f6186800b6cbef271692c8.js": "/Chancador_Primario/precache-manifest.53d094cba0f6186800b6cbef271692c8.js",
+    "precache-manifest.0fc50ffb543291fc24e89683af84a8db.js": "/Chancador_Primario/precache-manifest.0fc50ffb543291fc24e89683af84a8db.js",
     "service-worker.js": "/Chancador_Primario/service-worker.js",
     "static/css/2.d0176e96.chunk.css.map": "/Chancador_Primario/static/css/2.d0176e96.chunk.css.map",
     "static/css/main.23eb9b45.chunk.css.map": "/Chancador_Primario/static/css/main.23eb9b45.chunk.css.map",
     "static/js/2.8ebbd292.chunk.js.LICENSE.txt": "/Chancador_Primario/static/js/2.8ebbd292.chunk.js.LICENSE.txt",
-    "static/js/main.86333dab.chunk.js.LICENSE.txt": "/Chancador_Primario/static/js/main.86333dab.chunk.js.LICENSE.txt",
+    "static/js/main.fc0b9a3c.chunk.js.LICENSE.txt": "/Chancador_Primario/static/js/main.fc0b9a3c.chunk.js.LICENSE.txt",
     "static/media/candelarialogo.png": "/Chancador_Primario/static/media/candelarialogo.3a9e59c9.png",
     "static/media/marc.jpg": "/Chancador_Primario/static/media/marc.8880a65c.jpg",
     "static/media/sidebar-5.jpg": "/Chancador_Primario/static/media/sidebar-5.beda0a80.jpg"
@@ -24,6 +24,6 @@
     "static/css/2.d0176e96.chunk.css",
     "static/js/2.8ebbd292.chunk.js",
     "static/css/main.23eb9b45.chunk.css",
-    "static/js/main.86333dab.chunk.js"
+    "static/js/main.fc0b9a3c.chunk.js"
   ]
 }
