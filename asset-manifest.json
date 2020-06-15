@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/Chancador_Primario/static/css/main.23eb9b45.chunk.css",
-    "main.js": "/Chancador_Primario/static/js/main.f4ebfdf5.chunk.js",
-    "main.js.map": "/Chancador_Primario/static/js/main.f4ebfdf5.chunk.js.map",
+    "main.js": "/Chancador_Primario/static/js/main.17e764b3.chunk.js",
+    "main.js.map": "/Chancador_Primario/static/js/main.17e764b3.chunk.js.map",
     "runtime-main.js": "/Chancador_Primario/static/js/runtime-main.c400029d.js",
     "runtime-main.js.map": "/Chancador_Primario/static/js/runtime-main.c400029d.js.map",
     "static/css/2.d0176e96.chunk.css": "/Chancador_Primario/static/css/2.d0176e96.chunk.css",
-    "static/js/2.8ebbd292.chunk.js": "/Chancador_Primario/static/js/2.8ebbd292.chunk.js",
-    "static/js/2.8ebbd292.chunk.js.map": "/Chancador_Primario/static/js/2.8ebbd292.chunk.js.map",
+    "static/js/2.51bcf971.chunk.js": "/Chancador_Primario/static/js/2.51bcf971.chunk.js",
+    "static/js/2.51bcf971.chunk.js.map": "/Chancador_Primario/static/js/2.51bcf971.chunk.js.map",
     "index.html": "/Chancador_Primario/index.html",
-    "precache-manifest.fea03c22cd1bacc1e07e8168732e2cbf.js": "/Chancador_Primario/precache-manifest.fea03c22cd1bacc1e07e8168732e2cbf.js",
+    "precache-manifest.49bac623f745ee395d8c1b1f7c803dde.js": "/Chancador_Primario/precache-manifest.49bac623f745ee395d8c1b1f7c803dde.js",
     "service-worker.js": "/Chancador_Primario/service-worker.js",
     "static/css/2.d0176e96.chunk.css.map": "/Chancador_Primario/static/css/2.d0176e96.chunk.css.map",
     "static/css/main.23eb9b45.chunk.css.map": "/Chancador_Primario/static/css/main.23eb9b45.chunk.css.map",
-    "static/js/2.8ebbd292.chunk.js.LICENSE.txt": "/Chancador_Primario/static/js/2.8ebbd292.chunk.js.LICENSE.txt",
-    "static/js/main.f4ebfdf5.chunk.js.LICENSE.txt": "/Chancador_Primario/static/js/main.f4ebfdf5.chunk.js.LICENSE.txt",
+    "static/js/2.51bcf971.chunk.js.LICENSE.txt": "/Chancador_Primario/static/js/2.51bcf971.chunk.js.LICENSE.txt",
+    "static/js/main.17e764b3.chunk.js.LICENSE.txt": "/Chancador_Primario/static/js/main.17e764b3.chunk.js.LICENSE.txt",
     "static/media/candelarialogo.png": "/Chancador_Primario/static/media/candelarialogo.3a9e59c9.png",
     "static/media/marc.jpg": "/Chancador_Primario/static/media/marc.8880a65c.jpg",
     "static/media/sidebar-5.jpg": "/Chancador_Primario/static/media/sidebar-5.beda0a80.jpg"
@@ -22,8 +22,8 @@
   "entrypoints": [
     "static/js/runtime-main.c400029d.js",
     "static/css/2.d0176e96.chunk.css",
-    "static/js/2.8ebbd292.chunk.js",
+    "static/js/2.51bcf971.chunk.js",
     "static/css/main.23eb9b45.chunk.css",
-    "static/js/main.f4ebfdf5.chunk.js"
+    "static/js/main.17e764b3.chunk.js"
   ]
 }
