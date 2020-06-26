@@ -42,7 +42,7 @@ export default function DashboardHistorico(props) {
   };
   if (!props.droppanel2) {
   return (
-    <div>
+    <div className={(window.screen.width<500) ? classes.DivWidth : null}>
       <GridContainer>
         {/* {///////////FILTROS} */}
         <GridItem xs={12} sm={12} md={12}>

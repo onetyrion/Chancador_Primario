@@ -17,6 +17,12 @@ const dashboardStyle = {
     backgroundColor: "#333",
     color: "#fff",
   },
+  DivWidth:{
+    width:"120%",
+    margin: "0 -10%"
+  },
+  ConteinerWidth:{
+  },
   TabsWidth:{
     width: "65%",
     margin: "auto"

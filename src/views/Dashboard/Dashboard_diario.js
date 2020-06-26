@@ -34,8 +34,8 @@ export default function DashboardDiario(props) {
   //console.log(super(props))
   if (!props.droppanel) {
     return (
-      <div>
-        <GridContainer >
+      <div className={(window.screen.width<500) ? classes.DivWidth : null}>
+        <GridContainer className={(window.screen.width<500) ? classes.Conteiner: null} >
           {/* Disponibilidad diaria vs pom CHART1 */}
           <GridItem xs={12} sm={12} md={6}>
             <Card chart>

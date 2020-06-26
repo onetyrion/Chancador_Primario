@@ -71,7 +71,7 @@ export default function ConfigMaquinarias() {
           <CardBody>
             <Table 
               tableHeaderColor="primary"
-              tableHead={["ID","Nombre maquinaria","Componente","Estado","Acción"]}
+              tableHead={["ID","Maquinaria","Componente","Estado","Acción"]}
               tableData={[
                 ["01","Chancador Primario","32CV02","Vigente","Modificar / Borrrar"],
                 ["02","Chancador Primario","31FE016","Vigente","Modificar / Borrrar"],

@@ -71,7 +71,7 @@ export default function ConfigAverias() {
           <CardBody>
             <Table 
               tableHeaderColor="primary"
-              tableHead={["ID","Nombre falla","Componente","Categoría","Descripición","Tipo","Acción"]}
+              tableHead={["ID","Falla","Componente","Categoría","Descripición","Tipo","Acción"]}
               tableData={[
                 ["01","Cambio de Poste","32CV02","Cat.1","Rotura del modulo 4","Aguda","Modificar / Borrrar"],
                 ["02","Reparación controlador Eléctricio","31FE016","Cat.2","Fusible quemado","Croníca","Modificar / Borrrar"],
