@@ -23,7 +23,6 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -41,10 +40,7 @@
   "keywords": [],
   "author": "onetyrion",
   "license": "MIT",
-  "bugs": {
-    "url": "https://onetyrion.github.com/Chancador_Primario/issues"
-  },
-  "homepage": "https://onetyrion.github.io/Chancador_Primario",
+  "homepage": "https://cpanel-chprimario.herokuapp.com",
   "optionalDependencies": {
     "@types/googlemaps": "3.39.6",
     "@types/markerclustererplus": "2.1.33",

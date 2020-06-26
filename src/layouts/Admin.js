@@ -36,7 +36,7 @@ const switchRoutes = (
       return null;
      })
     }
-    <Redirect from="/" to="/Chancador_Primario/dashboard/actual" />
+    <Redirect from="/" to="/dashboard/actual" />
   </Switch>
 );
 
