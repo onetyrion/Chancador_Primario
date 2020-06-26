@@ -1,6 +1,6 @@
 {
-  "short_name": "Chancador Primario",
-  "name": "Panel de Control Chancador Primario",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",
