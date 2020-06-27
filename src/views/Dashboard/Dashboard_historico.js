@@ -22,13 +22,13 @@ import {
   mtbme_histChart,
   averiasChart,
   componentesChart,
-  mtbfDiaria_metas
+  eventMantChart
 } from "variables/charts.js";
 //import Dashboard_diario from "views/Dashboard/Dashboard_diario.js";
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 
-import { Bar } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 
 const useStyles3 = makeStyles(styles);
 
@@ -226,7 +226,7 @@ export default function DashboardHistorico(props) {
             </Card>
           </GridItem>          
 
-          {/*  */}
+          {/* COMPONENTES AFECTADOS */}
           <GridItem xs={12} sm={12} md={6}>
             <Card chart>
               <CardHeader>
@@ -243,7 +243,24 @@ export default function DashboardHistorico(props) {
               </CardBody>
             </Card>
           </GridItem>   
-
+          
+          {/* EVENTOS */}
+          <GridItem xs={12} sm={12} md={6}>
+            <Card chart>
+              <CardHeader>
+              <Pie data={eventMantChart} options={{legend: { display: false},}} />
+              </CardHeader>
+              <CardBody>
+                <h4 className={classes.cardTitle}>Eventos de mantención con más horas</h4>
+                <p className={classes.cardCategory}>
+                  <span className={classes.successText}>
+                    458.19 hrs
+                  </span>{" "}
+                  en total
+                </p>
+              </CardBody>
+            </Card>
+          </GridItem> 
       </GridContainer>
 
     </div>

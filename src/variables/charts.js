@@ -222,12 +222,12 @@ const mttrDiaria_metas = {
     backgroundColor: [
     '#fb8c00',
     '#36A2EB',
-    '#43a047'
+    '#f44336'
     ],
     hoverBackgroundColor: [
     '#fb8c00',
     '#36A2EB',
-    '#43a047'
+    '#f44336'
     ],
     circumference: (1.0 * Math.PI)
   },{
@@ -235,12 +235,12 @@ const mttrDiaria_metas = {
     backgroundColor: [
     '#fff',
     '#36A2EB',
-    '#43a047'
+    '#f44336'
     ],
     hoverBackgroundColor: [
     '#fb8c00',
     '#36A2EB',
-    '#43a047'
+    '#f44336'
     ],
     circumference: (1.0 * Math.PI)
   },
@@ -642,6 +642,32 @@ const componentesChart = {
     }
   }
 };
+
+/////////Eventos
+
+const eventMantChart = {
+	labels: [
+		'Mant. Programada',
+		'Mant. No Programada'
+	],
+	datasets: [{
+		data: [122.17,336.02],
+		backgroundColor: [
+		'#fb8c00',
+		'#36A2EB',
+		'#43a047'
+		],
+		hoverBackgroundColor: [
+		'#fb8c00',
+		'#36A2EB',
+		'#43a047'
+    ],
+    circumference: (1.0 * Math.PI)
+	}
+]};
+
+
+
 module.exports = {
   dailySalesChart,
   emailsSubscriptionChart,
@@ -657,5 +683,6 @@ module.exports = {
   mttrDiaria_metas,
   mtbfDiaria_metas,
   averiasChart,
-  componentesChart
+  componentesChart,
+  eventMantChart
 };

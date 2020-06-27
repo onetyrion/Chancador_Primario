@@ -16,6 +16,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import { Doughnut} from 'react-chartjs-2';
+import Button from "components/CustomButtons/Button.js";
 
 
 import {
@@ -30,17 +31,84 @@ import {
 } from "variables/charts.js";
 //import Dashboard_diario from "views/Dashboard/Dashboard_diario.js";
 import TableList from "views/TableList/TableList";
+import { MenuItem, InputLabel, FormControl, Select } from "@material-ui/core";
 
 const useStyles2 = makeStyles(styles);
 
 export default function DashboardDiario(props) {
+  const [month, setMonth] = React.useState('1');
+  const [year, setYear] = React.useState('2020');
+
+  const handleChange = (event,type) => { 
+    event.target.value<1990 ?
+    setMonth(event.target.value)
+    :
+    setYear(event.target.value)
+  };
   
+
+
   const classes = useStyles2();
   //console.log(super(props))
   if (!props.droppanel) {
     return (
       <div className={(window.screen.width<500) ? classes.DivWidth : null}>
         <GridContainer className={(window.screen.width<500) ? classes.Conteiner: null} >
+        {/* {///////////FILTROS} */}
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+          <CardHeader color="danger">
+            <h4 className={classes.cardTitleWhite}>Filtros</h4>
+              <p className={classes.cardCategoryWhite}>
+                
+              </p>
+            </CardHeader>
+            <CardBody className={(window.screen.width>1200) ? classes.filtrosbox : null}>            
+              <FormControl className={classes.formControl} >
+                <InputLabel id="select-month-historic">Mes</InputLabel>
+                <Select
+                  labelId="select-month-historic-label"
+                  id="select-month-historic"
+                  value={month}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={1}>Enero</MenuItem>
+                  <MenuItem value={2}>Febrero</MenuItem>
+                  <MenuItem value={3}>Marzo</MenuItem>
+                  <MenuItem value={4}>Abril</MenuItem>
+                  <MenuItem value={5}>Mayo</MenuItem>
+                  <MenuItem value={6}>Junio</MenuItem>
+                  <MenuItem value={7}>Julio</MenuItem>
+                  <MenuItem value={8}>Agosto</MenuItem>
+                  <MenuItem value={9}>Septiembre</MenuItem>
+                  <MenuItem value={10}>Octubre</MenuItem>
+                  <MenuItem value={11}>Noviembre</MenuItem>
+                  <MenuItem value={12}>Diciembre</MenuItem>
+                </Select>
+              </FormControl>
+              
+              <FormControl className={classes.formControl} >
+                <InputLabel id="select-year-historic">Año</InputLabel>
+                <Select
+                  labelId="select-year-historic"
+                  id="select-year-historic"
+                  value={year}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={2015}>2015</MenuItem>
+                  <MenuItem value={2016}>2016</MenuItem>
+                  <MenuItem value={2017}>2017</MenuItem>
+                  <MenuItem value={2018}>2018</MenuItem>
+                  <MenuItem value={2019}>2019</MenuItem>
+                  <MenuItem value={2020}>2020</MenuItem>
+                </Select>
+              
+              </FormControl>
+              <Button type="button" color="primary" className={classes.BtnFiltroWidth}>Buscar</Button>
+            </CardBody>
+          </Card>
+       </GridItem>
+
 
           {/* Disponibilidad diaria vs pom CHART1 */}
           <GridItem xs={12} sm={12} md={12}>
