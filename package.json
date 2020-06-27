@@ -11,6 +11,7 @@
   "dependencies": {
     "@material-ui/core": "4.10.0",
     "@material-ui/icons": "4.9.1",
+    "chart.js": "^2.9.3",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
     "express": "^4.17.1",
@@ -19,6 +20,7 @@
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-chartist": "0.14.3",
+    "react-chartjs-2": "^2.9.0",
     "react-dom": "16.13.1",
     "react-google-maps": "9.4.5",
     "react-router-dom": "5.2.0",
@@ -28,7 +30,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "start": "serve -s build",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

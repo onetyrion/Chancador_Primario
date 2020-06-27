@@ -19,12 +19,16 @@ import {
   disp_histChart,
   mttr_histChart,
   mtbf_histChart,
-  mtbme_histChart
+  mtbme_histChart,
+  averiasChart,
+  componentesChart,
+  mtbfDiaria_metas
 } from "variables/charts.js";
 //import Dashboard_diario from "views/Dashboard/Dashboard_diario.js";
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 
+import { Bar } from 'react-chartjs-2';
 
 const useStyles3 = makeStyles(styles);
 
@@ -203,6 +207,42 @@ export default function DashboardHistorico(props) {
             </CardFooter>
           </Card>
         </GridItem>
+
+        {/* Total horas de mantención */}
+        <GridItem xs={12} sm={12} md={6}>
+            <Card chart>
+              <CardHeader>
+                <Bar data={averiasChart} options={{legend: { display: false}}}/>
+              </CardHeader>
+              <CardBody>
+                <h4 className={classes.cardTitle}>Horas de Mantención por Tipo de Mantención</h4>
+                <p className={classes.cardCategory}>
+                  <span className={classes.successText}>
+                    <ArrowUpward className={classes.upArrowCardCategory} /> 6%
+                  </span>{" "}
+                 Más que el periodo anterior
+                </p>
+              </CardBody>
+            </Card>
+          </GridItem>          
+
+          {/*  */}
+          <GridItem xs={12} sm={12} md={6}>
+            <Card chart>
+              <CardHeader>
+                <Bar data={componentesChart} options={componentesChart.options}/>
+              </CardHeader>
+              <CardBody>
+                <h4 className={classes.cardTitle}>Horas de Mantención por Componentes Afectados</h4>
+                <p className={classes.cardCategory}>
+                  <span className={classes.successText}>
+                    <ArrowUpward className={classes.upArrowCardCategory} /> 6%
+                  </span>{" "}
+                 Más que el periodo anterior
+                </p>
+              </CardBody>
+            </Card>
+          </GridItem>   
 
       </GridContainer>
 

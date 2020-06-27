@@ -14,6 +14,8 @@ var delays = 80,
 // // // Disponibilidad
 // #############################
 
+//////////////Diaria
+
 const dailySalesChart = {
   data: {
     labels: [ "5" , "10" , "15" , "20" , "30" , "35 Días "],
@@ -64,6 +66,42 @@ const dailySalesChart = {
     }
   }
 };
+
+const dispDiaria_metas = {
+	labels: [
+		'Actual',
+		'POM',
+		'Delta'
+	],
+	datasets: [{
+		data: [100,0,0],
+		backgroundColor: [
+		'#fb8c00',
+		'#36A2EB',
+		'#43a047'
+		],
+		hoverBackgroundColor: [
+		'#fb8c00',
+		'#36A2EB',
+		'#43a047'
+    ],
+    circumference: (1.0 * Math.PI)
+	},{
+		data: [0,94, 6],
+		backgroundColor: [
+		'#fff',
+		'#36A2EB',
+		'#43a047'
+		],
+		hoverBackgroundColor: [
+		'#fb8c00',
+		'#36A2EB',
+		'#43a047'
+    ],
+    circumference: (1.0 * Math.PI)
+  },
+]};
+
 
 //////////////HISTORICA
 const disp_histChart = {
@@ -121,6 +159,7 @@ const disp_histChart = {
 // ##############################
 // // // MTTR 
 // #############################
+
 //0.0,0.0,0.0,0.0,0.0,4.6,4.6,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,2.7,2.7,2.7,2.7,2.7,2.7,2.7,2.7,2.7
 const mttrdiarioChart = {
   data: {
@@ -172,7 +211,40 @@ const mttrdiarioChart = {
     }
   }
 };
-
+const mttrDiaria_metas = {
+  labels: [
+    'Actual',
+    'Budget',
+    'Delta'
+  ],
+  datasets: [{
+    data: [2.7,0,-1.5],
+    backgroundColor: [
+    '#fb8c00',
+    '#36A2EB',
+    '#43a047'
+    ],
+    hoverBackgroundColor: [
+    '#fb8c00',
+    '#36A2EB',
+    '#43a047'
+    ],
+    circumference: (1.0 * Math.PI)
+  },{
+    data: [0,1.2, 0],
+    backgroundColor: [
+    '#fff',
+    '#36A2EB',
+    '#43a047'
+    ],
+    hoverBackgroundColor: [
+    '#fb8c00',
+    '#36A2EB',
+    '#43a047'
+    ],
+    circumference: (1.0 * Math.PI)
+  },
+]};
 ///////////HISTORICA
 const mttr_histChart = {
   data: {
@@ -224,9 +296,8 @@ const mttr_histChart = {
 
 };
 
-
 // ##############################
-// // // MTBF DIARIO
+// // // MTBF
 // #############################
 //1004.6,1004.6,1004.6,1004.6,1004.6,67.4,74.2,57.2,65.2,65.2,65.2,89.2,105.2,105.2,105.2,105.2,105.2,105.2,105.2,105.2,105.2,105.2,121.2,127.2,133.2,139.2,145.2,151.2,157.2,163.2,169.2
 const mtbfdiarioChart = {
@@ -279,7 +350,40 @@ const mtbfdiarioChart = {
     }
   }
 };
-
+const mtbfDiaria_metas = {
+	labels: [
+		'Actual',
+		'POM',
+		'Delta'
+	],
+	datasets: [{
+		data: [169,0,0],
+		backgroundColor: [
+		'#fb8c00',
+		'#36A2EB',
+		'#43a047'
+		],
+		hoverBackgroundColor: [
+		'#fb8c00',
+		'#36A2EB',
+		'#43a047'
+    ],
+    circumference: (1.0 * Math.PI)
+	},{
+		data: [0,110, 59],
+		backgroundColor: [
+		'#fff',
+		'#36A2EB',
+		'#43a047'
+		],
+		hoverBackgroundColor: [
+		'#fb8c00',
+		'#36A2EB',
+		'#43a047'
+    ],
+    circumference: (1.0 * Math.PI)
+  },
+]};
 ///////////HISTORICA
 const mtbf_histChart = {
   data: {
@@ -475,6 +579,69 @@ const completedTasksChart = {
   }
 };
 
+
+// ##############################
+// // // Averias
+// #############################
+
+const averiasChart = {
+  labels: [
+    'Total',
+    'Mecánica',
+    'Eléctrica'
+  ],
+  datasets: [
+  {
+    label:"Horas",
+    data: [122.17,100.52,21.65],
+    backgroundColor: [
+    '#fb8c00',
+    '#36A2EB',
+    '#43a047'
+    ],
+    hoverBackgroundColor: [
+    '#fb8c00',
+    '#36A2EB',
+    '#43a047'
+    ],
+  }
+]};
+
+// ##############################
+// // // Componentes
+// #############################
+
+const componentesChart = {
+  labels: ["31CR01", "32CV02", "31FE016", "Picaroca"],
+  datasets: [
+    {
+      label: "Mant. Programada",
+      backgroundColor: "#fb8c00",
+      data: [336.02,0,0,0],
+      stack: 'Stack 0',
+    },
+    {
+      label: "Mant. no Programada",
+      backgroundColor: "#36A2EB",
+      data: [27.5,78.88,10.67,5.12],
+      stack: 'Stack 1',
+    }
+  ],options: {
+    tooltips: {
+      mode: 'index',
+      intersect: false
+    },
+    responsive: true,
+    scales: {
+      xAxes: [{
+        stacked: true,
+      }],
+      yAxes: [{
+        stacked: true
+      }]
+    }
+  }
+};
 module.exports = {
   dailySalesChart,
   emailsSubscriptionChart,
@@ -485,5 +652,10 @@ module.exports = {
   disp_histChart,
   mttr_histChart,
   mtbf_histChart,
-  mtbme_histChart
+  mtbme_histChart,
+  dispDiaria_metas,
+  mttrDiaria_metas,
+  mtbfDiaria_metas,
+  averiasChart,
+  componentesChart
 };

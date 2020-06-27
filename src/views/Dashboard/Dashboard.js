@@ -46,7 +46,7 @@ function a11yProps(index) {
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
-  let tabTiempo = "one"; // definicion de tab tiempo actual "one" | historico "two" 
+  let tabTiempo = "two"; // definicion de tab tiempo actual "one" | historico "two" 
   let tabTipo = 0; // definicion de tab tipo reporte 0 | dashboard 1
   
   if (window.location.pathname === "/Chancador_Primario/dashboard/historico") {
