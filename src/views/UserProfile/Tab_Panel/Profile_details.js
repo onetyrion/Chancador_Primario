@@ -34,12 +34,14 @@ const Styles = makeStyles({
 
 export default function ProfileDetails(props){
     const classes = Styles();
+    const datos = ["19.767.283-8","Pepito","Perez Garcia","Planificardor del área de mantenciones","p.garcia@lundinmining.com"];
+
     return(
         <div className={(window.screen.width>1200) ? classes.widthdiv : null} >
             <Card >
                 <CardHeader color="info">
-                <h4 className={classes.cardTitleWhite}>Editar Perfil</h4>
-                <p className={classes.cardCategoryWhite}>Completa tu perfil</p>
+                <h4 className={classes.cardTitleWhite}>Perfil</h4>
+                <p className={classes.cardCategoryWhite}>Para actualizar tus datos habla con tu supervisor</p>
                 </CardHeader>
                 <CardBody>
                 <GridContainer>
@@ -51,6 +53,10 @@ export default function ProfileDetails(props){
                         formControlProps={{
                         fullWidth: true
                         }}
+                        inputProps={{
+                            disabled: true,
+                            value:datos[0]
+                          }}
                     />
                     </GridItem>
                     {/* //NOMBRE */}
@@ -61,6 +67,10 @@ export default function ProfileDetails(props){
                         formControlProps={{
                         fullWidth: true
                         }}
+                        inputProps={{
+                            disabled: true,
+                            value:datos[1]
+                          }}
                     />
                     </GridItem>
                     {/* //APELLIDO */}
@@ -71,6 +81,10 @@ export default function ProfileDetails(props){
                         formControlProps={{
                         fullWidth: true
                         }}
+                        inputProps={{
+                            disabled: true,
+                            value:datos[2]
+                          }}
                     />
                     </GridItem>
                 </GridContainer>
@@ -84,8 +98,9 @@ export default function ProfileDetails(props){
                         fullWidth: true
                         }}
                         inputProps={{
-                        //disabled: true
-                        }}
+                            disabled: true,
+                            value:datos[3]
+                          }}
                     />
                     </GridItem>
                     {/* //CORREO ELECTRONICO */}
@@ -96,6 +111,10 @@ export default function ProfileDetails(props){
                         formControlProps={{
                         fullWidth: true
                         }}
+                        inputProps={{
+                            disabled: true,
+                            value:datos[4]
+                          }}
                     />
                     </GridItem>
 
@@ -103,7 +122,7 @@ export default function ProfileDetails(props){
                 
                 </CardBody>
                 <CardFooter>
-                <Button color="info">Guardar Perfil</Button>
+                {/* <Button color="info">Guardar Perfil</Button> */}
                 </CardFooter>
             </Card>
                 
