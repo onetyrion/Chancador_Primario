@@ -8,12 +8,13 @@ import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { FormControl, InputLabel, Select, ListItemText, Checkbox, Input } from "@material-ui/core";
+import { FormControl, InputLabel, Select, ListItemText, Checkbox, Input, Modal } from "@material-ui/core";
 
 //DROPDOWN
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "components/CustomButtons/Button.js";
 import CardFooter from "components/Card/CardFooter";
+import CustomInput from "components/CustomInput/CustomInput";
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -87,17 +88,224 @@ const meses = [
   "Noviembre",
   "Dicembre"
 ]
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 60 ;
+  const left = 60;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+const useStylesModal = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: "70%",
+    backgroundColor: theme.palette.background.paper,
+    overflow:'scroll',
+    height:'90%',
+    border: '2px solid #9e9e9e',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
+
 export default function DetencionesMantenciones() {
   const classes = useStyles();
+  const classesModal = useStylesModal();
 
+  const [modalStyle] = React.useState(getModalStyle);
   const [ColumnName, setColumnName] = React.useState(["Fecha"]);
+  const [openModalRegister, SetopenModal] = React.useState(false);
   const [Mes, setMes] = React.useState(meses[new Date().getMonth()]);
+  const [month, setMonth] = React.useState('1');
+  const [year, setYear] = React.useState('2020');
+
+  const handleChange = (event,type) => { 
+    event.target.value<1990 ?
+    setMonth(event.target.value)
+    :
+    setYear(event.target.value)
+  };
+
   const handleChangeColumn = (event) => {
     setColumnName(event.target.value);
   };
   const handleChangeMes = (event) => {
     setMes(event.target.value);
   };
+  const handleOpen = () => {
+    SetopenModal(true);
+  };
+
+  const handleClose = () => {
+    SetopenModal(false);
+  };
+  
+  const bodyModal = (
+    <div style={modalStyle} className={classesModal.paper}> 
+        <Card >
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>RegistrarDetenciones del Chancador Priamario</h4>
+            <p className={classes.cardCategoryWhite}>
+              
+            </p>
+          </CardHeader>
+          <CardBody>
+      <GridContainer>
+        {/* //Fecha */}
+        <GridItem xs={12} sm={12} md={6}>
+        <CustomInput
+            labelText="Fecha"
+            id="fecha"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>
+        {/* //Tipo */}
+        <GridItem xs={12} sm={12} md={6}>
+        <CustomInput
+            labelText="Tipo"
+            id="Tipo"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>
+        {/* //Evento */}
+        <GridItem xs={12} sm={12} md={6}>
+        <CustomInput
+            labelText="Evento"
+            id="evento"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>
+       {/* //Componente */}
+       <GridItem xs={12} sm={12} md={6}>
+        <CustomInput
+            labelText="Componente"
+            id="componente"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>
+         {/* //duracion */}
+        <GridItem xs={12} sm={12} md={6}>
+        <CustomInput
+            labelText="Duración"
+            id="duracion"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>
+         {/* //cantidad evento especiales */}
+        <GridItem xs={12} sm={12} md={6}>
+        <CustomInput
+            labelText="Cant. Eventos Especiales"
+            id="ev-esp"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>         
+        {/* //hrs programadas */}
+        <GridItem xs={12} sm={12} md={3}>
+        <CustomInput
+            labelText="Hrs programadas"
+            id="hrsprogramadas"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>
+           {/* //hrs no programadas */}
+        <GridItem xs={12} sm={12} md={3}>
+        <CustomInput
+            labelText="Hrs No programadas"
+            id="hrsnoprogramadas"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>
+        {/* //event no programadas */}
+        <GridItem xs={12} sm={12} md={3}>
+        <CustomInput
+            labelText="Eventos No programados"
+            id="evnoprogramadas"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>        
+        {/* //event programadas */}
+        <GridItem xs={12} sm={12} md={3}>
+        <CustomInput
+            labelText="Eventos programados"
+            id="evprogramadas"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>
+        {/* //Descripcion */}
+       <GridItem xs={12} sm={12} md={6}>
+        <CustomInput
+            labelText="Descripción"
+            id="descripcion"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem> 
+        {/* //OT */}
+       <GridItem xs={12} sm={12} md={6}>
+        <CustomInput
+            labelText="OT Relacionada"
+            id="ot"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem> 
+       {/* //RFCA */}
+       <GridItem xs={12} sm={12} md={6}>
+        <CustomInput
+            labelText="RFCA"
+            id="rfca"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>   
+       {/* //Area */}
+       <GridItem xs={12} sm={12} md={6}>
+        <CustomInput
+            labelText="Área"
+            id="area"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem> 
+      </GridContainer>
+      </CardBody>
+          <CardFooter>
+            <Button color="primary" onClick={handleOpen}>Añadir Mantención</Button>
+          </CardFooter>
+        </Card>          
+    </div>
+  );
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
@@ -169,11 +377,16 @@ export default function DetencionesMantenciones() {
             />
           </CardBody>
           <CardFooter>
-            <Button color="warning">Añadir Mantención</Button>
+            <Button color="warning" onClick={handleOpen}>Añadir Mantención</Button>
           </CardFooter>
         </Card>
+      <Modal open={openModalRegister}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description">
+          {bodyModal}
+      </Modal>
       </GridItem>
-      
    </GridContainer>
   );
 }
