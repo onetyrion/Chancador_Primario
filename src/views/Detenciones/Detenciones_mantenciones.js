@@ -88,9 +88,6 @@ const meses = [
   "Noviembre",
   "Dicembre"
 ]
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
 
 function getModalStyle() {
   const top = 60 ;
@@ -151,7 +148,7 @@ export default function DetencionesMantenciones() {
     <div style={modalStyle} className={classesModal.paper}> 
         <Card >
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>RegistrarDetenciones del Chancador Priamario</h4>
+            <h4 className={classes.cardTitleWhite}>Registrar Detenciones del Chancador Priamario</h4>
             <p className={classes.cardCategoryWhite}>
               
             </p>
@@ -301,7 +298,7 @@ export default function DetencionesMantenciones() {
       </GridContainer>
       </CardBody>
           <CardFooter>
-            <Button color="primary" onClick={handleOpen}>Añadir Mantención</Button>
+            <Button color="primary">Añadir Mantención</Button>
           </CardFooter>
         </Card>          
     </div>
