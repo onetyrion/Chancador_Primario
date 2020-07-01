@@ -68,13 +68,14 @@ const useStyles = makeStyles(styles);
 
 const useStylesModal = makeStyles((theme) => ({
 paper: {
-    position: 'absolute',
-    width: "50%",
-    backgroundColor: theme.palette.background.paper,
-    overflow:'scroll',
-    border: '2px solid #9e9e9e',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+  position: 'absolute',
+  width: (window.screen.width>1200) ? "50%" : "80%",
+  backgroundColor: theme.palette.background.paper,
+  overflow:'scroll',
+  height:(window.screen.width>1200) ? "90%" : "80%",
+  border: '2px solid #9e9e9e',
+  boxShadow: theme.shadows[5],
+  padding: (window.screen.width>1200) ? theme.spacing(2, 4, 3) : null,
 },
 }));
 

@@ -12,6 +12,8 @@ import CardBody from "components/Card/CardBody.js";
 //DROPDOWN
 import Button from "components/CustomButtons/Button.js";
 import CardFooter from "components/Card/CardFooter";
+import CustomInput from "components/CustomInput/CustomInput";
+import { Modal, Select, InputLabel, FormControl, MenuItem, Input, ListItemText } from "@material-ui/core";
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -51,15 +53,126 @@ const styles = {
     display: "inline"
   },
 };
-
 const useStyles = makeStyles(styles);
+
+function getModalStyle() {
+  const top = 60 ;
+  const left = 60;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+const useStylesModal = makeStyles((theme) => ({
+paper: {
+  position: 'absolute',
+  width: (window.screen.width>1200) ? "30%" : "80%",
+  backgroundColor: theme.shadows[5],
+  //overflow:'scroll',
+  height:(window.screen.width>1200) ? "65%" : "80%",
+  //border: '2px solid #9e9e9e',
+  //boxShadow: theme.shadows[5],
+  //padding: (window.screen.width>1200) ? theme.spacing(2, 4, 3) : null,
+},
+}));
 
 export default function ConfigMaquinarias() {
   const classes = useStyles();
+  
+  //Modal Variables
+  const [modalStyle] = React.useState(getModalStyle);
+  const [openModalRegister, SetopenModal] = React.useState(false);
+  const [selectEstado, setSelectEstado] = React.useState("true");
+  const classesModal = useStylesModal();
+
+  const handleOpen = () => {
+    SetopenModal(true);
+  };
+
+  const handleClose = () => {
+    SetopenModal(false);
+  };
+  const handleChange = (event) => {
+    console.log(event)
+    switch (event.target.name) {
+      case "EstadoValue":      
+        setSelectEstado(event.target.value);
+        break;           
+      default:
+        alert("Ha ocurrido un error: HandleChange")
+        break;
+    }
+  };
+
+  const bodyModal = (
+    <div style={modalStyle} className={classesModal.paper}> 
+      <Card >
+        <CardHeader color="primary">
+          <h4 className={classes.cardTitleWhite}>Registrar una nueva maquinaria</h4>
+          <p className={classes.cardCategoryWhite}>
+            
+          </p>
+        </CardHeader>
+        <CardBody>
+      <GridContainer>
+        {/* //Componente */}
+        <GridItem xs={12} sm={12} md={12}>
+        <CustomInput
+            labelText="Nombre de componente"
+            id="nameComponente"
+            formControlProps={{
+            fullWidth: true
+            }}
+        />
+        </GridItem>
+        {/* //Maquinaria */}
+        <GridItem xs={12} sm={12} md={12}>
+        <CustomInput
+            labelText="Maquinaria"
+            id="maquinaria"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              disabled: true,
+              value:"Chancador Primario"
+            }}
+        />
+        </GridItem>
+        {/* //Estado */}
+        <GridItem xs={12} sm={12} md={12} style={{marginTop:"18px"}}>
+        <FormControl fullWidth={true}>
+          <InputLabel id="Estado-label">Estado del Componente</InputLabel>
+          <Select
+            name="EstadoValue"
+            labelId="Estado-label"
+            id="Estado"
+            value={selectEstado}
+            onChange={handleChange}
+            input={<Input />}
+          >
+            <MenuItem value={"true"}>
+              <ListItemText primary={"Habilitado"} />
+            </MenuItem>
+            <MenuItem value={"false"}>
+              <ListItemText primary={"No habilitado"} />
+            </MenuItem>
+          </Select>
+        </FormControl>
+        </GridItem>
+      </GridContainer>
+      </CardBody>
+          <CardFooter>
+            <Button color="primary">Añadir Componente</Button>
+          </CardFooter>
+        </Card>          
+    </div>
+  );
 
   return (
     <GridContainer>
-      
       <GridItem xs={12} sm={12} md={12}>
         <Card >
           <CardHeader color="primary">
@@ -82,11 +195,17 @@ export default function ConfigMaquinarias() {
             />
           </CardBody>
           <CardFooter>
-            <Button color="primary">Añadir Maquinaria</Button>
+            <Button color="primary" onClick={handleOpen}>Añadir Maquinaria</Button>
           </CardFooter>
         </Card>
       </GridItem>
-      
+      <Modal open={openModalRegister}
+        name="closeModal"
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description">
+          {bodyModal}
+      </Modal>
    </GridContainer>
   );
 }

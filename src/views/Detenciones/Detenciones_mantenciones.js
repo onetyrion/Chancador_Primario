@@ -100,16 +100,16 @@ function getModalStyle() {
   };
 }
 const useStylesModal = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: "70%",
-    backgroundColor: theme.palette.background.paper,
-    overflow:'scroll',
-    height:'90%',
-    border: '2px solid #9e9e9e',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
+paper: {
+  position: 'absolute',
+  width: (window.screen.width>1200) ? "50%" : "80%",
+  backgroundColor: theme.palette.background.paper,
+  overflow:'scroll',
+  height:(window.screen.width>1200) ? "90%" : "80%",
+  border: '2px solid #9e9e9e',
+  boxShadow: theme.shadows[5],
+  padding: (window.screen.width>1200) ? theme.spacing(2, 4, 3) : null,
+},
 }));
 
 export default function DetencionesMantenciones() {
@@ -117,18 +117,9 @@ export default function DetencionesMantenciones() {
   const classesModal = useStylesModal();
 
   const [modalStyle] = React.useState(getModalStyle);
-  const [ColumnName, setColumnName] = React.useState(["Fecha"]);
   const [openModalRegister, SetopenModal] = React.useState(false);
+  const [ColumnName, setColumnName] = React.useState(["Fecha"]);
   const [Mes, setMes] = React.useState(meses[new Date().getMonth()]);
-  const [month, setMonth] = React.useState('1');
-  const [year, setYear] = React.useState('2020');
-
-  const handleChange = (event,type) => { 
-    event.target.value<1990 ?
-    setMonth(event.target.value)
-    :
-    setYear(event.target.value)
-  };
 
   const handleChangeColumn = (event) => {
     setColumnName(event.target.value);
@@ -377,12 +368,12 @@ export default function DetencionesMantenciones() {
             <Button color="warning" onClick={handleOpen}>Añadir Mantención</Button>
           </CardFooter>
         </Card>
-      <Modal open={openModalRegister}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description">
-          {bodyModal}
-      </Modal>
+        <Modal open={openModalRegister}
+          onClose={handleClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description">
+            {bodyModal}
+        </Modal>
       </GridItem>
    </GridContainer>
   );

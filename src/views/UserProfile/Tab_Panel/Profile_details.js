@@ -55,7 +55,7 @@ export default function ProfileDetails(props){
                         inputProps={{
                             disabled: true,
                             value:datos[0]
-                          }}
+                        }}
                     />
                     </GridItem>
                     {/* //NOMBRE */}
