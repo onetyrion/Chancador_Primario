@@ -2,7 +2,7 @@
 // // // javascript library for creating charts
 // #############################
 var Chartist = require("chartist");
-const { tiposMantencion } =  require("API/DM");
+// const { tiposMantencion } =  require("API/DM");
 
 // ##############################
 // // // variables used to create animation on charts

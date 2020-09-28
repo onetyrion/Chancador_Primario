@@ -35,7 +35,7 @@ const Styles = makeStyles({
 
 export default function ProfileDetails(props){
     const classes = Styles();
-    const datos = ["19.767.283-8","Pepito","Perez Garcia","Planificardor del área de mantenciones","p.garcia@lundinmining.com"];
+    // const datos = ["19.767.283-8","Pepito","Perez Garcia","Planificardor del área de mantenciones","p.garcia@lundinmining.com"];
     const [dataUsers,SetdataUsers] = React.useState({});
     React.useEffect(()=>{
         setDatos()
@@ -49,7 +49,7 @@ export default function ProfileDetails(props){
             //setDataTipo([Math.round(res.Total),Math.round(res.Mecanica),Math.round(res.Electrica)]);
             var user = "";
             res.forEach(element => {
-                if (element.Rut == getUser()) {
+                if (element.Rut === getUser()) {
                     user = element;
                 }
             });
@@ -57,6 +57,7 @@ export default function ProfileDetails(props){
             SetdataUsers(user);
         return res;
         }).catch((error) => console.log(error));
+        return datosUser;
       }
 
     return(

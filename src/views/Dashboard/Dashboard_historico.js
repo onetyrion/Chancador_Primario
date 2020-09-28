@@ -1,6 +1,6 @@
 import React from "react";
 // react plugin for creating charts
-import ChartistGraph from "react-chartist";
+// import ChartistGraph from "react-chartist";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
@@ -16,7 +16,7 @@ import CardFooter from "components/Card/CardFooter.js";
 import Button from "components/CustomButtons/Button.js";
 // @material-ui/icons
 import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
-import { FormControl, InputLabel, Select, MenuItem, Radio, FormLabel, FormControlLabel } from "@material-ui/core";
+import { FormControl, InputLabel, Select, MenuItem, Radio, FormControlLabel } from "@material-ui/core";
 
 import TableList1 from "views/TableList/TableList_dashHistoric.js";
 import {
@@ -33,7 +33,7 @@ import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js"
 import stylesRadio from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js";
 
 import { Bar, Pie, Line } from 'react-chartjs-2';
-import { tiposMantencion, tiposComponentes,eventosMantenciones,disponibilidadanual,mttranual,mtbfanual,mtbmeanual } from "API/DM";
+// import { tiposMantencion, tiposComponentes,eventosMantenciones,disponibilidadanual,mttranual,mtbfanual,mtbmeanual } from "API/DM";
 
 const useStyles = makeStyles(styles);
 const useStylesRadio = makeStyles(stylesRadio);
@@ -46,14 +46,14 @@ export default function DashboardHistorico(props) {
   const [year, setYear] = React.useState('2019');
   const [RadioValueFilter, setRadioValueFilter] = React.useState("b");
 
-  const [DataTipo, setDataTipo] = React.useState(0,0,0);
-  const [DataEvento, setDataEvento] = React.useState(0,0,0);
-  const [DataDisponibilidad, setDataDisponibilidad] = React.useState([]);
-  const [DataDisponibilidadAnual, setDataDisponibilidadAnual] = React.useState(0);
-  const [DataMTTR, setDataMTTR] = React.useState([]);
-  const [DataMTBF, setDataMTBF] = React.useState([]);
-  const [DataMTBME, setDataMTBME] = React.useState([]);
-  const [DataComponente, setDataComponente] = React.useState(
+  const [DataTipo] = React.useState(0,0,0);
+  const [DataEvento] = React.useState(0,0,0);
+  const [DataDisponibilidad] = React.useState([]);
+  const [DataDisponibilidadAnual] = React.useState(0);
+  const [DataMTTR] = React.useState([]);
+  const [DataMTBF] = React.useState([]);
+  const [DataMTBME] = React.useState([]);
+  const [DataComponente] = React.useState(
     {
       Programadas:[0,0,0,0],
       NoProgramadas:[0,0,0,0]
@@ -67,70 +67,70 @@ export default function DashboardHistorico(props) {
   const setDatos = async ()=>{
 
     //DATOS Tipos de mantencion HRS
-    var datosTipos = await tiposMantencion(RadioValueFilter === "a" ? month : year)
-    .then((res)=>{
-        setDataTipo([Math.round(res.Total),Math.round(res.Mecanica),Math.round(res.Electrica)]);
-        //console.log(res.Mecanica)
-      return res;
-    }).catch((error) => console.log(error));
+    // var datosTipos = await tiposMantencion(RadioValueFilter === "a" ? month : year)
+    // .then((res)=>{
+    //     setDataTipo([Math.round(res.Total),Math.round(res.Mecanica),Math.round(res.Electrica)]);
+    //     //console.log(res.Mecanica)
+    //   return res;
+    // }).catch((error) => console.log(error));
 
     //DATOS componentes de mantencion HRS 
-    var datosComponentes = await tiposComponentes(RadioValueFilter === "a" ? month : year)
-    .then((res)=>{
-        var values= {Programadas:[res.Comp1[1],res.Comp2[1],res.Comp3[1],res.Comp4[1]],
-          NoProgramadas: [res.Comp1[2],res.Comp2[2],res.Comp3[2],res.Comp4[2]]
-        };
-        // console.log(values)
-        setDataComponente(values);
-      return res;
-    }).catch((error) => console.log(error));
+    // var datosComponentes = await tiposComponentes(RadioValueFilter === "a" ? month : year)
+    // .then((res)=>{
+    //     var values= {Programadas:[res.Comp1[1],res.Comp2[1],res.Comp3[1],res.Comp4[1]],
+    //       NoProgramadas: [res.Comp1[2],res.Comp2[2],res.Comp3[2],res.Comp4[2]]
+    //     };
+    //     // console.log(values)
+    //     setDataComponente(values);
+    //   return res;
+    // }).catch((error) => console.log(error));
 
     //DATOS eventos de mantencion HRS 
-    var datosEventos = await eventosMantenciones(RadioValueFilter === "a" ? month : year)
-    .then((res)=>{
-        var values= res;
-        //console.log(values);
-        setDataEvento([values.Totales,values.Programadas,values.NoProgramadas]);
-      return res;
-    }).catch((error) => console.log(error));
+    // var datosEventos = await eventosMantenciones(RadioValueFilter === "a" ? month : year)
+    // .then((res)=>{
+    //     var values= res;
+    //     //console.log(values);
+    //     setDataEvento([values.Totales,values.Programadas,values.NoProgramadas]);
+    //   return res;
+    // }).catch((error) => console.log(error));
     
     //DATOS Disponibilidad
-    var datosDisponibilidad = await disponibilidadanual(year)
-    .then((res)=>{
-        var values= res;
-        //console.log(values);
-        setDataDisponibilidad(values);
-      return res;
-    }).catch((error) => console.log(error));
+    // var datosDisponibilidad = await disponibilidadanual(year)
+    // .then((res)=>{
+    //     var values= res;
+    //     //console.log(values);
+    //     setDataDisponibilidad(values);
+    //   return res;
+    // }).catch((error) => console.log(error));
   
     //DATOS MTTR
-    var datosMTTR = await mttranual(year)
-    .then((res)=>{
-        var values= res;
-        //console.log(values);
-        setDataMTTR(values);
-      return res;
-    }).catch((error) => console.log(error));
+    // var datosMTTR = await mttranual(year)
+    // .then((res)=>{
+    //     var values= res;
+    //     //console.log(values);
+    //     setDataMTTR(values);
+    //   return res;
+    // }).catch((error) => console.log(error));
 
     //DATOS MTBF
-    var datosMTBF = await mtbfanual(year)
-    .then((res)=>{
-        var values= res;
-        //console.log(values);
-        setDataMTBF(values);
-        setDataDisponibilidadAnual(getDisponibilidadAnual());
-      return res;
-    }).catch((error) => console.log(error));
+    // var datosMTBF = await mtbfanual(year)
+    // .then((res)=>{
+    //     var values= res;
+    //     //console.log(values);
+    //     setDataMTBF(values);
+    //     setDataDisponibilidadAnual(getDisponibilidadAnual());
+    //   return res;
+    // }).catch((error) => console.log(error));
 
     //DATOS MTBME
-    var datosMTBME = await mtbmeanual(year)
-    .then((res)=>{
-        var values= res;
-        //console.log(values);
-        setDataMTBME(values);
-        //setDataDisponibilidadAnual(getDisponibilidadAnual());
-      return res;
-    }).catch((error) => console.log(error));
+    // var datosMTBME = await mtbmeanual(year)
+    // .then((res)=>{
+    //     var values= res;
+    //     //console.log(values);
+    //     setDataMTBME(values);
+    //     //setDataDisponibilidadAnual(getDisponibilidadAnual());
+    //   return res;
+    // }).catch((error) => console.log(error));
 
   }
 
@@ -140,13 +140,13 @@ export default function DashboardHistorico(props) {
     :
     setYear(event.target.value);
   };
-  const getDisponibilidadAnual = () => {
-    let count = DataDisponibilidad.length;
-    let values = DataDisponibilidad.reduce((previous, current) => current += previous);
-    //console.log(values);
-    values /= count;
-    return (values)
-  }
+  // const getDisponibilidadAnual = () => {
+  //   let count = DataDisponibilidad.length;
+  //   let values = DataDisponibilidad.reduce((previous, current) => current += previous);
+  //   //console.log(values);
+  //   values /= count;
+  //   return (values)
+  // }
   if (!props.droppanel2) {
   return (
     <div className={(window.screen.width<500) ? classes.DivWidth : null}>
@@ -201,7 +201,7 @@ export default function DashboardHistorico(props) {
                 labelPlacement="end"
               />
               </FormControl>   
-              {(RadioValueFilter=="a") ?
+              {(RadioValueFilter==="a") ?
                 <FormControl className={classes.formControl} >
                   <InputLabel id="select-month-historic">Mes</InputLabel>
                   <Select

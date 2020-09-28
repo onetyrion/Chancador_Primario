@@ -1,6 +1,5 @@
 const TOKEN_KEY = 'CHP_TOKEN';
 const USER_KEY = 'USER';
-const VALUE = {};
 
 export function setToken(valor) {
   localStorage.setItem(TOKEN_KEY, valor);

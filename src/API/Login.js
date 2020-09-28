@@ -2,7 +2,7 @@ import {
   getToken,
   // deleteToken,
   setToken,
-  getUser,
+  // getUser,
   setUser,
 } from '../API/helpers';
 const {baseURL} = require("./configAPI");

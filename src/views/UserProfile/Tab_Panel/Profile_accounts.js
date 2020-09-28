@@ -19,12 +19,12 @@ import CardFooter from "components/Card/CardFooter.js";
 import MaterialTable from "material-table";
 import { localization } from "variables/language";
 
-import dataUsersAPI from "API/Users";
+// import dataUsersAPI from "API/Users";
 import { PutUsersAPI } from "API/Users";
 import { DeleteUsersAPI } from "API/Users";
 import { CreateUsersAPI } from "API/Users";
 import { DeleteLoginAPI } from "API/Login";
-import { CreateLoginAPI } from "API/Login";
+// import { CreateLoginAPI } from "API/Login";
 
 const styles = {
     cardCategoryWhite: {
@@ -105,22 +105,22 @@ var Data = [
 export default function ProfileAccounts(props){
     const classes = useStyles();
     const [dataUsers,SetdataUsers] = React.useState(Data);
-    const usersAPI = dataUsersAPI;
+    // const usersAPI = dataUsersAPI;
     const putUsers = PutUsersAPI;
 
     React.useEffect(()=>{
-      setDatos()
+      // setDatos()
     }
     ,[]); 
-    const setDatos = async ()=>{
-      var datos = await usersAPI()
-      .then((res)=>{
-        // console.log(res)
-        return res;
-      }).catch((error) => console.log(error));
+    // const setDatos = async ()=>{
+    //   var datos = await usersAPI()
+    //   .then((res)=>{
+    //     // console.log(res)
+    //     return res;
+    //   }).catch((error) => console.log(error));
 
-      SetdataUsers(datos);
-    }
+    //   SetdataUsers(datos);
+    // }
     
     return(
         <div className={(window.screen.width>1200) ? classes.widthdiv : null}>

@@ -83,7 +83,7 @@ export default function ConfigMetas() {
   const classes = useStyles();
   const [
     columns,
-    setColumns 
+    // setColumns 
     // eslint-disable-next-line
   ] = React.useState(
     ColumnName.map((value,index)=>
