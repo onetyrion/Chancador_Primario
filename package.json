@@ -24,6 +24,7 @@
     "react-chartjs-2": "^2.9.0",
     "react-dom": "16.13.1",
     "react-google-maps": "9.4.5",
+    "react-notifications": "^1.6.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.1",
     "react-swipeable-views": "0.13.9",
@@ -31,6 +32,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
+    "dev": "react-scripts start",
     "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

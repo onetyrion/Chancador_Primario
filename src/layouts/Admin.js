@@ -10,20 +10,28 @@ import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 // import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
-
 import routes from "routes.js";
+import {getToken, getUser} from '../API/helpers';
 
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
 import bgImage from "assets/img/sidebar-5.jpg";
 import logo from "assets/img/candelarialogo.png";
+import loginUserAPI from "API/Login";
+// import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 let ps;
 
 const switchRoutes = (
   <Switch>
     {routes.map((prop, key) => {
-    //console.log(prop)
+      if (window.location.pathname === '/dashboard/actual/login') {
+        loginUserAPI()
+        .then(()=>{
+          console.log("Se ha logeado con el token: 1")
+          window.location.pathname ='/dashboard/actual/'
+        })
+      }
       if (prop.layout === "/") {
         return (
           <Route
@@ -32,10 +40,10 @@ const switchRoutes = (
           key={key}
           />
           // <p>{prop.path}</p>
-        )}
-      return null;
-     })
-    }
+          )}
+          return null;
+        })
+      }
     <Redirect from="/" to="/dashboard/actual" />
   </Switch>
 );
@@ -51,19 +59,17 @@ export default function Admin({ ...rest }) {
   const [image, ] = React.useState(bgImage);
   const [color, ] = React.useState("blue");
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  // const handleImageClick = image => {
-  //   setImage(image);
-  // };
-  // const handleColorClick = color => {
-  //   setColor(color);
-  // };
-  // const handleFixedClick = () => {
-  //   if (fixedClasses === "dropdown") {
-  //     setFixedClasses("dropdown show");
-  //   } else {
-  //     setFixedClasses("dropdown");
-  //   }
-  // };
+
+//LOGIN
+  if (getToken() === "CHP_TOKEN") {
+    loginUserAPI()
+    .then(()=>{
+      console.log("Usuario Logeado token: "+getToken())
+    })
+  }else{
+    console.log("Usuario ya esta token: "+getToken());
+    console.log(getUser());
+  }
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };

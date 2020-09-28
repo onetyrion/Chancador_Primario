@@ -4,7 +4,7 @@ import { makeStyles  } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
+// import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
@@ -81,11 +81,16 @@ const useStyles = makeStyles(styles);
 
 export default function ConfigMetas() {
   const classes = useStyles();
-  const [columns, setColumns] = React.useState(
+  const [
+    columns,
+    setColumns 
+    // eslint-disable-next-line
+  ] = React.useState(
     ColumnName.map((value,index)=>
-    ({title:value,field:(value.toLowerCase()),type:(index==0)? 'string':'numeric',editable:(index==0? "onAdd":"always")})
+    ({title:value,field:(value.toLowerCase()),type:(index===0)? 'string':'numeric',editable:(index===0? "onAdd":"always")})
     )
   );
+  
   const [data, setData] = React.useState(              
     DataRows.map((values)=>({
     kpi:values[0].toString(),
@@ -128,7 +133,7 @@ export default function ConfigMetas() {
               },
             }}
             editable={{
-          isEditable: rowData => rowData.kpi != "Disp.",
+          isEditable: rowData => rowData.kpi !== "Disp.",
               onRowAdd: newData =>
             new Promise((resolve, reject) => {
             setTimeout(() => {

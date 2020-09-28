@@ -4,25 +4,28 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Button from "components/CustomButtons/Button.js";
+// import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import CustomTable from "components/Table/Table";
-import { Modal } from "@material-ui/core";
-import CustomInput from "components/CustomInput/CustomInput.js";
+// import CustomTable from "components/Table/Table";
+// import { Modal } from "@material-ui/core";
+// import CustomInput from "components/CustomInput/CustomInput.js";
+// import baseURL from "API/configAPI";
+// import loginUserAPI from "API/Login";
+// import { TokenUser } from "API/configAPI";
+// import { getValue } from "API/helpers";
+import MaterialTable from "material-table";
+import { localization } from "variables/language";
 
-function getModalStyle() {
-    const top = 60 ;
-    const left = 60;
-  
-    return {
-      top: `${top}%`,
-      left: `${left}%`,
-      transform: `translate(-${top}%, -${left}%)`,
-    };
-}
+import dataUsersAPI from "API/Users";
+import { PutUsersAPI } from "API/Users";
+import { DeleteUsersAPI } from "API/Users";
+import { CreateUsersAPI } from "API/Users";
+import { DeleteLoginAPI } from "API/Login";
+import { CreateLoginAPI } from "API/Login";
+
 const styles = {
     cardCategoryWhite: {
       "&,& a,& a:hover,& a:focus": {
@@ -66,159 +69,146 @@ const styles = {
   
 const useStyles = makeStyles(styles);
 
-const useStylesModal = makeStyles((theme) => ({
-paper: {
-  position: 'absolute',
-  width: (window.screen.width>1200) ? "50%" : "80%",
-  backgroundColor: theme.palette.background.paper,
-  overflow:'scroll',
-  height:(window.screen.width>1200) ? "90%" : "80%",
-  border: '2px solid #9e9e9e',
-  boxShadow: theme.shadows[5],
-  padding: (window.screen.width>1200) ? theme.spacing(2, 4, 3) : null,
-},
-}));
-
-
+var Data = [
+  {
+      "Rut": "00000000",
+      "Nombre": "diego PRUEBA2",
+      "Apellidos": "el apellido test2",
+      "Correo_electronico": "diego2@gmail.com",
+      "Estado": true,
+      "Cargo": "Desarrollador",
+      "createdAt": "2020-07-13T18:59:57.062Z",
+      "updatedAt": "2020-07-14T01:42:16.032Z"
+  },
+  {
+      "Rut": "197672838",
+      "Nombre": "diego",
+      "Apellidos": "tapia zapata",
+      "Correo_electronico": "diego@gmail.com",
+      "Estado": true,
+      "Cargo": "Desarrollador",
+      "createdAt": "2020-07-13T21:17:10.467Z",
+      "updatedAt": "2020-07-13T21:17:10.467Z"
+  },
+  {
+      "Rut": "000000001",
+      "Nombre": "diego",
+      "Apellidos": "tapia zapata",
+      "Correo_electronico": "diego@gmail.com",
+      "Estado": true,
+      "Cargo": "Desarrollador",
+      "createdAt": "2020-07-14T01:53:21.447Z",
+      "updatedAt": "2020-07-14T01:53:21.447Z"
+  }
+];
 
 export default function ProfileAccounts(props){
     const classes = useStyles();
-    const [openModalRegister, SetopenModal] = React.useState(false);
-    const classesModal = useStylesModal();
-    const [modalStyle] = React.useState(getModalStyle);
+    const [dataUsers,SetdataUsers] = React.useState(Data);
+    const usersAPI = dataUsersAPI;
+    const putUsers = PutUsersAPI;
 
-    const handleOpen = () => {
-        SetopenModal(true);
-      };
-    
-      const handleClose = () => {
-        SetopenModal(false);
-      };
+    React.useEffect(()=>{
+      setDatos()
+    }
+    ,[]); 
+    const setDatos = async ()=>{
+      var datos = await usersAPI()
+      .then((res)=>{
+        // console.log(res)
+        return res;
+      }).catch((error) => console.log(error));
 
-      const modal = (
-        <div style={modalStyle} className={classesModal.paper}> 
-        <Card >
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Crear un nuevo usuario</h4>
-            <p className={classes.cardCategoryWhite}>
-              
-            </p>
-          </CardHeader>
-          <CardBody>
-                <GridContainer>
-                    {/* //RUT */}
-                    <GridItem xs={12} sm={12} md={3}>
-                    <CustomInput
-                        labelText="Rut"
-                        id="rut"
-                        formControlProps={{
-                        fullWidth: true
-                        }}
-                        inputProps={{
-                            
-                          }}
-                    />
-                    </GridItem>
-                    {/* //NOMBRE */}
-                    <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                        labelText="Nombre"
-                        id="first-name"
-                        formControlProps={{
-                        fullWidth: true
-                        }}
-                        inputProps={{
-                            
-                          }}
-                    />
-                    </GridItem>
-                    {/* //APELLIDO */}
-                    <GridItem xs={12} sm={12} md={5}>
-                    <CustomInput
-                        labelText="Apellido"
-                        id="last-name"
-                        formControlProps={{
-                        fullWidth: true
-                        }}
-                        inputProps={{
-                            
-                          }}
-                    />
-                    </GridItem>
-                </GridContainer>
-                <GridContainer>
-                    {/* //CARGO */}
-                    <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                        labelText="Cargo"
-                        id="type"
-                        formControlProps={{
-                        fullWidth: true
-                        }}
-                        inputProps={{
-                            
-                          }}
-                    />
-                    </GridItem>
-                    {/* //CORREO ELECTRONICO */}
-                    <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                        labelText="Dirección de correo"
-                        id="email-address"
-                        formControlProps={{
-                        fullWidth: true
-                        }}
-                        inputProps={{
-                            
-                          }}
-                    />
-                    </GridItem>
-
-                </GridContainer>
-                
-                </CardBody>
-                
-          <CardFooter>
-            <Button color="primary">Añadir Mantención</Button>
-          </CardFooter>
-        </Card>          
-    </div>
-  );
+      SetdataUsers(datos);
+    }
     
     return(
         <div className={(window.screen.width>1200) ? classes.widthdiv : null}>
-            <GridContainer >
-                <GridItem xs={12} sm={12} md={12}>
-                    <Card>
-                        <CardHeader color="primary">
-                        <h4 className={classes.cardTitleWhite}>Gestión de Usuarios</h4>
-                        <p className={classes.cardCategoryWhite} >Puedes dar de baja o modificar todas las cuentas registradas.</p>
-                        </CardHeader>
-                        <CardBody>
-                        <CustomTable 
-                            tableHeaderColor="primary"
-                            tableHead={["Nombre","Cargo","Correo","Estado","Acción"]}
-                            tableData={[
-                                ["Michael Puelle","Project Manager","Michael.Puelle@inacapmail.cl","Activa","Modificar/Borrar"],
-                                ["Kevin Muñoz","Analista","Kevin.munoz11@inacapmail.cl","Activa","Modificar/Borrar"],
-                                ["Diego Tapia","Desarrollador","Diego.tapia32@inacapmail.cl","Activa","Modificar/Borrar"],
-                            ]}
-                            />
-                        </CardBody>
-                        <CardFooter>
-                        <Button color="primary" onClick={handleOpen}>Añadir Usuario</Button>
-                        </CardFooter>
-                    </Card>
-                </GridItem>
-                
-            </GridContainer>            
-            <Modal 
-                open={openModalRegister}
-                onClose={handleClose}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description">
-                {modal}
-            </Modal>
+          <GridContainer >
+            <GridItem xs={12} sm={12} md={12}>
+              <Card>
+                <CardHeader color="primary">
+                <h4 className={classes.cardTitleWhite}>Gestión de Usuarios</h4>
+                <p className={classes.cardCategoryWhite} >Puedes dar de baja o modificar todas las cuentas registradas.</p>
+                </CardHeader>
+                <CardBody>
+                <MaterialTable 
+                  title=""
+                  data={dataUsers}
+                  columns={[
+                    {"title":"Rut","field":"Rut",editable: 'onAdd'},
+                    {"title":"Nombre","field":"Nombre"},
+                    {"title":"Apellidos","field":"Apellidos"},
+                    {"title":"Correo","field":"Correo_electronico"},
+                    {"title":"Estado","field":"Estado",
+                    lookup: { true: "Activa", false: 'Desactivada' }},
+                    {"title":"Cargo","field":"Cargo"}]}
+                  parentChildData={(row, rows) => rows.find(a => console.log(row.Rut))}
+                  editable={{
+                    onRowAdd: newData =>
+                    new Promise((resolve, reject) => {
+                      console.log(newData);
+                      setTimeout(() => {
+                        CreateUsersAPI(newData)
+                        .then(()=>{
+                          SetdataUsers([...dataUsers, newData]);
+                          alert("Usuario Añadido con exito")
+                        })
+                        resolve();
+                      }, 0)
+                    }),                    
+                    onRowUpdate: (newData, oldData) =>
+                    new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        const dataUpdate = [...dataUsers];
+                        const index = oldData.tableData.id;
+                        dataUpdate[index] = newData;
+                        //set on db
+                        const msg = putUsers(dataUpdate[index]);
+                        msg.then((values)=>{
+                          alert("Cambiado con exito")                    
+                          //set on state
+                          SetdataUsers([...dataUpdate]);
+                        })
+                        .catch((error)=>{
+                          alert("Ha ocurrido un error, intentelo más tarde.");
+                          console.log(error);
+                        })                        
+                        resolve();
+                      }, 0)
+                    }),
+                    onRowDelete: oldData =>
+                    new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        const dataDelete = [...dataUsers];
+                        const index = oldData.tableData.id;
+                        dataDelete.splice(index, 1);
+                        SetdataUsers([...dataDelete]);
+                        //set on db
+                        DeleteLoginAPI(oldData.Rut)
+                        .then(DeleteUsersAPI(oldData.Rut))
+
+                        // console.log(oldData.Rut);
+                        resolve()
+                      }, 0)
+                    }),
+                    }}
+                  localization={localization}
+                  />
+                {/* <CustomTable 
+                    tableHeaderColor="primary"
+                    tableHead={["Nombre","Cargo","Correo","Estado","Acción"]}
+                    tableData={(!dataUsers) ? [[]] :[[]]}
+                    /> */}
+                </CardBody>
+                <CardFooter>
+                {/* <Button color="primary" onClick={handleOpen}>Añadir Usuario</Button> */}
+                </CardFooter>
+              </Card>
+            </GridItem>
+              
+          </GridContainer>     
+          
         </div>
     )
 }

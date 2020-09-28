@@ -68,6 +68,7 @@ export default function TableList() {
           </CardBody>
         </Card>
       </GridItem>
+      
       {/* <GridItem xs={12} sm={12} md={6}>
         <Card >
           <CardHeader color="warning">

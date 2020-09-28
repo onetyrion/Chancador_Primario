@@ -9,6 +9,8 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import dataUsersAPI from "API/Users";
+import { getUser } from "API/helpers";
 
 const Styles = makeStyles({
     cardCategoryWhite: {
@@ -34,6 +36,28 @@ const Styles = makeStyles({
 export default function ProfileDetails(props){
     const classes = Styles();
     const datos = ["19.767.283-8","Pepito","Perez Garcia","Planificardor del área de mantenciones","p.garcia@lundinmining.com"];
+    const [dataUsers,SetdataUsers] = React.useState({});
+    React.useEffect(()=>{
+        setDatos()
+      }
+      ,[]); 
+
+      const setDatos = async ()=>{
+        //DATOS Tipos de mantencion HRS
+        var datosUser = await dataUsersAPI()
+        .then((res)=>{
+            //setDataTipo([Math.round(res.Total),Math.round(res.Mecanica),Math.round(res.Electrica)]);
+            var user = "";
+            res.forEach(element => {
+                if (element.Rut == getUser()) {
+                    user = element;
+                }
+            });
+            console.log(user)
+            SetdataUsers(user);
+        return res;
+        }).catch((error) => console.log(error));
+      }
 
     return(
         <div className={(window.screen.width>1200) ? classes.widthdiv : null} >
@@ -54,7 +78,7 @@ export default function ProfileDetails(props){
                         }}
                         inputProps={{
                             disabled: true,
-                            value:datos[0]
+                            value:(dataUsers.Rut ? dataUsers.Rut : "")
                         }}
                     />
                     </GridItem>
@@ -68,7 +92,7 @@ export default function ProfileDetails(props){
                         }}
                         inputProps={{
                             disabled: true,
-                            value:datos[1]
+                            value:(dataUsers.Nombre ? dataUsers.Nombre : "")
                           }}
                     />
                     </GridItem>
@@ -82,7 +106,7 @@ export default function ProfileDetails(props){
                         }}
                         inputProps={{
                             disabled: true,
-                            value:datos[2]
+                            value:(dataUsers.Apellidos ? dataUsers.Apellidos : "")
                           }}
                     />
                     </GridItem>
@@ -98,7 +122,7 @@ export default function ProfileDetails(props){
                         }}
                         inputProps={{
                             disabled: true,
-                            value:datos[3]
+                            value:(dataUsers.Cargo ? dataUsers.Cargo : "")
                           }}
                     />
                     </GridItem>
@@ -112,7 +136,7 @@ export default function ProfileDetails(props){
                         }}
                         inputProps={{
                             disabled: true,
-                            value:datos[4]
+                            value:(dataUsers.Correo_electronico ? dataUsers.Correo_electronico : "")
                           }}
                     />
                     </GridItem>

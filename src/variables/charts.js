@@ -2,6 +2,7 @@
 // // // javascript library for creating charts
 // #############################
 var Chartist = require("chartist");
+const { tiposMantencion } =  require("API/DM");
 
 // ##############################
 // // // variables used to create animation on charts
@@ -82,7 +83,7 @@ const dispDiaria_metas = {
 		],
 		hoverBackgroundColor: [
 		'#fb8c00',
-		'#36A2EB',
+		'#8EC9F0',
 		'#43a047'
     ],
     circumference: (1.0 * Math.PI)
@@ -95,7 +96,7 @@ const dispDiaria_metas = {
 		],
 		hoverBackgroundColor: [
 		'#fb8c00',
-		'#36A2EB',
+		'#8EC9F0',
 		'#43a047'
     ],
     circumference: (1.0 * Math.PI)
@@ -104,56 +105,24 @@ const dispDiaria_metas = {
 
 
 //////////////HISTORICA
-const disp_histChart = {
-  data: {
-    labels: [ "Ene" , "Feb", "Mar", "Abr","May", "Jun", "Jul","Ago","Sep","Oct","Nov","Dic"],
-    series : [[95.27, 98.16, 98.72,94.66, 82.25, 98.67, 88.39, 98.27, 86.84, 99.86, 96.15, 98.67],[100,100,100,100,100,100,100,100,100,100,100,100]]
-    //series: [[100,100,100,100,100,100,100,100,100,100,100]]
-  },
-  options: {
-    lineSmooth: Chartist.Interpolation.cardinal({
-      tension: 0
-    }),
-    low: 50,
-    high: 110, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-    chartPadding: {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0
-    }
-  },
-  // for animation
-  animation: {
-    draw: function(data) {
-      if (data.type === "line" || data.type === "area") {
-        data.element.animate({
-          d: {
-            begin: 600,
-            dur: 700,
-            from: data.path
-              .clone()
-              .scale(1, 0)
-              .translate(0, data.chartRect.height())
-              .stringify(),
-            to: data.path.clone().stringify(),
-            easing: Chartist.Svg.Easing.easeOutQuint
-          }
-        });
-      } else if (data.type === "point") {
-        data.element.animate({
-          opacity: {
-            begin: (data.index + 1) * delays,
-            dur: durations,
-            from: 0,
-            to: 1,
-            easing: "ease"
-          }
-        });
-      }
-    }
-  }
-};
+const disp_histChart = (data) =>{
+  //console.log(data);
+  //b year a Month
+  return({
+    labels: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+    datasets: [{
+      label: 'Real',
+      borderColor: "#fb8c00",
+      backgroundColor: "#FFAE4C",
+      data: data.DataDisponibilidad,
+    }, {
+      label: 'Meta',
+      borderColor: "#43a047",
+      backgroundColor: "#7ADA7E",
+      data: [98,97,100,96,90,96,100,99,97,92,99,100,],
+    }]
+  })
+}
 
 
 // ##############################
@@ -226,7 +195,7 @@ const mttrDiaria_metas = {
     ],
     hoverBackgroundColor: [
     '#fb8c00',
-    '#36A2EB',
+    '#8EC9F0',
     '#f44336'
     ],
     circumference: (1.0 * Math.PI)
@@ -246,55 +215,26 @@ const mttrDiaria_metas = {
   },
 ]};
 ///////////HISTORICA
-const mttr_histChart = {
-  data: {
-    series: [[0,10,0,0,0,4.6,4.6,3.4,3.4,3.4,3.4,4.3]],
-    labels: ["Ene" , "Feb", "Mar", "Abr","May", "Jun", "Jul","Ago","Sep","Oct","Nov","Dic"]
-  },
-  options: {
-    lineSmooth: Chartist.Interpolation.cardinal({
-      tension: 0
-    }),
-    low: 0,
-    high: 24, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-    chartPadding: {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0
+const mttr_histChart = (prop)=> {
+  // const data = tiposMantencion(prop)
+  // .then((a)=>a)
+  //console.log(prop);
+  //console.log(prop[0]);
+  return({
+    labels: ["Ene" , "Feb", "Mar", "Abr","May", "Jun", "Jul","Ago","Sep","Oct","Nov","Dic"],
+    datasets: [
+      {
+      data: prop,
+      label:"MTTR",
+      backgroundColor: 
+      '#00acc1'
+      ,
+      hoverBackgroundColor: 
+      '#26c6db',
     }
-  },
-  animation: {
-    draw: function(data) {
-      if (data.type === "line" || data.type === "area") {
-        data.element.animate({
-          d: {
-            begin: 600,
-            dur: 700,
-            from: data.path
-              .clone()
-              .scale(1, 0)
-              .translate(0, data.chartRect.height())
-              .stringify(),
-            to: data.path.clone().stringify(),
-            easing: Chartist.Svg.Easing.easeOutQuint
-          }
-        });
-      } else if (data.type === "point") {
-        data.element.animate({
-          opacity: {
-            begin: (data.index + 1) * delays,
-            dur: durations,
-            from: 0,
-            to: 1,
-            easing: "ease"
-          }
-        });
-      }
-    }
-  }
-
-};
+    ]
+    })
+}
 
 // ##############################
 // // // MTBF
@@ -385,110 +325,52 @@ const mtbfDiaria_metas = {
   },
 ]};
 ///////////HISTORICA
-const mtbf_histChart = {
-  data: {
-    series: [[104.6,104.6,104.6,104.6,104.6,67.4,74.2,57.2,65.2,65.2,65.2,89.2]],
-    labels: ["Ene" , "Feb", "Mar", "Abr","May", "Jun", "Jul","Ago","Sep","Oct","Nov","Dic"]
-  },
-  options: {
-    lineSmooth: Chartist.Interpolation.cardinal({
-      tension: 0
-    }),
-    low: 0,
-    high: 124, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-    chartPadding: {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0
+const mtbf_histChart = (prop)=> {
+  // const data = tiposMantencion(prop)
+  // .then((a)=>a)
+  //console.log(prop);
+  //console.log(prop[0]);
+  return({
+    labels: ["Ene" , "Feb", "Mar", "Abr","May", "Jun", "Jul","Ago","Sep","Oct","Nov","Dic"],
+    datasets: [
+      {
+      data: prop,
+      label:"MTBF",
+      backgroundColor: 
+      '#e53935'
+      ,
+      hoverBackgroundColor: 
+      '#ef5350',
     }
-  },
-  animation: {
-    draw: function(data) {
-      if (data.type === "line" || data.type === "area") {
-        data.element.animate({
-          d: {
-            begin: 600,
-            dur: 700,
-            from: data.path
-              .clone()
-              .scale(1, 0)
-              .translate(0, data.chartRect.height())
-              .stringify(),
-            to: data.path.clone().stringify(),
-            easing: Chartist.Svg.Easing.easeOutQuint
-          }
-        });
-      } else if (data.type === "point") {
-        data.element.animate({
-          opacity: {
-            begin: (data.index + 1) * delays,
-            dur: durations,
-            from: 0,
-            to: 1,
-            easing: "ease"
-          }
-        });
-      }
-    }
-  }
-
-};
+    ]
+    })
+}
 
 // ##############################
 // // // MTBME DIARIO
 // #############################
 
 ///////////HISTORICA
-const mtbme_histChart = {
-  data: {
-    series: [[104.6,104.6,104.6,104.6,104.6,67.4,74.2,57.2,65.2,65.2,65.2,89.2]],
-    labels: ["Ene" , "Feb", "Mar", "Abr","May", "Jun", "Jul","Ago","Sep","Oct","Nov","Dic"]
-  },
-  options: {
-    lineSmooth: Chartist.Interpolation.cardinal({
-      tension: 0
-    }),
-    low: 0,
-    high: 124, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-    chartPadding: {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0
+const mtbme_histChart = (prop)=> {
+  // const data = tiposMantencion(prop)
+  // .then((a)=>a)
+  //console.log(prop);
+  //console.log(prop[0]);
+  return({
+    labels: ["Ene" , "Feb", "Mar", "Abr","May", "Jun", "Jul","Ago","Sep","Oct","Nov","Dic"],
+    datasets: [
+      {
+      data: prop,
+      label:"MTBME",
+      backgroundColor: 
+      '#8e24aa'
+      ,
+      hoverBackgroundColor: 
+      '#ab47bc',
     }
-  },
-  animation: {
-    draw: function(data) {
-      if (data.type === "line" || data.type === "area") {
-        data.element.animate({
-          d: {
-            begin: 600,
-            dur: 700,
-            from: data.path
-              .clone()
-              .scale(1, 0)
-              .translate(0, data.chartRect.height())
-              .stringify(),
-            to: data.path.clone().stringify(),
-            easing: Chartist.Svg.Easing.easeOutQuint
-          }
-        });
-      } else if (data.type === "point") {
-        data.element.animate({
-          opacity: {
-            begin: (data.index + 1) * delays,
-            dur: durations,
-            from: 0,
-            to: 1,
-            easing: "ease"
-          }
-        });
-      }
-    }
-  }
-
-};
+    ]
+    })
+}
 
 
 // ##############################
@@ -581,90 +463,105 @@ const completedTasksChart = {
 
 
 // ##############################
-// // // Averias
+// // // Horas de Mantención por Tipo de Mantención
 // #############################
-
-const averiasChart = {
-  labels: [
-    'Total',
-    'Mecánica',
-    'Eléctrica'
-  ],
-  datasets: [
-  {
-    label:"Horas",
-    data: [122.17,100.52,21.65],
-    backgroundColor: [
-    '#fb8c00',
-    '#36A2EB',
-    '#43a047'
+// const hrs = .then((a)=>a)
+const averiasChart =(prop)=> {
+  // const data = tiposMantencion(prop)
+  // .then((a)=>a)
+  //console.log("prop");
+  console.log(prop);
+  return({
+    labels: [
+      ('Total'),
+      'Mecánica',
+      'Eléctrica'
     ],
-    hoverBackgroundColor: [
-    '#fb8c00',
-    '#36A2EB',
-    '#43a047'
-    ],
-  }
-]};
+    datasets: [
+      {
+      label:"Total",
+      data: [prop[0],0,0],
+      backgroundColor:
+      '#fb8c00',
+    },{
+      label:"Mecanicas",
+      data: [0,prop[1],0],
+      backgroundColor:
+      '#36A2EB',
+    },{
+      label:"Eléctricas",
+      data: [0,0,prop[2]],
+      backgroundColor:
+      '#43a047',
+    }]
+  })
+}
 
 // ##############################
 // // // Componentes
 // #############################
 
-const componentesChart = {
-  labels: ["31CR01", "32CV02", "31FE016", "Picaroca"],
-  datasets: [
-    {
-      label: "Mant. Programada",
-      backgroundColor: "#fb8c00",
-      data: [336.02,0,0,0],
-      stack: 'Stack 0',
-    },
-    {
-      label: "Mant. no Programada",
-      backgroundColor: "#36A2EB",
-      data: [27.5,78.88,10.67,5.12],
-      stack: 'Stack 1',
+const componentesChart = (data)=>{
+  //Totales programadas noprogramadas
+  //console.log(data);
+  return({
+    labels: ["31CR01", "32CV02", "31FE016", "Picaroca"],
+    datasets: [
+      {
+        label: "Mant. Programada",
+        backgroundColor: "#fb8c00",
+        data: data.Programadas,
+        stack: 'Stack 0',
+      },
+      {
+        label: "Mant. no Programada",
+        backgroundColor: "#36A2EB",
+        data: data.NoProgramadas,
+        stack: 'Stack 1',
+      }
+    ],options: {
+      tooltips: {
+        mode: 'index',
+        intersect: false
+      },
+      responsive: true,
+      scales: {
+        xAxes: [{
+          stacked: true,
+        }],
+        yAxes: [{
+          stacked: true
+        }]
+      }
     }
-  ],options: {
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    responsive: true,
-    scales: {
-      xAxes: [{
-        stacked: true,
-      }],
-      yAxes: [{
-        stacked: true
-      }]
-    }
-  }
-};
+  })
+}
 
 /////////Eventos
 
-const eventMantChart = {
-	labels: [
-		'Mant. Programada',
-		'Mant. No Programada'
-	],
-	datasets: [{
-		data: [122.17,336.02],
-		backgroundColor: [
-		'#fb8c00',
-		'#36A2EB',
-		'#43a047'
-		],
-		hoverBackgroundColor: [
-		'#fb8c00',
-		'#36A2EB',
-		'#43a047'
+const eventMantChart = (data)=>{
+  //console.log(data)
+  return({
+    labels: [
+      'Mant. Programada',
+      'Mant. No Programada'
     ],
-    circumference: (1.0 * Math.PI)
-	}
-]};
+    datasets: [{
+      data: [data[1],data[2]],
+      backgroundColor: [
+      '#dc3545',
+      '#36A2EB',
+      '#43a047'
+      ],
+      hoverBackgroundColor: [
+      '#E4525F',
+      '#8EC9F0',
+      '#43a047'
+      ],
+      circumference: (1.0 * Math.PI)
+    }]
+  })
+};
 
 
 

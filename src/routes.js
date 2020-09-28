@@ -80,7 +80,7 @@ const dashboardRoutes = [
     icon: TocIcon,
     component: Detenciones,
     layout: route_layout
-  },
+  }
 ];
 
 export default dashboardRoutes;
