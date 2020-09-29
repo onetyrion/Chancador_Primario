@@ -9,7 +9,7 @@ import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import ConfigPage from "views/Config/Config.js";
 import Detenciones from "views/Detenciones/Detenciones.js"
-import Login from "views/Login/Login.js";
+// import Login from "views/Login/Login.js";
 // Configuración de dirección www.WEB.com/ES/xxxxx
 // index.js : 34 : 37
 // Admin.js : 26 : 37
@@ -27,7 +27,7 @@ const dashboardRoutes = [
     path: "dashboard/actual",
     name: "Dashboard",
     icon: Dashboard,
-    component: Login,
+    component: DashboardPage,
     layout: route_layout
   },
   {

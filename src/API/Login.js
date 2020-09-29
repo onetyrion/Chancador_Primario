@@ -1,30 +1,27 @@
 import {
   getToken,
   // deleteToken,
-  setToken,
+  // setToken,
   // getUser,
-  setUser,
+  // setUser,
 } from '../API/helpers';
 const {baseURL} = require("./configAPI");
 
 var HeadersLogin = new Headers();
 HeadersLogin.append("Content-Type", "application/json");
 
-var raw = JSON.stringify({"Rut":"000000000","Contraseña":"123456"});
+//var raw = JSON.stringify({"Rut":"000000000","Contraseña":"123456"});
 
-var requestOptions = {
-  method: 'POST',
-  headers: HeadersLogin,
-  body: raw,
-  redirect: 'follow'
-};
-const loginUserAPI = async () => {
-  await fetch(baseURL+"/login", requestOptions)
+const loginUserAPI = async (rut,pass) => {
+  await fetch(baseURL+"/auth", {
+    method: 'POST',
+    headers: HeadersLogin,
+    body: JSON.stringify({"Rut":rut,"Contraseña":pass}),
+    redirect: 'follow'
+  })
     .then(response => response.json())
     .then(result => {
       console.log(result);
-      setToken(result.success);
-      setUser(result.user.Rut);
       return result.success;
     })
     .catch(error => console.log('error', error));

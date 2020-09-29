@@ -13,9 +13,12 @@ import loginUserAPI from "API/Login";
 // import {getToken, getUser} from '../API/helpers';
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 import bgImage from "assets/img/sidebar-5.jpg";
+import bgImage1 from "assets/img/bgCandelaria.jpg";
 import logo from "assets/img/candelarialogo.png";
 //FUNCTIONS LAYOUT
 import {switchRoutes} from './functionAdmin';
+import { validLogin } from "API/Auth";
+import { Modal } from "@material-ui/core";
 const useStyles = makeStyles(styles);
 
 // let ps;
@@ -28,35 +31,39 @@ export default function Admin({ ...rest }) {
   const [image] = React.useState(bgImage);
   const [color] = React.useState("blue");
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [loading,setloading] = React.useState(true);
   
   switchRoutes( routes, loginUserAPI );
   const handleDrawerToggle = () => { setMobileOpen(!mobileOpen); };
-  // const resizeFunction = () => {
-  //   if (window.innerWidth >= 960) {
-  //     setMobileOpen(false);
-  //   }
-  // };
-  // initialize and destroy the PerfectScrollbar plugin
-  // React.useEffect(() => {
-  //   if (navigator.platform.indexOf("Win") > -1) {
-  //     ps = new PerfectScrollbar(mainPanel.current, {
-  //       suppressScrollX: true,
-  //       suppressScrollY: false
-  //     });
-  //     document.body.style.overflow = "hidden";
-  //   }
-  //   window.addEventListener("resize", resizeFunction);
-  //   // Specify how to clean up after this effect:
-  //   return function cleanup() {
-  //     if (navigator.platform.indexOf("Win") > -1) {
-  //       ps.destroy();
-  //     }
-  //     window.removeEventListener("resize", resizeFunction);
-  //   };
-  // }, [mainPanel]);
-  
+  const redirectLogin = async()=>{
+    if (!await validLogin() ) {
+      // alert("true");
+      window.location.href="/login";
+    }else{
+      setloading(false);
+    }
+  }
+  redirectLogin()
   return (
     <div className={classes.wrapper}>
+<Modal
+style={{
+  position: "fixed",
+  height: "100%",
+  width: "100%",
+  display: "block",
+  backgroundSize: "cover",
+  backgroundPosition: "center center",
+  backgroundImage: "url(" + bgImage1 + ")",
+  backgroundColor: "#fff",
+}}
+  open={loading}
+  // onClose={handleClose}
+  // aria-labelledby="simple-modal-title"
+  // aria-describedby="simple-modal-description"
+>
+  <p style={{color:"#fff"}}>Cargando</p>
+</Modal>
       <Sidebar
         routes={routes}
         logoText={""}

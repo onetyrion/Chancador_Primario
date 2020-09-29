@@ -26,6 +26,9 @@ export const stylesLogin = makeStyles((theme) => ({
     submit: {
       margin: theme.spacing(3, 0, 2),
     },
+    success:{
+      borderColor:"green"
+    },
     background: {
       position: "fixed",
       height: "100%",

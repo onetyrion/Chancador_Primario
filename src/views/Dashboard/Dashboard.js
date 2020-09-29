@@ -53,7 +53,7 @@ export default function Dashboard() {
     tabTiempo = "two";
   }
   const classes = useStyles();
-  const [value, setValue,] = React.useState(tabTiempo); //Actual Historico
+  const [value, setValue] = React.useState(tabTiempo); //Actual Historico
   const [subvalue, setsubValue] = React.useState(tabTipo); //Dashboard Reportes
 
 

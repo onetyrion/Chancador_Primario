@@ -18,6 +18,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+import { logout } from "API/Auth";
 
 const useStyles = makeStyles(styles);
 
@@ -45,6 +46,9 @@ export default function AdminNavbarLinks(props) {
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
+  const closeSession = () => {
+    logout();
+  }
   return (
     <div>
       {/* Button dropdown list Notification */}
@@ -154,9 +158,9 @@ export default function AdminNavbarLinks(props) {
         >
           <Person className={classes.icons} />
           <Hidden mdUp implementation="css">
-            <p className={classes.linkText} >
+            <li className={classes.linkText}>
               Cerrar Sesión
-            </p>
+            </li>
           </Hidden>
         </Button>
         <Poppers
@@ -184,7 +188,7 @@ export default function AdminNavbarLinks(props) {
                   <MenuList role="menu">
                     {/* <Divider light /> */}
                     <MenuItem
-                      onClick={handleCloseProfile}
+                      onClick={closeSession}
                       className={classes.dropdownItem}
                     > 
                     {!props.SidebarMobile ?
