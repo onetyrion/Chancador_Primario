@@ -70,9 +70,9 @@ export default function VerticalTabs() {
   return (
     <div className={classes.root}>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={3}>
+        <GridItem xs={12} sm={12} md={12}>
           <Tabs
-            orientation="vertical"
+            orientation="horizontal"
             variant="scrollable"
             value={value}
             onChange={handleChange}
@@ -85,7 +85,7 @@ export default function VerticalTabs() {
           </Tabs>
         </GridItem>
 
-        <GridItem xs={12} sm={12} md={8}>
+        <GridItem xs={12} sm={12} md={12}>
           <TabPanel value={value} index={0}>
             <ProfileDetails/>
           </TabPanel>

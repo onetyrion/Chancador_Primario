@@ -24,8 +24,8 @@ export default function Login() {
   
   const redirectLogin = async()=>{
     if (await validLogin() && id_username.length===0) {
-      // alert("true");
       window.location.href="/";
+      //alert("LOGEADO");
     }
   }
   redirectLogin()
@@ -43,24 +43,20 @@ export default function Login() {
         break;
       }
   }
-  
+  //FUNCION LOGIN ON API
   const LoginOnToken = async()=>{
     if ((id_username.length > 0 && validarRUT(id_username)) && pass_username.length > 0) {
       //console.log(`username: ${id_username}\n password: ${pass_username}`);
       await Auth(id_username,pass_username)
-      .then(({success,error})=>{
-        if (success) {
-          notify.show('Ha iniciado sesión con exito','success',5000)
-        } else {
+      .then((value)=>{
+        if (value!==undefined) {
           setvalidError(["a","a"])
-          notify.show(error ? 'Revise sus credenciales!' : 'Ha ocurrido un error, intentelo más tarde!','error',5000);
+          notify.show(value.error ? 'Revise sus credenciales!' : 'Ha ocurrido un error, intentelo más tarde!','error',5000);
         }
-        
       });
     }else{
       setvalidError(["a","a"])
       notify.show('Revise sus credenciales!','error',5000);
-
     }
   }
   return (

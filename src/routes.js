@@ -16,12 +16,12 @@ import Detenciones from "views/Detenciones/Detenciones.js"
 let route_layout = "/"
 const dashboardRoutes = [
   // {
-  //   path: "login",
+  //   path: "logins",
   //   name: "Login",
   //   icon: Dashboard,
-  //   component: DashboardPage,
+  //   component: Login,
   //   layout: route_layout,
-  //   sidebarbutton: true //true se muestra en sidebar // false no se muestra en sidebar
+  //   sidebarbutton: false //true se muestra en sidebar // false no se muestra en sidebar
   // },
   {
     path: "dashboard/actual",

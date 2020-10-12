@@ -1,108 +1,94 @@
-import {
-  getToken,
-  // deleteToken,
-  // setToken,
-  // getValue,
-  // setValue
-  } from '../API/helpers';
-import { CreateLoginAPI } from './Login';
+import Cookies from 'universal-cookie';
 
+const cookies = new Cookies();
 const {baseURL} = require("./configAPI")
 
-/////////////////////////////////////////GET
 var HeadersGetUsers = new Headers();
-HeadersGetUsers.append("user-token",getToken());
+HeadersGetUsers.append("user-token",cookies.get('user-token'));
 HeadersGetUsers.append("Content-Type", "application/json;charset=UTF-8");
 
+//############################## GET USERS
 var requestOptions = {
   method: 'GET',
   headers: HeadersGetUsers,
   redirect: 'follow'
 };
 const dataUsersAPI = async()=>{
-    console.log(baseURL+"/users");
-    return await fetch(baseURL+"/users", requestOptions)
-    .then(responseUsers => {
-        const data = responseUsers.json();
-        return data;
+  return await fetch(baseURL+"/users", requestOptions)
+    .then(response => response.json())
+    .then(value => {
+      return value;
+    })
+    .catch(error => console.log('error', error));
+}
+export const dataUserfindOne = async()=>{
+  return await fetch((baseURL+"/users/"+cookies.get('user')), requestOptions)
+    .then(response => response.json())
+    .then(value => {
+      return value;
     })
     .catch(error => console.log('error', error));
 }
 
-//-------------------------------------------update
-var HeadersPutUsers = new Headers();
-HeadersPutUsers.append("Content-Type", "application/json;charset=UTF-8");
-HeadersPutUsers.append("user-token", getToken());
+//############################## UPDATE USERS
 
-// var requestOptions = {
-//   method: 'PUT',
-//   headers: myHeaders,
-//   body: raw,
-//   redirect: 'follow'
-// };
 export const PutUsersAPI = async(data)=>{
     const {Rut,Nombre,Apellidos,Correo_electronico,Estado,Cargo} = data
     var raw = JSON.stringify({
-      "Rut":`${Rut}`,
       "Nombre":`${Nombre}`,
       "Apellidos":`${Apellidos}`,
       "Correo_electronico":`${Correo_electronico}`,
       "Estado":`${Estado}`,
-      "Cargo":`${Cargo}`
+      "Cargo":`${Cargo}`,
+      "Id_empresa":`1`
     });
     return await fetch(`http://localhost:3100/api/users/${Rut}`, {
       method: 'PUT',
-      headers: HeadersPutUsers,
+      headers: HeadersGetUsers,
       body: raw,
       redirect: 'follow'
     })
-      .then(response => response.text())
-      .then(result => result)
+      .then(response => response.json())
+      .then(result => {console.log(result);return result})
       .catch(error => console.log('error', error));
 }
 
-
 //------------------------------------------DELETE USER
-var HeadersDeleteUsers = new Headers();
-HeadersDeleteUsers.append("user-token", getToken());
-
-var requestOptionsDelete = {
-  method: 'DELETE',
-  headers: HeadersDeleteUsers,
-  redirect: 'follow'
-};
 export const DeleteUsersAPI = async(data)=>{
-return await fetch(`http://localhost:3100/api/users/${data}`, requestOptionsDelete)
+return await fetch(`http://localhost:3100/api/registrarusuario/${data}`, {
+    method: 'DELETE',
+    headers: HeadersGetUsers,
+    redirect: 'follow'
+  })
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
 }
-
-///////////////////////////////////////////CREATE USER
-var HeadersCreateUsers = new Headers();
-HeadersCreateUsers.append("user-token", getToken());
-HeadersCreateUsers.append("Content-Type", "application/json");
+//############################## CREATE USER
 
 export const CreateUsersAPI = async(data)=>{
-  const {Rut,Nombre,Apellidos,Correo_electronico,Estado,Cargo} = data
+  const {Rut,Nombre,Apellidos,Correo_electronico,Estado,Cargo} = data;
+  let EstadoUser = (Estado ? "1" : "0"); 
   var raw = JSON.stringify({
     "Rut":`${Rut}`,
     "Nombre":`${Nombre}`,
     "Apellidos":`${Apellidos}`,
     "Correo_electronico":`${Correo_electronico}`,
-    "Estado":`${Estado}`,
-    "Cargo":`${Cargo}`
+    "Estado":`${EstadoUser}`,
+    "Cargo":`${Cargo}`,
+    "Id_empresa":`1`,
+    "Id_rol":`1`
   });
-return fetch("http://localhost:3100/api/users/", {
+return fetch("http://localhost:3100/api/registrarusuario/", {
   method: 'POST',
-  headers: HeadersCreateUsers,
+  headers: HeadersGetUsers,
   body: raw,
   redirect: 'follow'
 })
-  .then(response => response.text())
+  .then(response => response.json())
   .then(result => {
     console.log(result);
-    CreateLoginAPI(Rut);
+    return result;
   })
   .catch(error => console.log('error', error));
 }

@@ -9,8 +9,7 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import dataUsersAPI from "API/Users";
-import { getUser } from "API/helpers";
+import {dataUserfindOne} from "API/Users";
 
 const Styles = makeStyles({
     cardCategoryWhite: {
@@ -44,17 +43,9 @@ export default function ProfileDetails(props){
 
       const setDatos = async ()=>{
         //DATOS Tipos de mantencion HRS
-        var datosUser = await dataUsersAPI()
+        var datosUser = await dataUserfindOne()
         .then((res)=>{
-            //setDataTipo([Math.round(res.Total),Math.round(res.Mecanica),Math.round(res.Electrica)]);
-            var user = "";
-            res.forEach(element => {
-                if (element.Rut === getUser()) {
-                    user = element;
-                }
-            });
-            console.log(user)
-            SetdataUsers(user);
+            SetdataUsers(res);
         return res;
         }).catch((error) => console.log(error));
         return datosUser;

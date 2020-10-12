@@ -34,7 +34,36 @@ const Styles = makeStyles({
 
 export default function ProfileSecurity(props){
     const classes = Styles();
+    const [ password,setpassword ] = React.useState("");
+    const [ confirm_password,setconfirm_password ] = React.useState("");
+    const [ newPassword,setnewPassword ] = React.useState("");
+    const [ validError,setvalidError ] = React.useState(["",""]);//ERROR pass /////////// ERROR RUT
     
+    const handleChangePassword = async(e)=>{
+        switch (e.target.name) {
+          case "password":
+            (e.target.value.length>0) 
+            ? setvalidError([validError[0],""]) 
+            : setvalidError([validError[0],"Debe ingresar una contraseña"]);
+            setpassword(e.target.value);
+            break;
+          case "cpassword":
+            (e.target.value.length>0 ? setvalidError(["",validError[1]]) : setvalidError(["Debe ingresar una contraseña",validError[1]]));
+            setconfirm_password(e.target.value);
+            break;
+          case "newpassword":
+            (e.target.value.length>0 ? setvalidError(["",validError[1]]) : setvalidError(["Debe ingresar una contraseña",validError[1]]));
+            setnewPassword(e.target.value);
+            break;
+          default:
+            break;
+          }
+      }
+
+    const changePassword = async(e)=>{
+        alert("Password");
+    }
+
     return(
         <div className={(window.screen.width>1200) ? classes.widthdiv : null}>
             <GridContainer >
@@ -51,6 +80,8 @@ export default function ProfileSecurity(props){
                                 <CustomInput
                                     labelText="Actual Contraseña"
                                     id="pass_current"
+                                    required
+                                    onChange={handleChangePassword}
                                     formControlProps={{
                                     fullWidth: true
                                     }}
@@ -63,6 +94,8 @@ export default function ProfileSecurity(props){
                                 <CustomInput
                                     labelText="Nueva Contraseña"
                                     id="pass-new"
+                                    required
+                                    onChange={handleChangePassword}
                                     formControlProps={{
                                     fullWidth: true
                                     }}
@@ -73,6 +106,8 @@ export default function ProfileSecurity(props){
                                 <CustomInput
                                     labelText="Confirma la nueva contraseña"
                                     id="pass-confirm"
+                                    required
+                                    onChange={handleChangePassword}
                                     formControlProps={{
                                     fullWidth: true
                                     }}
@@ -81,7 +116,7 @@ export default function ProfileSecurity(props){
                         </GridContainer>
                         </CardBody>
                         <CardFooter>
-                        <Button color="warning">Cambiar Contraseña</Button>
+                        <Button color="warning" type="button" onClick={changePassword}>Cambiar Contraseña</Button>
                         </CardFooter>
                     </Card>
                 </GridItem>

@@ -46,45 +46,42 @@ export default function Admin({ ...rest }) {
   redirectLogin()
   return (
     <div className={classes.wrapper}>
-<Modal
-style={{
-  position: "fixed",
-  height: "100%",
-  width: "100%",
-  display: "block",
-  backgroundSize: "cover",
-  backgroundPosition: "center center",
-  backgroundImage: "url(" + bgImage1 + ")",
-  backgroundColor: "#fff",
-}}
-  open={loading}
-  // onClose={handleClose}
-  // aria-labelledby="simple-modal-title"
-  // aria-describedby="simple-modal-description"
->
-  <p style={{color:"#fff"}}>Cargando</p>
-</Modal>
-      <Sidebar
+    <Modal
+      style={{
+        position: "fixed",
+        height: "100%",
+        width: "100%",
+        display: "block",
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        backgroundImage: "url(" + bgImage1 + ")",
+        backgroundColor: "#fff",
+      }}
+      open={loading}>
+      <p style={{color:"#fff"}}>Cargando</p>
+    </Modal>
+    <Sidebar
+      routes={routes}
+      logoText={""}
+      logo={logo}
+      image={image}
+      handleDrawerToggle={handleDrawerToggle}
+      open={mobileOpen}
+      color={color}
+      {...rest}
+    />
+    <div className={classes.mainPanel} ref={mainPanel}>
+      <Navbar
         routes={routes}
-        logoText={""}
-        logo={logo}
-        image={image}
         handleDrawerToggle={handleDrawerToggle}
-        open={mobileOpen}
-        color={color}
         {...rest}
         />
-      <div className={classes.mainPanel} ref={mainPanel}>
-        <Navbar
-          routes={routes}
-          handleDrawerToggle={handleDrawerToggle}
-          {...rest}
-          />
-        <div className={classes.content}>
-          <div className={classes.container}>{switchRoutes( routes, loginUserAPI )}</div>
-        </div>
-        <Footer />
+      <div className={classes.content}>
+        <div className={classes.container}>{switchRoutes( routes, loginUserAPI )}</div>
       </div>
+      <Footer />
     </div>
+  </div>
+    
   );
 }

@@ -8,24 +8,25 @@ export const Auth = async (rut,pass) => {
     var body = {
         method: 'POST',
         headers: HeadersLogin,
-        body: JSON.stringify({"Rut":rut,"Contraseña":pass,"Id_rol":1}),
+        body: JSON.stringify({"Rut":rut,"Password":pass,"Id_rol":1}),
         redirect: 'follow'
     }
     try {
         return await fetch(baseURL+"/auth", body)
       .then(response => response.json())
-      .then(result => {
-          if (result.success!=null) {
-            console.log (result);
-            cookies.set('user-token',result.success, {path: "/"});
-            cookies.set('user',result.user, {path: "/"});
-            window.location.href="./";
-        }else{
-            return result;
+      .then(async result => {
+          if (result.success) {
+              await cookies.set('user',result.user.Rut, {path: "/"});
+              await cookies.set('user-token',result.success, {path: "/"});
+              console.log(result.user.Rut)
+              window.location.href="./";
+            }else{
+                console.log (result);
+                return result;
         }
       });
     } catch (error) {
-        console.log("ha ocurrido un error");
+        // console.log("ha ocurrido un error");
         return {success:null,error:error};
     }
 }
@@ -40,12 +41,11 @@ export const validLogin = async () =>{
       .then(response => response.json())
       .then(result => {
           if (result.success) {
-            console.log(result);
             cookies.set('user-token',result.token, {path: "/"});
-            cookies.set('user',result.user, {path: "/"});
+            cookies.set('user',result.user.userId, {path: "/"});
             return true;
         }else{
-            console.log(result);
+            // console.log(result);
             cookies.remove('user-token',{ path: '/' });
             cookies.remove('user',{ path: '/' });
             return false;
@@ -61,5 +61,3 @@ export const logout = async () =>{
     cookies.remove('user',{ path: '/' });
     window.location.href="./";
 }
-// export {Auth,validLogin};
-// export default validLogin;
