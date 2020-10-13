@@ -181,11 +181,6 @@ var Data = [ {
                 }}
               localization={localization}
               />
-            {/* <CustomTable 
-                tableHeaderColor="primary"
-                tableHead={["Nombre","Cargo","Correo","Estado","Acción"]}
-                tableData={(!dataUsers) ? [[]] :[[]]}
-                /> */}
             </CardBody>
             <CardFooter>
             {/* <Button color="primary" onClick={handleOpen}>Añadir Usuario</Button> */}

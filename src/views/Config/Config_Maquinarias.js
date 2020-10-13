@@ -1,6 +1,7 @@
 import React from "react";
 // @material-ui/core components
 import { makeStyles  } from "@material-ui/core/styles";
+import { Modal, Select, InputLabel, FormControl, MenuItem, Input, ListItemText } from "@material-ui/core";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -13,7 +14,20 @@ import CardBody from "components/Card/CardBody.js";
 import Button from "components/CustomButtons/Button.js";
 import CardFooter from "components/Card/CardFooter";
 import CustomInput from "components/CustomInput/CustomInput";
-import { Modal, Select, InputLabel, FormControl, MenuItem, Input, ListItemText } from "@material-ui/core";
+
+//TABLE
+import MaterialTable from "material-table";
+import { localization } from "variables/language";
+
+//NOTIFICATION
+import { notify } from 'react-notify-toast';
+
+//API
+import dataUsersAPI from 'API/Transc/componente';
+import {PutUsersAPI,CreateUsersAPI,DeleteUsersAPI} from 'API/Users';
+
+// import dataComponentsAPI from 'API/Transc/componente'; 
+
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -54,7 +68,6 @@ const styles = {
   },
 };
 const useStyles = makeStyles(styles);
-
 function getModalStyle() {
   const top = 60 ;
   const left = 60;
@@ -77,9 +90,32 @@ paper: {
   //padding: (window.screen.width>1200) ? theme.spacing(2, 4, 3) : null,
 },
 }));
-
+var Data = [ {
+  "ID": "",
+  "Maquinaria": "",
+  "Componente": "",
+  "Estado": true,
+}];
 export default function ConfigMaquinarias() {
-  const classes = useStyles();
+  const classes = useStyles();  
+  const customInput = (props)=>{
+    return(
+    <Input
+      type="text"
+      value={props.value ? props.value : ""}
+      onChange={e => props.onChange(e.target.value)}
+    />
+  )}
+  const [dataUsers,SetdataUsers] = React.useState(Data);
+  const [columns] = React.useState([ 
+    {"title":"ID","field":"Id_componente",editable: 'onAdd',editComponent:customInput},
+    {"title":"Maquinaria","field":"Id_maquinaria",editComponent:customInput},
+    {"title":"Componente","field":"Denominacion",editComponent:customInput},
+    {"title":"Estado","field":"Estado",
+    lookup: { true: "Activa", false: 'Desactivada' }},
+  ]);
+  const putUsers = PutUsersAPI;
+  const usersAPI = dataUsersAPI;
   
   //Modal Variables
   const [modalStyle] = React.useState(getModalStyle);
@@ -105,6 +141,73 @@ export default function ConfigMaquinarias() {
         break;
     }
   };
+
+  const setDatos = async ()=>{
+    var datos = await usersAPI()
+    .then((res)=>res)
+    .catch((error) => console.log(error));
+    SetdataUsers(datos);
+  };
+  React.useEffect(()=>{
+    setDatos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]); 
+
+  const rowAdd = (newData)=>(
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        CreateUsersAPI(newData)
+        .then((value)=>{
+          if (value.errores) {
+            notify.show(`${value.errores}`,'error',5000);
+          }else{
+            SetdataUsers([...dataUsers, newData]);
+            notify.show('Se ha Añadido con éxito!','success',5000);
+          }
+          console.log(value)
+        })
+        resolve();
+      }, 0)
+    })
+  )
+
+  const rowUpdate = (newData, oldData) =>(
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const dataUpdate = [...dataUsers];
+        const index = oldData.tableData.id;
+        dataUpdate[index] = newData;
+        //set on db
+        const msg = putUsers(dataUpdate[index]);
+        msg.then((values)=>{
+          //alert("Cambiado con exito")                    
+          //set on state
+          SetdataUsers([...dataUpdate]);
+        })
+        .catch((error)=>{
+          notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
+          console.log(error);
+        })                        
+        resolve();
+      }, 0)
+    })
+  )
+
+  const rowDelete = (oldData) =>(
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const dataDelete = [...dataUsers];
+      const index = oldData.tableData.id;
+      dataDelete.splice(index, 1);
+      SetdataUsers([...dataDelete]);
+      //set on db
+      DeleteUsersAPI(oldData.Rut)
+      // console.log(oldData.Rut);
+      resolve()
+    }, 0)
+  })
+)
+  
 
   const bodyModal = (
     <div style={modalStyle} className={classesModal.paper}> 
@@ -182,7 +285,20 @@ export default function ConfigMaquinarias() {
             </p>
           </CardHeader>
           <CardBody>
-            <Table 
+            <MaterialTable 
+              title=""
+              data={dataUsers}
+              // columns={columns}
+              columns={columns}
+              parentChildData={(row, rows) => rows.find(a => console.log())}
+              editable={{
+                onRowAdd: rowAdd,                    
+                onRowUpdate: rowUpdate,
+                onRowDelete: rowDelete
+                }}
+              localization={localization}
+              />
+            {/* <Table 
               tableHeaderColor="primary"
               tableHead={["ID","Maquinaria","Componente","Estado","Acción"]}
               tableData={[
@@ -192,7 +308,7 @@ export default function ConfigMaquinarias() {
                 ["04","Chancador Primario","Picaroca","Vigente","Modificar / Borrrar"],
                 ["05","Chancador Primario","32CV02","Vigente","Modificar / Borrrar"]
               ]}
-            />
+            /> */}
           </CardBody>
           <CardFooter>
             <Button color="primary" onClick={handleOpen}>Añadir Maquinaria</Button>
