@@ -13,7 +13,7 @@ var requestOptions = {
   headers: HeadersGetMaquinarias,
   redirect: 'follow'
 };
-const dataMaquinariaAPI = async()=>{
+export const titlesMaquinariaAPI = async()=>{
   return await fetch(baseURL+"/maquinaria", requestOptions)
     .then(response => response.json())
     .then(value => {
@@ -28,5 +28,92 @@ const dataMaquinariaAPI = async()=>{
     })
     .catch(error => console.log('error', error));
 }
+export const dataMaquinariaAPI = async()=>{
+  return await fetch(baseURL+"/maquinaria", requestOptions)
+    .then(response => response.json())
+    .then(value => {
+      return value;
+    })
+    .catch(error => {
+      console.log('error', error);
+      return error;
+    });
+}
+//############################## CREATE MAQUINARIA
 
-export default dataMaquinariaAPI;
+export const CreateMaquinariaAPI = async(data)=>{
+  const {Nombre_maquinaria, Estado, Id_area, Id_tipo} = data;
+  let EstadoUser = (Estado==='true' ? "1" : "0"); 
+  var raw = JSON.stringify({
+    "Nombre_maquinaria":`${Nombre_maquinaria}`,
+    "Estado":`${EstadoUser}`,
+    "Id_area":`${Id_area}`,
+    "Id_tipo":`${Id_tipo}`,
+  });
+return fetch("http://localhost:3100/api/maquinaria/", {
+  method: 'POST',
+  headers: HeadersGetMaquinarias,
+  body: raw,
+  redirect: 'follow'
+})
+  .then(response => response.json())
+  .then(result => {
+    console.log(result);
+    return result;
+  })
+  .catch(error => {
+    console.log('error', error);
+    return error;
+  });
+}
+
+// ############################## DELETE USER
+
+export const DeleteMaquinariaAPI = async(data)=>{
+  return await fetch(`http://localhost:3100/api/maquinaria/${data}`, {
+    method: 'DELETE',
+    headers: HeadersGetMaquinarias,
+    redirect: 'follow'
+  })
+  .then(response => response.text())
+  .then(result => {
+    console.log(result);
+    return result;
+  })
+  .catch(error => {
+    console.log('error', error);
+    return error
+  });
+}
+
+// ############################## UPDATE MAQUINARIA
+
+export const PutMaquinariaAPI = async(data)=>{
+  const {Id_maquinaria, Nombre_maquinaria, Estado, Id_area, Id_tipo} = data;
+  let EstadoUser = (Estado==='true' ? "1" : "0"); 
+  console.log(Estado==='true')
+  var raw = JSON.stringify({
+    "Nombre_maquinaria":`${Nombre_maquinaria}`,
+    "Estado":`${EstadoUser}`,
+    "Id_area":`${Id_area}`,
+    "Id_tipo":`${Id_tipo}`,
+  });
+    return await fetch(`http://localhost:3100/api/maquinaria/${Id_maquinaria}`, {
+      method: 'PUT',
+      headers: HeadersGetMaquinarias,
+      body: raw,
+      redirect: 'follow'
+    })
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+        return result;
+      })
+      .catch(error => {
+        console.log('error', error);
+        return error;
+      });
+}
+
+
+// export default titlesMaquinariaAPI;

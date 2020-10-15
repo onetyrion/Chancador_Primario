@@ -17,20 +17,24 @@ const dataComponentsAPI = async()=>{
   return await fetch(baseURL+"/components", requestOptions)
     .then(response => response.json())
     .then(value => {
-      // 
       for (let i = 0; i < Object.keys(value).length; i++) {
-        value[i].Nombre_maquinaria=value[i].Maquinarium.Nombre_maquinaria;
+        if (value[i].Maquinarium) {
+          value[i].Nombre_maquinaria=value[i].Maquinarium.Nombre_maquinaria;
+        }
       }
       return value;
     })
-    .catch(error => console.log('error', error));
+    .catch(error => {
+      console.log('error', error);
+      return error;
+    });
 }
 
 //############################## UPDATE COMPONENTS
 
 export const PutComponentsAPI = async(data)=>{
   const {Denominacion,Id_maquinaria,Estado,Id_componente} = data
-  let EstadoUser = (Estado===true ? "1" : "0"); 
+  let EstadoUser = (Estado==='true' ? "1" : "0"); 
   console.log(Estado+'\n'+EstadoUser)
     var raw = JSON.stringify({
       "Denominacion":`${Denominacion}`,
@@ -44,8 +48,14 @@ export const PutComponentsAPI = async(data)=>{
       redirect: 'follow'
     })
       .then(response => response.json())
-      .then(result => {console.log(result);return result})
-      .catch(error => console.log('error', error));
+      .then(result => {
+        console.log(result);
+        return result;
+      })
+      .catch(error => {
+        console.log('error', error);
+        return error;
+      });
 }
 
 //------------------------------------------DELETE USER
@@ -56,14 +66,20 @@ export const DeleteComponentsAPI = async(data)=>{
     redirect: 'follow'
   })
   .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
+  .then(result => {
+    console.log(result);
+    return result;
+  })
+  .catch(error => {
+    console.log('error', error);
+    return error;
+  });
 }
 //############################## CREATE USER
 
 export const CreateComponentsAPI = async(data)=>{
-  const {Denominacion,Id_maquinaria,Estado} = data
-  let EstadoUser = (Estado ? "1" : "0"); 
+  const {Denominacion,Id_maquinaria,Estado} = data;
+  let EstadoUser = (Estado==='true' ? "1" : "0"); 
   var raw = JSON.stringify({
     "Denominacion":`${Denominacion}`,
     "Id_maquinaria":`${Id_maquinaria}`,
@@ -80,7 +96,10 @@ return fetch("http://localhost:3100/api/components/", {
     console.log(result);
     return result;
   })
-  .catch(error => console.log('error', error));
+  .catch(error => {
+    console.log('error', error);
+    return error;
+  });
 }
 
 export default dataComponentsAPI;
