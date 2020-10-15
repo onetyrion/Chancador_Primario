@@ -62,8 +62,8 @@ export default function Config() {
           centered={true}
           variant="fullWidth"
           >
-          <Tab value="one" label="Maquinarias" {...a11yProps('one')} />
-          <Tab value="two" label="Averías" {...a11yProps('two')} />
+          <Tab value="one" label="Maquinarias & Componentes" {...a11yProps('one')} />
+          <Tab value="two" label="Fallas" {...a11yProps('two')} />
           <Tab value="three" label="Metas" {...a11yProps('two')} />
         </Tabs>
       </Paper>

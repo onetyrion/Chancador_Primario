@@ -1,48 +1,43 @@
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
-const {baseURL} = require("./configAPI")
+const {baseURL} = require("../configAPI")
 
 var HeadersGetUsers = new Headers();
 HeadersGetUsers.append("user-token",cookies.get('user-token'));
 HeadersGetUsers.append("Content-Type", "application/json;charset=UTF-8");
 
-//############################## GET USERS
+//############################## GET COMPONENTS
 var requestOptions = {
   method: 'GET',
   headers: HeadersGetUsers,
   redirect: 'follow'
 };
-const dataUsersAPI = async()=>{
-  return await fetch(baseURL+"/users", requestOptions)
+const dataComponentsAPI = async()=>{
+  return await fetch(baseURL+"/components", requestOptions)
     .then(response => response.json())
     .then(value => {
-      return value;
-    })
-    .catch(error => console.log('error', error));
-}
-export const dataUserfindOne = async()=>{
-  return await fetch((baseURL+"/users/"+cookies.get('user')), requestOptions)
-    .then(response => response.json())
-    .then(value => {
+      // 
+      for (let i = 0; i < Object.keys(value).length; i++) {
+        value[i].Nombre_maquinaria=value[i].Maquinarium.Nombre_maquinaria;
+      }
       return value;
     })
     .catch(error => console.log('error', error));
 }
 
-//############################## UPDATE USERS
+//############################## UPDATE COMPONENTS
 
-export const PutUsersAPI = async(data)=>{
-    const {Rut,Nombre,Apellidos,Correo_electronico,Estado,Cargo} = data
+export const PutComponentsAPI = async(data)=>{
+  const {Denominacion,Id_maquinaria,Estado,Id_componente} = data
+  let EstadoUser = (Estado===true ? "1" : "0"); 
+  console.log(Estado+'\n'+EstadoUser)
     var raw = JSON.stringify({
-      "Nombre":`${Nombre}`,
-      "Apellidos":`${Apellidos}`,
-      "Correo_electronico":`${Correo_electronico}`,
-      "Estado":`${Estado}`,
-      "Cargo":`${Cargo}`,
-      "Id_empresa":`1`
+      "Denominacion":`${Denominacion}`,
+      "Id_maquinaria":`${Id_maquinaria}`,
+      "Estado":`${EstadoUser}`,
     });
-    return await fetch(`http://localhost:3100/api/users/${Rut}`, {
+    return await fetch(`http://localhost:3100/api/components/${Id_componente}`, {
       method: 'PUT',
       headers: HeadersGetUsers,
       body: raw,
@@ -54,8 +49,8 @@ export const PutUsersAPI = async(data)=>{
 }
 
 //------------------------------------------DELETE USER
-export const DeleteUsersAPI = async(data)=>{
-return await fetch(`http://localhost:3100/api/registrarusuario/${data}`, {
+export const DeleteComponentsAPI = async(data)=>{
+  return await fetch(`http://localhost:3100/api/components/${data}`, {
     method: 'DELETE',
     headers: HeadersGetUsers,
     redirect: 'follow'
@@ -66,20 +61,15 @@ return await fetch(`http://localhost:3100/api/registrarusuario/${data}`, {
 }
 //############################## CREATE USER
 
-export const CreateUsersAPI = async(data)=>{
-  const {Rut,Nombre,Apellidos,Correo_electronico,Estado,Cargo} = data;
+export const CreateComponentsAPI = async(data)=>{
+  const {Denominacion,Id_maquinaria,Estado} = data
   let EstadoUser = (Estado ? "1" : "0"); 
   var raw = JSON.stringify({
-    "Rut":`${Rut}`,
-    "Nombre":`${Nombre}`,
-    "Apellidos":`${Apellidos}`,
-    "Correo_electronico":`${Correo_electronico}`,
+    "Denominacion":`${Denominacion}`,
+    "Id_maquinaria":`${Id_maquinaria}`,
     "Estado":`${EstadoUser}`,
-    "Cargo":`${Cargo}`,
-    "Id_empresa":`1`,
-    "Id_rol":`1`
   });
-return fetch("http://localhost:3100/api/registrarusuario/", {
+return fetch("http://localhost:3100/api/components/", {
   method: 'POST',
   headers: HeadersGetUsers,
   body: raw,
@@ -93,4 +83,4 @@ return fetch("http://localhost:3100/api/registrarusuario/", {
   .catch(error => console.log('error', error));
 }
 
-export default dataUsersAPI;
+export default dataComponentsAPI;
