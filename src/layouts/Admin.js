@@ -77,7 +77,7 @@ export default function Admin({ ...rest }) {
         {...rest}
         />
       <div className={classes.content}>
-        <div className={classes.container}>{switchRoutes( routes, loginUserAPI )}</div>
+        <div className={classes.container}>{switchRoutes( routes, loginUserAPI,setloading )}</div>
       </div>
       <Footer />
     </div>

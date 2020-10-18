@@ -9,7 +9,7 @@ import TableMaquinaria from './maquinariasTables/table_maquinaria';
 export default function ConfigMaquinarias() {
   return (
     <GridContainer>
-      <TableMaquinaria/>
+      {/* <TableMaquinaria/> */}
       <TableComponentes/>
    </GridContainer>
   );

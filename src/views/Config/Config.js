@@ -8,6 +8,7 @@ import { Paper, Tabs, Tab, Box, Typography } from "@material-ui/core";
 import ConfigMetas from "views/Config/Config_Metas.js";
 import ConfigAverias from "views/Config/Config_Averias.js"
 import ConfigMaquinarias from "views/Config/Config_Maquinarias.js"
+import { Redirect } from "react-router-dom";
 
 
 const useStyles = makeStyles(styles);
@@ -44,7 +45,8 @@ function a11yProps(index) {
     'aria-controls': `wrapped-tabpanel-${index}`,
   };
 }
-export default function Config() {
+export default function Config(props) {
+  console.log(props.loading)
   const classes = useStyles();
   const [value, setValue,] = React.useState("one"); //Actual Historico
 
@@ -62,19 +64,21 @@ export default function Config() {
           centered={true}
           variant="fullWidth"
           >
-          <Tab value="one" label="Maquinarias & Componentes" {...a11yProps('one')} />
+          <Tab value="one" label="Maquinarias & Componentes" 
+          {...a11yProps('one')} 
+          />
           <Tab value="two" label="Fallas" {...a11yProps('two')} />
           <Tab value="three" label="Metas" {...a11yProps('two')} />
         </Tabs>
       </Paper>
 
-      {/* PANELES CON CONTENIDO 
-      //////////////////*/}
+      {/* PANELES CON CONTENIDO  //////////////////*/}
       <TabPanel value={value} className={classes.root} index="one">
         <ConfigMaquinarias/>
       </TabPanel>
       <TabPanel value={value} className={classes.root} index="two">
-        <ConfigAverias/>
+          <Redirect from="/config" to="/config/maquinarias"/>
+        {/* <ConfigAverias/> */}
       </TabPanel>
       <TabPanel value={value} className={classes.root} index="three">
         <ConfigMetas/>

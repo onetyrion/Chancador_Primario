@@ -9,20 +9,21 @@ import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import ConfigPage from "views/Config/Config.js";
 import Detenciones from "views/Detenciones/Detenciones.js"
+import TableComponentes from './views/Config/maquinariasTables/table_componentes';
 // import Login from "views/Login/Login.js";
 // Configuración de dirección www.WEB.com/ES/xxxxx
 // index.js : 34 : 37
 // Admin.js : 26 : 37
 let route_layout = "/"
 const dashboardRoutes = [
-  // {
-  //   path: "logins",
-  //   name: "Login",
-  //   icon: Dashboard,
-  //   component: Login,
-  //   layout: route_layout,
-  //   sidebarbutton: false //true se muestra en sidebar // false no se muestra en sidebar
-  // },
+  {
+    path: "config/maquinaria",
+    name: "Maquinarias & Componentes",
+    icon: Dashboard,
+    component: TableComponentes,
+    layout: route_layout,
+    sidebarbutton: true //true NO se muestra en sidebar // false SI se muestra en sidebar
+  },
   {
     path: "dashboard/actual",
     name: "Dashboard",

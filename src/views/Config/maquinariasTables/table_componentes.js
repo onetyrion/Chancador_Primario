@@ -88,6 +88,7 @@ export default function TableComponentes() {
     setDatos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]); 
+ 
   const datatitles = (datos)=>{
     for (const k in datos) {
       if (datos[k].Id_maquinaria===null) {
@@ -114,54 +115,49 @@ export default function TableComponentes() {
 
   const rowAdd = (newData)=>(
     new Promise((resolve, reject) => {
-      setTimeout(() => {
-        CreateComponentsAPI(newData)
-        .then((value)=>{
-          if (value.errors) {
-            notify.show(`${value.errors}`,'error',5000);
-          }else{
-            setDatos()
-            notify.show('Se ha Añadido con éxito!','success',5000);
-          }
-          console.log(value)
-        })
-        resolve();
-      }, 0)
+      CreateComponentsAPI(newData)
+      .then((value)=>{
+        if (value.errors) {
+          notify.show(`${value.errors}`,'error',5000);
+        }else{
+          setDatos()
+          notify.show('Se ha Añadido con éxito!','success',5000);
+        }
+        console.log(value)
+      })
+      resolve();
     })
   )
 
   const rowUpdate = (newData, oldData) =>(
     new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const dataUpdate = [...dataComponents];
-        const index = oldData.tableData.id;
-        dataUpdate[index] = newData;
-        //set on db
-        const msg = putComponents(dataUpdate[index]);
-        msg.then((value)=>{
-          //alert("Cambiado con exito")                    
-          //set on state
-          // SetdataUsers([...dataUpdate]);
-          if (value.errors) {
-            notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
-          }else{
-            // SetdataUsers([...dataUsers, newData]);
-            setDatos()
-            notify.show('Se ha Modificado con éxito!','success',5000);
-          }
-        })
-        .catch((error)=>{
-          notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
-          console.log(error);
-        })                        
-        resolve();
-      }, 0)
+      const dataUpdate = [...dataComponents];
+      const index = oldData.tableData.id;
+      dataUpdate[index] = newData;
+      //set on db
+      const msg = putComponents(dataUpdate[index]);
+      msg.then((value)=>{
+        //alert("Cambiado con exito")                    
+        //set on state
+        // SetdataUsers([...dataUpdate]);
+        if (value.errors) {
+          notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
+        }else{
+          // SetdataUsers([...dataUsers, newData]);
+          setDatos()
+          notify.show('Se ha Modificado con éxito!','success',5000);
+        }
+      })
+      .catch((error)=>{
+        notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
+        console.log(error);
+      })                        
+      resolve();
     })
   )
 
   const rowDelete = (oldData) =>(
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
+    new Promise((resolve, reject) => {
       const dataDelete = [...dataComponents];
       const index = oldData.tableData.id;
       dataDelete.splice(index, 1);
@@ -169,9 +165,8 @@ export default function TableComponentes() {
       DeleteComponentsAPI(oldData.Id_componente)
       SetdataComponents([...dataDelete]);
       resolve()
-    }, 0)
-  })
-)
+    })
+  )
 
   return (
         <Card >

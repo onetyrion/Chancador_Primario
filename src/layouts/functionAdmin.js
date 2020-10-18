@@ -11,13 +11,14 @@ export function switchRoutes(routes, loginUserAPI ) {
     }
     return (
         <Switch>
-        {routes.map((prop, key) => {
+        {routes.map((prop, key,setloading) => {
             if (prop.layout === "/") {
             return (
                 <Route
                 path={prop.layout+prop.path}
                 component={prop.component}
                 key={key}
+                loading={setloading}
                 />
                 // <p>{prop.path}</p>
                 )}
