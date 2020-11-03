@@ -75,6 +75,7 @@ const dispDiaria_metas = {
 		'Delta'
 	],
 	datasets: [{
+    label:"dispdiaria",
 		data: [100,0,0],
 		backgroundColor: [
 		'#fb8c00',
@@ -88,6 +89,7 @@ const dispDiaria_metas = {
     ],
     circumference: (1.0 * Math.PI)
 	},{
+    label:"dispdiaria1",
 		data: [0,94, 6],
 		backgroundColor: [
 		'#fff',
@@ -187,6 +189,7 @@ const mttrDiaria_metas = {
     'Delta'
   ],
   datasets: [{
+    label:'MetaReal',
     data: [2.7,0,-1.5],
     backgroundColor: [
     '#fb8c00',
@@ -200,6 +203,7 @@ const mttrDiaria_metas = {
     ],
     circumference: (1.0 * Math.PI)
   },{
+    label:'MetaReal1',
     data: [0,1.2, 0],
     backgroundColor: [
     '#fff',
@@ -224,8 +228,8 @@ const mttr_histChart = (prop)=> {
     labels: ["Ene" , "Feb", "Mar", "Abr","May", "Jun", "Jul","Ago","Sep","Oct","Nov","Dic"],
     datasets: [
       {
-      data: prop,
       label:"MTTR",
+      data: prop,
       backgroundColor: 
       '#00acc1'
       ,
@@ -297,6 +301,7 @@ const mtbfDiaria_metas = {
 		'Delta'
 	],
 	datasets: [{
+    label:'MetaRea2',
 		data: [169,0,0],
 		backgroundColor: [
 		'#fb8c00',
@@ -310,6 +315,7 @@ const mtbfDiaria_metas = {
     ],
     circumference: (1.0 * Math.PI)
 	},{
+    label:'MetaRea3',
 		data: [0,110, 59],
 		backgroundColor: [
 		'#fff',
@@ -334,8 +340,8 @@ const mtbf_histChart = (prop)=> {
     labels: ["Ene" , "Feb", "Mar", "Abr","May", "Jun", "Jul","Ago","Sep","Oct","Nov","Dic"],
     datasets: [
       {
-      data: prop,
       label:"MTBF",
+      data: prop,
       backgroundColor: 
       '#e53935'
       ,
@@ -360,8 +366,8 @@ const mtbme_histChart = (prop)=> {
     labels: ["Ene" , "Feb", "Mar", "Abr","May", "Jun", "Jul","Ago","Sep","Oct","Nov","Dic"],
     datasets: [
       {
+        label:"MTBME",
       data: prop,
-      label:"MTBME",
       backgroundColor: 
       '#8e24aa'
       ,
@@ -470,7 +476,7 @@ const averiasChart =(prop)=> {
   // const data = tiposMantencion(prop)
   // .then((a)=>a)
   //console.log("prop");
-  console.log(prop);
+  // console.log(prop);
   return({
     labels: [
       ('Total'),
@@ -547,6 +553,7 @@ const eventMantChart = (data)=>{
       'Mant. No Programada'
     ],
     datasets: [{
+      label:'eventMant',
       data: [data[1],data[2]],
       backgroundColor: [
       '#dc3545',

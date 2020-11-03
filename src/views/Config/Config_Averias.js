@@ -4,16 +4,23 @@ import { makeStyles  } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 
 //DROPDOWN
-import Button from "components/CustomButtons/Button.js";
-import CardFooter from "components/Card/CardFooter";
-import CustomInput from "components/CustomInput/CustomInput";
-import { FormControl, InputLabel, Select, Input, MenuItem, ListItemText, Modal } from "@material-ui/core";
+import MaterialTable from "material-table";
+import { localization } from "variables/language";
+import { titlesCategoriaAPI } from "API/Transc/categorias";
+import { titlestipofallaAPI } from "API/Transc/tipoFalla";
+import { titlesComponenteAPI } from "API/Transc/componente";
+import { Input } from "@material-ui/core";
+import { dataFallasAPI } from "API/Transc/fallas";
+import { CreateFallasAPI } from "API/Transc/fallas";
+import { notify } from "react-notify-toast";
+import { DeleteFallasAPI } from "API/Transc/fallas";
+import { PutFallasAPI } from "API/Transc/fallas";
+
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -54,226 +61,140 @@ const styles = {
   },
 };
 const useStyles = makeStyles(styles);
+var Data = [ {
+  "ID": "",
+  "Descripción": "",
+  "Componente": "",  
+  "Categoría": "",
+  "Tipo": ""
+}];
 
-function getModalStyle() {
-  const top = 60 ;
-  const left = 60;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-const useStylesModal = makeStyles((theme) => ({
-paper: {
-  position: 'absolute',
-  width: (window.screen.width>1200) ? "50%" : "80%",
-  backgroundColor: theme.shadows[5],
-  overflow:'auto',
-  height:(window.screen.width>1200) ? "88%" : "80%",
-  //border: '2px solid #9e9e9e',
-  //boxShadow: theme.shadows[5],
-  //padding: (window.screen.width>1200) ? theme.spacing(2, 4, 3) : null,
-},
-}));
+const customInput = (props)=>{
+  return(
+  <Input
+    type="text"
+    value={props.value ? props.value : ""}
+    onChange={e => props.onChange(e.target.value)}
+  />
+)}
 
 export default function ConfigAverias() {
   const classes = useStyles();
-
-  //Modal Variables
-  const [modalStyle] = React.useState(getModalStyle);
-  const classesModal = useStylesModal();
-  const [openModalRegister, SetopenModal] = React.useState(false);
-
-  const [selectComponente, setselectComponente] = React.useState("32CV02");
-  const [selectCategoria, setselectCategoria] = React.useState("Categoria 1");
-  const [selectTipo, setselectTipo] = React.useState("Aguda");
+  const [loading,setloading] = React.useState(true);
   
+  //Modal Variables
+  
+  const [dataFallas,SetdataFallas] = React.useState(Data);
+  const [columnsFallas,setcolumnsFallas,] = React.useState([]);
+  
+  React.useEffect(()=>{
+    setDatos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]); 
+  
+  const setDatos = async ()=>{
+    var fallasdata = await dataFallasAPI();
+    var categorias = await titlesCategoriaAPI(); 
+    var tipoFalla = await titlestipofallaAPI(); 
+    var components = await titlesComponenteAPI(); 
+    setcolumnsFallas([ 
+      {"title":"ID","field":"Id_falla",editable: 'never',editComponent:customInput},
+      {"title":"Descripción","field":"Descripcion_causa",editComponent:customInput},
+      {"title":"Categoría","field":"Id_categoria", lookup: categorias},
+      {"title":"Tipo","field":"Id_tipo", lookup: tipoFalla},
+      {"title":"Componente","field":"Id_componente", lookup: components},
+      {"title":"Falla","field":"Falla", lookup: { true: "Activa", false: 'Desactivada' }},
+    ]);      
+    SetdataFallas(fallasdata);
+    setloading(false);
+  }
 
-  //Forms Variable
-  const componentes = ["32CV02","31FE016","Picaroca","31CR01"]
-  const categoria = ["Categoria 1","Categoria 2"]
-  const tipo = ["Aguda","Croníca","Croníca y Aguda","Sin Clasificar"]
+  const rowAdd = (newData)=>(
+    new Promise((resolve, reject) => {
+      CreateFallasAPI(newData)
+        .then((value)=>{
+          if (value.errors) {
+            notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
+          }else{
+            setDatos();
+            notify.show('Se ha Añadido con éxito!','success',5000);
+          }
+        })
+        resolve();
+    })
+  )
 
-  const handleOpen = () => {
-    SetopenModal(true);
-  };
+  const rowUpdate = (newData, oldData) =>(
+    new Promise((resolve, reject) => {
+      // const dataUpdate = [...dataMaquinaria];
+      // const index = oldData.tableData.id;
+      // dataUpdate[index] = newData;
+      //set on db
+      const msg = PutFallasAPI(newData,oldData);
+      msg.then((value)=>{
+        if (value.errors) {
+          notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
+        }else{
+          setDatos()
+          notify.show('Se ha Modificado con éxito!','success',5000);
+        }
+      })
+      .catch((error)=>{
+        notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
+        console.log(error);
+      })                       
+      resolve();
+    })
+  )
 
-  const handleClose = () => {
-    SetopenModal(false);
-  };
-  const handleChange = (event) => {
-    console.log(event)
-    switch (event.target.name) {
-      case "ComponenteValue":      
-        setselectComponente(event.target.value);
-        break;
-      case "CategoriaValue":      
-        setselectCategoria((event.target.value));
-        break;   
-      case "tipoValue":      
-        setselectTipo((event.target.value));
-        break;            
-      default:
-        alert("Ha ocurrido un error: HandleChange")
-        break;
-    }
-  };
-
-  const bodyModal = (
-    <div style={modalStyle} className={classesModal.paper}> 
-      <Card style={{}}>
-        <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Registrar una fallas de componentes</h4>
-          <p className={classes.cardCategoryWhite}>
-            
-          </p>
-        </CardHeader>
-        <CardBody>
-      <GridContainer>
-        {/* //Nombre Falla*/}
-        <GridItem xs={12} sm={12} md={6}>
-        <CustomInput
-            labelText="Nombre de la falla"
-            id="nameComponente"
-            formControlProps={{
-            fullWidth: true
-            }}
-        />
-        </GridItem>
-        {/* //Maquinaria */}
-        <GridItem xs={12} sm={12} md={6}>
-        <CustomInput
-            labelText="Maquinaria"
-            id="maquinaria"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              disabled: true,
-              value:"Chancador Primario"
-            }}
-        />
-        </GridItem>
-        {/* //Componente */}
-        <GridItem xs={12} sm={12} md={6} style={{marginTop:"18px"}}>
-        <FormControl fullWidth={true}>
-          <InputLabel id="Estado-label">Componente Afectado</InputLabel>
-          <Select
-            name="ComponenteValue"
-            labelId="Coponente-label"
-            id="Componente"
-            value={selectComponente}
-            onChange={handleChange}
-            input={<Input />}
-          >
-            {componentes.map((value,index) => 
-              <MenuItem  key={index} value={value}>
-                <ListItemText primary={value} />
-              </MenuItem>
-            )}
-          </Select>
-        </FormControl>
-        </GridItem>
-        {/* //Categoria */}
-        <GridItem xs={12} sm={12} md={6} style={{marginTop:"18px"}}>
-        <FormControl fullWidth={true}>
-          <InputLabel id="Categoria-label">Categoría de la falla</InputLabel>
-          <Select
-            name="CategoriaValue"
-            labelId="Categoria-label"
-            id="Categoria"
-            value={selectCategoria}
-            onChange={handleChange}
-            input={<Input />}
-          >
-            {categoria.map((value,index) => 
-              <MenuItem  key={index} value={value}>
-                <ListItemText primary={value} />
-              </MenuItem>
-            )}
-          </Select>
-        </FormControl>
-        </GridItem>
-        {/* //Tipo */}
-        <GridItem xs={12} sm={12} md={12} style={{marginTop:"18px"}}>
-        <FormControl fullWidth={true}>
-          <InputLabel id="tipo-label">Tipo de falla</InputLabel>
-          <Select
-            name="tipoValue"
-            labelId="tipo-label"
-            id="tipo"
-            value={selectTipo}
-            onChange={handleChange}
-            input={<Input />}
-          >
-            {tipo.map((value,index) => 
-              <MenuItem  key={index} value={value}>
-                <ListItemText primary={value} />
-              </MenuItem>
-            )}
-          </Select>
-        </FormControl>
-        </GridItem>
-        {/* //Descripcion */}
-        <GridItem xs={12} sm={12} md={12}>
-        <CustomInput
-            labelText="Descripición"
-            id="descripcion"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-            }}
-        />
-        </GridItem>            
-
-      
-      </GridContainer>
-      </CardBody>
-          <CardFooter>
-            <Button color="primary">Añadir Componente</Button>
-          </CardFooter>
-        </Card>          
-    </div>
-  );
+  const rowDelete = (oldData) =>(
+  new Promise((resolve, reject) => {
+    DeleteFallasAPI(oldData.Id_falla,oldData.Id_componente)
+    .then((value)=>{
+      if (JSON.parse(value).errors) {
+        notify.show(`Ha ocurrido un error al eliminar el registro`,'error',5000);
+      }else{
+        setDatos()
+        notify.show('Se ha Eliminado con éxito!','warning',5000);
+      }
+    })
+      resolve()
+  })
+  )
 
   return (
     <GridContainer>
-      
       <GridItem xs={12} sm={12} md={12}>
         <Card >
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Gestión de Averías</h4>
-            <p className={classes.cardCategoryWhite}>
-              
-            </p>
+            <h4 className={classes.cardTitleWhite}>Gestión de Fallas</h4>
           </CardHeader>
           <CardBody>
-            <Table 
+            <MaterialTable 
+              title=""
+              data={dataFallas}
+              columns={columnsFallas}
+              parentChildData={(row, rows) => rows.find(a => console.log())}
+              editable={{
+                onRowAdd: rowAdd,                    
+                onRowUpdate: rowUpdate,
+                onRowDelete: rowDelete
+                }}
+              localization={localization}//LENGUAJE
+              />
+            {/* <Table 
               tableHeaderColor="primary"
-              tableHead={["ID","Falla","Componente","Categoría","Descripición","Tipo","Acción"]}
+              tableHead={["ID","Falla","Componente","Categoría","Descripción","Tipo","Acción"]}
               tableData={[
                 ["01","Cambio de Poste","32CV02","Cat.1","Rotura del modulo 4","Aguda","Modificar / Borrrar"],
                 ["02","Reparación controlador Eléctricio","31FE016","Cat.2","Fusible quemado","Croníca","Modificar / Borrrar"],
                 ["03","Sistema de Diluvio CV02","32CV02","Cat.1","Falla modulo 2","Croníca y Aguda","Modificar / Borrrar"],
                 ["04","Limpieza","Picaroca","Cat.1","Lubricación, Limpieza comp.321","Sin Clasificar","Modificar / Borrrar"],
               ]}
-            />
+            /> */}
           </CardBody>
-          <CardFooter>
-            <Button color="primary" onClick={handleOpen}>Añadir Averías</Button>
-          </CardFooter>
         </Card>
-      </GridItem>
-      <Modal open={openModalRegister}
-        name="closeModal"
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description">
-          {bodyModal}
-      </Modal>      
+      </GridItem>     
    </GridContainer>
   );
 }

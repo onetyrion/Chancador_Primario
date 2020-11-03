@@ -9,7 +9,6 @@ import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import routes from "routes.js";
-import loginUserAPI from "API/Login";
 // import {getToken, getUser} from '../API/helpers';
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 import bgImage from "assets/img/sidebar-5.jpg";
@@ -33,17 +32,22 @@ export default function Admin({ ...rest }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [loading,setloading] = React.useState(true);
   
-  switchRoutes( routes, loginUserAPI );
+  React.useEffect(()=>{
+  redirectLogin();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+},[])
+
+// switchRoutes( routes );
   const handleDrawerToggle = () => { setMobileOpen(!mobileOpen); };
+
   const redirectLogin = async()=>{
     if (!await validLogin() ) {
-      // alert("true");
       window.location.href="/login";
     }else{
       setloading(false);
     }
   }
-  redirectLogin()
+  
   return (
     <div className={classes.wrapper}>
     <Modal
@@ -77,7 +81,9 @@ export default function Admin({ ...rest }) {
         {...rest}
         />
       <div className={classes.content}>
-        <div className={classes.container}>{switchRoutes( routes, loginUserAPI,setloading )}</div>
+        <div className={classes.container}>
+          {switchRoutes( routes )}
+        </div>
       </div>
       <Footer />
     </div>

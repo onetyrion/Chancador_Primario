@@ -10,6 +10,7 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import ConfigPage from "views/Config/Config.js";
 import Detenciones from "views/Detenciones/Detenciones.js"
 import TableComponentes from './views/Config/maquinariasTables/table_componentes';
+import ConfigAverias from "views/Config/Config_Averias";
 // import Login from "views/Login/Login.js";
 // Configuración de dirección www.WEB.com/ES/xxxxx
 // index.js : 34 : 37
@@ -23,6 +24,14 @@ const dashboardRoutes = [
     component: TableComponentes,
     layout: route_layout,
     sidebarbutton: true //true NO se muestra en sidebar // false SI se muestra en sidebar
+  },
+  {
+    path: "fallas",
+    name: "Fallas",
+    icon: Dashboard,
+    component: ConfigAverias,
+    layout: route_layout,
+    sidebarbutton: false //true NO se muestra en sidebar // false SI se muestra en sidebar
   },
   {
     path: "dashboard/actual",

@@ -6,11 +6,11 @@ import GridContainer from "components/Grid/GridContainer.js";
 import TableComponentes from './maquinariasTables/table_componentes';
 import TableMaquinaria from './maquinariasTables/table_maquinaria';
 
-export default function ConfigMaquinarias() {
+export default function ConfigMaquinarias(props) {
   return (
     <GridContainer>
-      {/* <TableMaquinaria/> */}
-      <TableComponentes/>
+      <TableMaquinaria setloading={props.setloading} loading={props.loading}/>
+      <TableComponentes setloading={props.setloading} loading={props.loading}/>
    </GridContainer>
   );
 }

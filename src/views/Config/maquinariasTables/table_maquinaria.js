@@ -6,7 +6,6 @@ import { Input } from "@material-ui/core";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter";
 
 //TABLE
 import MaterialTable from "material-table";
@@ -77,7 +76,7 @@ const customInput = (props)=>{
     onChange={e => props.onChange(e.target.value)}
   />
 )}
-export default function TableMaquinarias() {
+export default function TableMaquinarias(props) {
   const classes = useStyles();  
   const [dataMaquinaria,SetdataMaquinaria] = React.useState(Data);
   const [columnsMaquinas,setColumnsMaquinas,] = React.useState([]);
@@ -101,74 +100,69 @@ export default function TableMaquinarias() {
       {"title":"Tipo","field":"Id_tipo", lookup: titletipoMaquinaria},
     ]);      
     SetdataMaquinaria(maquinasdata);
+    props.setloading(false);
   }
 
   const rowAdd = (newData)=>(
     new Promise((resolve, reject) => {
-      setTimeout(() => {
-        CreateMaquinariaAPI(newData)
-        .then((value)=>{
-          console.log(value)
-          if (value.errors) {
-            notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
-          }else{
-            setDatos();
-            notify.show('Se ha Añadido con éxito!','success',5000);
-          }
-          console.log(value)
-        })
-        resolve();
-      }, 0)
+      CreateMaquinariaAPI(newData)
+      .then((value)=>{
+        console.log(value)
+        if (value.errors) {
+          notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
+        }else{
+          setDatos();
+          notify.show('Se ha Añadido con éxito!','success',5000);
+        }
+        console.log(value)
+      })
+      resolve();
     })
   )
 
   const rowUpdate = (newData, oldData) =>(
     new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const dataUpdate = [...dataMaquinaria];
-        const index = oldData.tableData.id;
-        dataUpdate[index] = newData;
-        //set on db
-        const msg = PutMaquinaria(dataUpdate[index]);
-        msg.then((value)=>{
-          //alert("Cambiado con exito")                    
-          //set on state
-          // SetdataUsers([...dataUpdate]);
-          if (value.errors) {
-            notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
-          }else{
-            // SetdataUsers([...dataUsers, newData]);
-            setDatos()
-            notify.show('Se ha Modificado con éxito!','success',5000);
-          }
-        })
-        .catch((error)=>{
-          notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
-          console.log(error);
-        })                        
-        resolve();
-      }, 0)
+      const dataUpdate = [...dataMaquinaria];
+      const index = oldData.tableData.id;
+      dataUpdate[index] = newData;
+      //set on db
+      const msg = PutMaquinaria(dataUpdate[index]);
+      msg.then((value)=>{
+        //alert("Cambiado con exito")                    
+        //set on state
+        // SetdataUsers([...dataUpdate]);
+        if (value.errors) {
+          notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
+        }else{
+          // SetdataUsers([...dataUsers, newData]);
+          setDatos()
+          notify.show('Se ha Modificado con éxito!','success',5000);
+        }
+      })
+      .catch((error)=>{
+        notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
+        console.log(error);
+      })                        
+      resolve();
     })
   )
 
   const rowDelete = (oldData) =>(
   new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const dataDelete = [...dataMaquinaria];
-      const index = oldData.tableData.id;
-      dataDelete.splice(index, 1);
-      //set on db
-      DeleteMaquinariaAPI(oldData.Id_maquinaria)
-      .then((value)=>{
-        if (JSON.parse(value).errors) {
-          notify.show(`Ha ocurrido un error al eliminar el registro`,'error',5000);
-        }else{
-          setDatos()
-          notify.show('Se ha Eliminado con éxito!','warning',5000);
-        }
-      })
-      resolve()
-    }, 0)
+    const dataDelete = [...dataMaquinaria];
+    const index = oldData.tableData.id;
+    dataDelete.splice(index, 1);
+    //set on db
+    DeleteMaquinariaAPI(oldData.Id_maquinaria)
+    .then((value)=>{
+      if (JSON.parse(value).errors) {
+        notify.show(`Ha ocurrido un error al eliminar el registro`,'error',5000);
+      }else{
+        setDatos()
+        notify.show('Se ha Eliminado con éxito!','warning',5000);
+      }
+    })
+    resolve()
   })
   )
 
@@ -191,9 +185,6 @@ export default function TableMaquinarias() {
               localization={localization}//LENGUAJE
               />
           </CardBody>
-          <CardFooter>
-            
-          </CardFooter>
         </Card>
   );
 }

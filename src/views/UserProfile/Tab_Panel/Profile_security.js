@@ -34,9 +34,9 @@ const Styles = makeStyles({
 
 export default function ProfileSecurity(props){
     const classes = Styles();
-    const [ password,setpassword ] = React.useState("");
-    const [ confirm_password,setconfirm_password ] = React.useState("");
-    const [ newPassword,setnewPassword ] = React.useState("");
+    const [ setpassword ] = React.useState("");
+    const [ setconfirm_password ] = React.useState("");
+    const [ setnewPassword ] = React.useState("");
     const [ validError,setvalidError ] = React.useState(["",""]);//ERROR pass /////////// ERROR RUT
     
     const handleChangePassword = async(e)=>{

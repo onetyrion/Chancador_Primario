@@ -102,4 +102,20 @@ return fetch("http://localhost:3100/api/components/", {
   });
 }
 
+export const titlesComponenteAPI = async()=>{
+  return await fetch(baseURL+"/components", requestOptions)
+    .then(response => response.json())
+    .then(value => {
+      // IDMAQUINARIA: NOMBRE
+      var column = {};
+      for (let i = 0; i < Object.keys(value).length; i++) {
+        let key = value[i].Id_componente.toString();
+        let valor = value[i].Denominacion.toString();
+        column[key]=valor;
+      }
+      return column;
+    })
+    .catch(error => console.log('error', error));
+}
+
 export default dataComponentsAPI;

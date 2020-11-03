@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-import { Paper, Tabs, Tab, Box, Typography } from "@material-ui/core";
+import { Paper, Tabs, Tab, Box, Typography, Modal } from "@material-ui/core";
 //Import Tabs
 import ConfigMetas from "views/Config/Config_Metas.js";
 import ConfigAverias from "views/Config/Config_Averias.js"
 import ConfigMaquinarias from "views/Config/Config_Maquinarias.js"
-import { Redirect } from "react-router-dom";
-
+import bgImage1 from "assets/img/bgCandelaria.jpg";
 
 const useStyles = makeStyles(styles);
 //DESPLIEGUE DE PANELES
@@ -46,15 +45,28 @@ function a11yProps(index) {
   };
 }
 export default function Config(props) {
-  console.log(props.loading)
   const classes = useStyles();
   const [value, setValue,] = React.useState("one"); //Actual Historico
-
+  const [loading,setloading] = React.useState(true);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
     <div>
+      <Modal
+        style={{
+        position: "fixed",
+        height: "100%",
+        width: "100%",
+        display: "block",
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        backgroundImage: "url(" + bgImage1 + ")",
+        backgroundColor: "#fff",
+        }}
+        open={loading}>
+        <p style={{color:"#fff"}}>Cargando</p>
+      </Modal>
       {/* BARRA TABS ELEMENTOS BASES */}
       <Paper square>
         <Tabs className={classes.Tabs}
@@ -74,14 +86,14 @@ export default function Config(props) {
 
       {/* PANELES CON CONTENIDO  //////////////////*/}
       <TabPanel value={value} className={classes.root} index="one">
-        <ConfigMaquinarias/>
+        <ConfigMaquinarias setloading={setloading} loading={loading}/>
       </TabPanel>
       <TabPanel value={value} className={classes.root} index="two">
-          <Redirect from="/config" to="/config/maquinarias"/>
-        {/* <ConfigAverias/> */}
+          {/* <Redirect from="/config" to="/config/maquinarias"/> */}
+        <ConfigAverias setloading={setloading} loading={loading}/>
       </TabPanel>
       <TabPanel value={value} className={classes.root} index="three">
-        <ConfigMetas/>
+        <ConfigMetas setloading={setloading} loading={loading}/>
       </TabPanel>
   
     </div>

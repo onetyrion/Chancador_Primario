@@ -76,7 +76,7 @@ const customInput = (props)=>{
     onChange={e => props.onChange(e.target.value)}
   />
 )}
-export default function TableComponentes() {
+export default function TableComponentes(props) {
   const classes = useStyles();  
   const [dataComponents,SetdataComponents] = React.useState(Data);
   const [columnsComponents,setColumnsComponents,] = React.useState([]);
@@ -100,9 +100,7 @@ export default function TableComponentes() {
   }
   const setDatos = async ()=>{
     var maquinastitles = await titlesMaquinariaAPI(); 
-    var datos = await componentAPI()
-      .then((res)=>res)
-      .catch((error) => console.log(error));
+    var datos = await componentAPI();
     setColumnsComponents([ 
       {"title":"ID","field":"Id_componente",editable: 'never',editComponent:customInput},
       {"title":"Componente","field":"Denominacion",editComponent:customInput},
@@ -111,6 +109,7 @@ export default function TableComponentes() {
       lookup: { true: "Activa", false: 'Desactivada' }},
     ]);  
     SetdataComponents(datatitles(datos));
+    props.setloading(false);
   }
 
   const rowAdd = (newData)=>(
