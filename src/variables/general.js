@@ -17,12 +17,14 @@ var server = [
   "Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit",
   'Sign contract for "What are conference organizers afraid of?"'
 ];
+var titleHeader = "Planificación de Mantenciones > ";
 //var home = "/Chancador_Primario" //GITHUB PAGE
-var home = "/"
+var home = "/";
 module.exports = {
   // these 3 are used to create the tasks lists in TasksCard - Dashboard view
   bugs,
   website,
   server,
-  home
+  home,
+  titleHeader
 };

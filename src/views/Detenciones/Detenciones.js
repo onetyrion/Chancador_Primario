@@ -1,102 +1,241 @@
-import React from "react";
-// react plugin for creating charts
-// import ChartistGraph from "react-chartist";
-// @material-ui/core
-// import { makeStyles } from "@material-ui/core/styles";
-// import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-// import Store from "@material-ui/icons/Store";
-// import Warning from "@material-ui/icons/Warning";
-// import DateRange from "@material-ui/icons/DateRange";
-// import LocalOffer from "@material-ui/icons/LocalOffer";
-// import Update from "@material-ui/icons/Update";
-// import ArrowUpward from "@material-ui/icons/ArrowUpward";
-// import AccessTime from "@material-ui/icons/AccessTime";
-// import Accessibility from "@material-ui/icons/Accessibility";
-// import BugReport from "@material-ui/icons/BugReport";
-// import Code from "@material-ui/icons/Code";
-// import Cloud from "@material-ui/icons/Cloud";
-// core components
-// import GridItem from "components/Grid/GridItem.js";
-// import GridContainer from "components/Grid/GridContainer.js";
-// import Table from "components/Table/Table.js";
-// import Tasks from "components/Tasks/Tasks.js";
-// import CustomTabs from "components/CustomTabs/CustomTabs.js";
-// import Danger from "components/Typography/Danger.js";
-// import Card from "components/Card/Card.js";
-// import CardHeader from "components/Card/CardHeader.js";
-// import CardIcon from "components/Card/CardIcon.js";
-// import CardBody from "components/Card/CardBody.js";
-// import CardFooter from "components/Card/CardFooter.js";
+// import React from "react";
+// import DetencionesMantenciones from "views/Detenciones/Detenciones_mantenciones.js"
 
-// import { bugs, website, server } from "variables/general.js";
+// export default function Dashboard() {
 
-// import {
-//   dailySalesChart,
-//   emailsSubscriptionChart,
-//   completedTasksChart
-// } from "variables/charts.js";
-
-// import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-// import {  Box, Typography } from "@material-ui/core";
-import DetencionesMantenciones from "views/Detenciones/Detenciones_mantenciones.js"
-// const useStyles = makeStyles(styles);
-
-// function TabPanel(props) {
-//   const { children, value, index, ...other } = props;
 //   return (
-//     <div
-//       role="tabpanel"
-//       hidden={value !== index}
-//       id={`wrapped-tabpanel-${index}`}
-//       aria-labelledby={`wrapped-tab-${index}`}
-//       {...other}
-//     >
-//       {value === index && (
-//         <Box p={3}>
-//           <Typography component={'span'}>{children}</Typography>
-//         </Box>
-//       )}
+//     <div>
+//       <DetencionesMantenciones/>
 //     </div>
 //   );
 // }
-// function a11yProps(index) {
-//   return {
-//     id: `wrapped-tab-${index}`,
-//     'aria-controls': `wrapped-tabpanel-${index}`,
-//   };
-// }
+import React from "react";
+// @material-ui/core components
+import { makeStyles } from "@material-ui/core/styles";
+// core components
+import GridItem from "components/Grid/GridItem.js";
+import GridContainer from "components/Grid/GridContainer.js";
+import Card from "components/Card/Card.js";
+import CardHeader from "components/Card/CardHeader.js";
+import CardBody from "components/Card/CardBody.js";
+import CardFooter from "components/Card/CardFooter.js";
+import MaterialTable from "material-table";
+import { localization } from "variables/language";
+import { notify } from 'react-notify-toast';
 
-export default function Dashboard() {
-  // const [ setValue,] = React.useState('one');
-  // const classes = useStyles();
-  // const handleChange = (event, newValue) => {
-  //   setValue(newValue);
-  // };
+import {dataMantencionAPI} from 'API/Transc/mantencion';
+import {PutUsersAPI,CreateUsersAPI,DeleteUsersAPI} from 'API/Users';
+import { Input } from "@material-ui/core";
+import { titlesComponenteAPI } from "API/Transc/componente";
+import { titlesFallasAPI } from "API/Transc/fallas";
+import { titletipoMantencionAPI } from "API/Transc/tipoMantencion";
+import { titleEventoAPI } from "API/Transc/eventoMantencion";
+// import DeleteLoginAPI from 'API/Users';
 
-  return (
-    <div>
-      <DetencionesMantenciones/>
-      {/* <Paper square >
-        <Tabs className={classes.Tabs}
-          value={value} 
-          onChange={handleChange} 
-          //indicatorColor="info"
-         // textColor="primary"
-          aria-label="Dashboard-historico-actual"
-          variant="fullWidth"
-          centered>
-          <Tab value="one" label="Mantenciones" {...a11yProps('one')} />
-          <Tab value="two" label="Averías" {...a11yProps('two')} />
-        </Tabs>
-      </Paper>
+const styles = {
+    cardCategoryWhite: {
+      "&,& a,& a:hover,& a:focus": {
+        color: "rgba(255,255,255,.62)",
+        margin: "0",
+        fontSize: "14px",
+        marginTop: "0",
+        marginBottom: "0"
+      },
+      "& a,& a:hover,& a:focus": {
+        color: "#FFFFFF"
+      }
+    },
+    cardTitleWhite: {
+      color: "#FFFFFF",
+      marginTop: "0px",
+      minHeight: "auto",
+      fontWeight: "300",
+      fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+      marginBottom: "3px",
+      textDecoration: "none",
+      "& small": {
+        color: "#777",
+        fontSize: "65%",
+        fontWeight: "400",
+        lineHeight: "1"
+      }
+    },  
+    formControl: {
+      margin: 10,
+      minWidth: 200,
+      maxWidth: 300,
+    },
+    filtrosbox:{
+      width: "70%",
+      margin: "auto",
+      display: "inline"
+    },
+    widthdiv:{width: ((window.screen.width*55)/100)}
+  };
+  
+const useStyles = makeStyles(styles);
 
-      <TabPanel value={value} index="one">
-        <DetencionesMantenciones/>
-      </TabPanel>
-      <TabPanel value={value} index="two">
-        <h1>Averías</h1>
-      </TabPanel> */}
+const customInput = (props)=>{
+  return(
+  <Input
+    type="text"
+    value={props.value ? props.value : ""}
+    onChange={e => props.onChange(e.target.value)}
+  />
+)}
+export default function ProfileAccounts(props){
+  // const hiddenColumn=true;
+    //Fecha	Pieza	Ev. SP	Avería	Tipo	Hrs Progr	Hrs No Prog	Event Prog	Event No Prog	RFCA
+    //Id_componente Id_mantencion Id_evento Id_tipo Fecha_mantencion CantEvento_especial Duracion Descripcion Horas_programadas Horas_no_programadas Cantidad_evProgramados Cantidad_evNoProgramados RCFA Area OT Id_falla
+  const classes = useStyles();
+  const [dataMantencion,SetdataMantencion] = React.useState();
+  const [hiddenColumn,SethiddenColumn] = React.useState(true);
+  const [columns,setColumns] = React.useState();
+  const putUsers = PutUsersAPI;
+  const mantencionAPI = dataMantencionAPI;
+
+  const setDatos = async ()=>{
+    SethiddenColumn(!hiddenColumn);
+    var components = await titlesComponenteAPI(); 
+    var fallas = await titlesFallasAPI(); //Id_tipo Id_evento Area
+    var tipo = await titletipoMantencionAPI();
+    var evento = await titleEventoAPI();
+    setColumns([ 
+      {"title":"ID","field":"Id_mantencion",hidden: hiddenColumn,export:true,editable: 'never',editComponent:customInput},
+      {"title":"Fecha","field":"Fecha_mantencion",editComponent:customInput},
+      {"title":"Pieza","field":"Id_componente",hidden: hiddenColumn,lookup: components},
+      {"title":"Ev.Esp","field":"CantEvento_especial",hidden: hiddenColumn,editComponent:customInput},
+      {"title":"Falla","field":"Id_falla",lookup: fallas},
+      {"title":"Tipo","field":"Id_tipo",hidden: hiddenColumn,lookup: tipo},
+      {"title":"Evento","field":"Id_evento",hidden: hiddenColumn,lookup: evento},
+      {"title":"Descripción","field":"Descripcion", headerStyle: { paddingRight: 200 },editComponent:customInput},
+      {"title":"Duración(Hrs)","field":"Duracion",editComponent:customInput,align:"center"},
+      // {"title":"Tipo","field":"Estado",
+      // lookup: { true: "Activa", false: 'Desactivada' }},
+      {"title":"Hrs.Prog","field":"Horas_programadas",hidden: hiddenColumn,editComponent:customInput},
+      {"title":"Hrs.No Prog","field":"Horas_no_programadas",hidden: hiddenColumn,editComponent:customInput},
+      {"title":"Ev.Prog","field":"Cantidad_evProgramados",hidden: hiddenColumn,editComponent:customInput},
+      {"title":"Ev.No Prog","field":"Cantidad_evNoProgramados",hidden: hiddenColumn,editComponent:customInput},
+      {"title":"RFCA","field":"RCFA",hidden: hiddenColumn,editComponent:customInput},
+      {"title":"Area","field":"Area",hidden: hiddenColumn,editComponent:customInput},
+      {"title":"OT","field":"OT",hidden: hiddenColumn,editComponent:customInput}
+    ])
+    var datos = await mantencionAPI()
+    .then((res)=>res)
+    .catch((error) => console.log(error));
+    SetdataMantencion(datos);
+  };
+  React.useEffect(()=>{
+    setDatos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]); 
+
+  const rowAdd = (newData)=>(
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        CreateUsersAPI(newData)
+        .then((value)=>{
+          if (value.errores) {
+            notify.show(`${value.errores}`,'error',5000);
+          }else{
+            SetdataMantencion([...dataMantencion, newData]);
+            notify.show('Se ha Añadido con éxito!','success',5000);
+          }
+          console.log(value)
+        })
+        resolve();
+      }, 0)
+    })
+  )
+
+  const rowUpdate = (newData, oldData) =>(
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const dataUpdate = [...dataMantencion];
+        const index = oldData.tableData.id;
+        dataUpdate[index] = newData;
+        //set on db
+        const msg = putUsers(dataUpdate[index]);
+        msg.then((values)=>{
+          //alert("Cambiado con exito")                    
+          //set on state
+          SetdataMantencion([...dataUpdate]);
+        })
+        .catch((error)=>{
+          notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
+          console.log(error);
+        })                        
+        resolve();
+      }, 0)
+    })
+  )
+
+  const rowDelete = (oldData) =>(
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const dataDelete = [...dataMantencion];
+      const index = oldData.tableData.id;
+      dataDelete.splice(index, 1);
+      SetdataMantencion([...dataDelete]);
+      //set on db
+      DeleteUsersAPI(oldData.Rut)
+      // console.log(oldData.Rut);
+      resolve()
+    }, 0)
+  })
+)
+  
+return(
+    <div >
+      <GridContainer >
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="primary">
+            {/* <h4 className={classes.cardTitleWhite}>Gestión de Mantenciones</h4> */}
+            {/* <p className={classes.cardCategoryWhite} >Registro de detenciones de los Chancadores.</p> */}
+            <h4 className={classes.cardTitleWhite}>Registro de detenciones de los Chancadores</h4>
+            </CardHeader>
+            <CardBody>
+            <MaterialTable 
+              title="Gestión de Mantenciones"
+              data={dataMantencion}
+              columns={columns}
+              parentChildData={(row, rows) => rows.find(a => console.log())}
+              editable={hiddenColumn?{
+                onRowAdd: rowAdd,                    
+                onRowUpdate: rowUpdate,
+                onRowDelete: rowDelete
+                }:null}
+              localization={localization}
+              options={{
+                exportAllData:true,
+                exportButton: true,
+                exportDelimiter:";",
+                exportFileName:("REG_DETENCIONES_"+new Date().toLocaleString()),
+                pageSizeOptions:[5, 10, ,20,100],
+              }}   
+              actions={[
+                {
+                  icon: 'view_column',
+                  tooltip: 'Mostrar Todo',
+                  isFreeAction: true,
+                  onClick: (event) => {
+                    setDatos();
+                  
+                  }
+                }
+              ]}
+              // pageSizeOptions={[,"all"]}
+              />
+            </CardBody>
+            <CardFooter>
+            {/* <Button color="primary" onClick={handleOpen}>Añadir Usuario</Button> */}
+            </CardFooter>
+          </Card>
+        </GridItem>
+          
+      </GridContainer>     
+      
     </div>
-  );
+  )
 }

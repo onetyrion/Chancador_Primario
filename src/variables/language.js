@@ -19,7 +19,8 @@ const localization={
       showColumnsAriaLabel:'Ver Columnas',
       exportTitle:'Exportar',
       exportAriaLabel:'Exportar',
-      exportName:'Exportar a CSV',
+      exportCSVName:'Exportar a CSV',
+      exportPDFName:'Exportar a PDF',
       searchTooltip:'Buscar',
       searchPlaceholder:'Buscar',
 

@@ -13,16 +13,14 @@ var requestOptions = {
   headers: HeadersGettipoMaquinaria,
   redirect: 'follow'
 };
-export const titletipoMaquinariaAPI = async()=>{
-  return await fetch(baseURL+"/tipomaquinaria", requestOptions)
+export const titleEventoAPI = async()=>{
+  return await fetch(baseURL+"/eventomantencion", requestOptions)
     .then(response => response.json())
     .then(value => {
-      console.log(value)
-      // IDMAQUINARIA: NOMBRE
       var column = {};
       for (let i = 0; i < Object.keys(value).length; i++) {
-          let key = value[i].Id_Tipo.toString();
-          let valor = value[i].Descripcion.toString();
+          let key = value[i].Id_evento.toString();
+          let valor = value[i].Nombre_evento.toString();
           column[key]=valor;
         }
       return column;

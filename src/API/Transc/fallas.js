@@ -13,21 +13,21 @@ var requestOptions = {
   headers: HeadersGetFallas,
   redirect: 'follow'
 };
-// export const titlesMaquinariaAPI = async()=>{
-//   return await fetch(baseURL+"/maquinaria", requestOptions)
-//     .then(response => response.json())
-//     .then(value => {
-//       // IDMAQUINARIA: NOMBRE
-//       var column = {};
-//       for (let i = 0; i < Object.keys(value).length; i++) {
-//           let key = value[i].Id_maquinaria.toString();
-//           let valor = value[i].Nombre_maquinaria.toString();
-//           column[key]=valor;
-//         }
-//       return column;
-//     })
-//     .catch(error => console.log('error', error));
-// }
+export const titlesFallasAPI = async()=>{
+  return await fetch(baseURL+"/falla", requestOptions)
+    .then(response => response.json())
+    .then(value => {
+      // IDMAQUINARIA: NOMBRE
+      var column = {};
+      for (let i = 0; i < Object.keys(value).length; i++) {
+          let key = value[i].Id_falla.toString();
+          let valor = value[i].Descripcion_causa.toString();
+          column[key]=valor;
+        }
+      return column;
+    })
+    .catch(error => console.log('error', error));
+}
 export const dataFallasAPI = async()=>{
   return await fetch(baseURL+"/fallacomponente", requestOptions)
     .then(response => response.json())

@@ -15,47 +15,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Button from "components/CustomButtons/Button.js";
 import CardFooter from "components/Card/CardFooter";
 import CustomInput from "components/CustomInput/CustomInput";
-const styles = {
-  cardCategoryWhite: {
-    "&,& a,& a:hover,& a:focus": {
-      color: "rgba(255,255,255,.62)",
-      margin: "0",
-      fontSize: "14px",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    "& a,& a:hover,& a:focus": {
-      color: "#FFFFFF"
-    }
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none",
-    "& small": {
-      color: "#777",
-      fontSize: "65%",
-      fontWeight: "400",
-      lineHeight: "1"
-    }
-  },  
-  formControl: {
-    margin: 10,
-    minWidth: 200,
-    maxWidth: 300,
-  },
-  filtrosbox:{
-    width: "70%",
-    margin: "auto",
-    display: "inline"
-  },
-};
-
-const useStyles = makeStyles(styles);
 
 const namesColumn = [
   "Fecha",
@@ -352,7 +311,20 @@ export default function DetencionesMantenciones() {
             </p>
           </CardHeader>
           <CardBody>
-            <Table 
+          <MaterialTable 
+            title=""
+            data={dataUsers}
+            // columns={columns}
+            columns={columns}
+            parentChildData={(row, rows) => rows.find(a => console.log())}
+            editable={{
+              onRowAdd: rowAdd,                    
+              onRowUpdate: rowUpdate,
+              onRowDelete: rowDelete
+              }}
+            localization={localization}
+            />
+            {/* <Table 
               tableHeaderColor="warning"
               tableHead={["Fecha","Pieza","Ev. SP","Avería","Tipo","Hrs Progr","Hrs No Prog", "Event Prog", "Event No Prog", "RFCA"]}
               tableData={[
@@ -362,7 +334,7 @@ export default function DetencionesMantenciones() {
                 ["12-01-20","32CV02","1","Reparación","Mecánica","0","1.77","0","1","0"],
                 ["12-01-20","32CV02","1","Reparación","Eléctrica","0","1.77","0","1","0"],
               ]}
-            />
+            /> */}
           </CardBody>
           <CardFooter>
             <Button color="warning" onClick={handleOpen}>Añadir Mantención</Button>
