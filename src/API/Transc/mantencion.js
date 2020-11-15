@@ -29,7 +29,7 @@ var requestOptions = {
 //     .catch(error => console.log('error', error));
 // }
 export const dataMantencionAPI = async()=>{
-  return await fetch(baseURL+"/mantencion", requestOptions)
+  return await fetch(baseURL+"/fmantencion", requestOptions)
     .then(response => response.json())
     .then(value => {
         for (let i = 0; i < Object.keys(value).length; i++) {

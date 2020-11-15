@@ -17,7 +17,6 @@ export const titletipoMaquinariaAPI = async()=>{
   return await fetch(baseURL+"/tipomaquinaria", requestOptions)
     .then(response => response.json())
     .then(value => {
-      console.log(value)
       // IDMAQUINARIA: NOMBRE
       var column = {};
       for (let i = 0; i < Object.keys(value).length; i++) {

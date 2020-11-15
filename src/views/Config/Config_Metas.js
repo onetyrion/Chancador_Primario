@@ -10,34 +10,26 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 
 //DROPDOWN
-import Button from "components/CustomButtons/Button.js";
-import CardFooter from "components/Card/CardFooter";
-import { Divider } from "@material-ui/core";
 import MaterialTable from "material-table";
 import { localization } from "variables/language";
+import { titlesCategoriaAPI } from "API/Transc/categorias";
+import { titlestipofallaAPI } from "API/Transc/tipoFalla";
+import { titlesComponenteAPI } from "API/Transc/componente";
+import { Button, Divider, Input } from "@material-ui/core";
+import { dataMetasAPI } from "API/Transc/fallas";
+import { CreateFallasAPI } from "API/Transc/fallas";
+import { notify } from "react-notify-toast";
+import { DeleteFallasAPI } from "API/Transc/fallas";
+import { PutFallasAPI } from "API/Transc/fallas";
+import CardFooter from "components/Card/CardFooter";
+import { dataMaquinariaAPI } from "API/Transc/maquinaria";
+import { titlesIndicadorAPI } from "API/Transc/indicadorKPI";
+import { dataPMantencionesAPI } from "API/Transc/pMantencion";
+import { titlesMaquinariaAPI } from "API/Transc/maquinaria";
+import { CreateMetasAPI, DeleteMetasAPI } from "API/Transc/pMantencion";
+import { PutMetasAPI } from "API/Transc/pMantencion";
 
 
-const ColumnName = [
-  "KPI",
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-  "2020"
-]
-const DataRows = [
-  ["Disp.","93.4","96.4","92.2","94.4","96.5","87.4","81.1","84.4","92","93","96","92.5","93"],
-  ["MTTR", "0","0","0","0","0","4.6","4.6","3.4","3.4","3.4","3.4","4.3","5.6"],
-  ["MTBF", "104.6","104.6","104.6","104.6","104.6","67.4","74.2","57.2","65.2","65.2","65.2","89.2","72.5"],
-];
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -78,36 +70,98 @@ const styles = {
   },
 };
 const useStyles = makeStyles(styles);
+var Data = [ {
+  "Maquinaria": "",
+  "Indicador": "",
+  "Año": "",  
+  "Meta": ""
+}];
+
+const customInput = (props)=>{
+  return(
+  <Input
+    type="text"
+    value={props.value ? props.value : ""}
+    onChange={e => props.onChange(e.target.value)}
+  />
+)}
 
 export default function ConfigMetas() {
   const classes = useStyles();
-  const [
-    columns,
-    // setColumns 
-    // eslint-disable-next-line
-  ] = React.useState(
-    ColumnName.map((value,index)=>
-    ({title:value,field:(value.toLowerCase()),type:(index===0)? 'string':'numeric',editable:(index===0? "onAdd":"always")})
-    )
-  );
+  const [loading,setloading] = React.useState(true);
+  const [dataMetas,SetdataMetas] = React.useState(Data);
+  const [columnsMetas,setcolumnsMetas,] = React.useState([]);
   
-  const [data, setData] = React.useState(              
-    DataRows.map((values)=>({
-    kpi:values[0].toString(),
-    enero:values[1].toString(),
-    febrero:values[2].toString(),
-    marzo:values[3].toString(),
-    abril:values[4].toString(),
-    mayo:values[5].toString(),
-    junio:values[6].toString(),
-    julio:values[7].toString(),
-    agosto:values[8].toString(),
-    septiembre:values[9].toString(),
-    octubre:values[10].toString(),
-    noviembre:values[11].toString(),
-    diciembre:values[12].toString(),
-    2020:values[13].toString()
-  })));
+  React.useEffect(()=>{
+    setDatos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]); 
+  
+  const setDatos = async ()=>{
+    var maquinariaData = await titlesMaquinariaAPI();
+    var Indicador = await titlesIndicadorAPI(); 
+    var datapMantencion = await dataPMantencionesAPI(); 
+    setcolumnsMetas([ 
+      {"title":"Maquinaria","field":"Id_maquinaria",lookup: maquinariaData},
+      {"title":"Indicador","field":"Id_kpi",lookup: Indicador},
+      {"title":"Año","field":"Anio",editComponent:customInput},
+      {"title":"Meta","field":"Meta", editComponent:customInput },
+    ]);      
+    SetdataMetas(datapMantencion);
+    setloading(false);
+  }
+
+  const rowAdd = (newData)=>(
+    new Promise((resolve, reject) => {
+      CreateMetasAPI(newData)
+        .then((value)=>{
+          if (value.errors) {
+            notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
+          }else{
+            setDatos();
+            notify.show('Se ha Añadido con éxito!','success',5000);
+          }
+        })
+        resolve();
+    })
+  )
+
+  const rowUpdate = (newData, oldData) =>(
+    new Promise((resolve, reject) => {
+      PutMetasAPI(newData)
+      .then((value)=>{
+        console.log("update")
+        if (value.errors) {
+          notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
+        }else{
+          setDatos()
+          notify.show('Se ha Modificado con éxito!','success',5000);
+        }
+      })
+      .catch((error)=>{
+        notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
+        console.log(error);
+      })                       
+      resolve();
+    })
+  )
+
+  const rowDelete = (oldData) =>(
+  new Promise((resolve, reject) => {
+    console.log(oldData)
+    DeleteMetasAPI(oldData.Id_ProgramaMantencion)
+    .then((value)=>{
+      if (JSON.parse(value).errors) {
+        notify.show(`Ha ocurrido un error al eliminar el registro`,'error',5000);
+      }else{
+        setDatos()
+        notify.show('Se ha Eliminado con éxito!','warning',5000);
+      }
+    })
+      resolve()
+  })
+  )
+
   return (
     <GridContainer>
       
@@ -121,61 +175,17 @@ export default function ConfigMetas() {
           </CardHeader>
           <CardBody>
             <MaterialTable 
-            title=""
-            columns={columns}
-            data={data}
-            options={{
-              headerStyle:{
-                color:"#8e24aa"
-              },
-              cellStyle:{
-                paddingRight:20,
-              },
-            }}
-            editable={{
-          isEditable: rowData => rowData.kpi !== "Disp.",
-              onRowAdd: newData =>
-            new Promise((resolve, reject) => {
-            setTimeout(() => {
-              setData([...data, newData]);
-              
-              resolve();
-            }, 1000)
-          }),
-          onRowUpdate: (newData, oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              const dataUpdate = [...data];
-              const index = oldData.tableData.id;
-              dataUpdate[index] = newData;
-              setData([...dataUpdate]);
-
-              resolve();
-            }, 1000)
-          }),
-          onRowDelete: oldData =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              const dataDelete = [...data];
-              const index = oldData.tableData.id;
-              dataDelete.splice(index, 1);
-              setData([...dataDelete]);
-              
-              resolve()
-            }, 1000)
-          }),
-            }}
-            localization={localization}
-            />
-            {/* <Table 
-              tableHeaderColor="primary"
-              tableHead={["KPI","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre","2020"]}
-              tableData={[
-                ["Disponibilidad","93.4","96.4","92.2","94.4","96.5","87.4","81.1","84.4","92","93","96","92.5","93"],
-                ["MTTR", "0","0","0","0","0","4.6","4.6","3.4","3.4","3.4","3.4","4.3","5.6"],
-                ["MTBF", "104.6","104.6","104.6","104.6","104.6","67.4","74.2","57.2","65.2","65.2","65.2","89.2","72.5"],
-              ]}
-            /> */}
+              title=""
+              data={dataMetas}
+              columns={columnsMetas}
+              parentChildData={(row, rows) => rows.find(a => console.log())}
+              editable={{
+                onRowAdd: rowAdd,                    
+                onRowUpdate: rowUpdate,
+                onRowDelete: rowDelete
+                }}
+              localization={localization}//LENGUAJE
+              />
             <p className={classes.TextGray}>*Las metas mensuales de la disponibilidad corresponde a el promedio de la disponibiliad de los últimos 91 días,por ende, no se puede editar*</p>
           </CardBody>
           <CardFooter className={classes.CardFooterBox}>

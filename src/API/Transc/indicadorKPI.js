@@ -13,15 +13,15 @@ var requestOptions = {
   headers: HeadersGetAreaProductiva,
   redirect: 'follow'
 };
-export const titlesaProductivaAPI = async()=>{
-  return await fetch(baseURL+"/areaProductiva", requestOptions)
+export const titlesIndicadorAPI = async()=>{
+  return await fetch(baseURL+"/Indicador", requestOptions)
     .then(response => response.json())
     .then(value => {
       // IDMAQUINARIA: NOMBRE
       var column = {};
       for (let i = 0; i < Object.keys(value).length; i++) {
-          let key = value[i].Id_area.toString();
-          let valor = value[i].Nombre_area.toString();
+          let key = value[i].Id_kpi.toString();
+          let valor = value[i].Nombre_kpi.toString();
           column[key]=valor;
         }
       return column;
