@@ -19,10 +19,11 @@ export const titletipoMaquinariaAPI = async()=>{
     .then(value => {
       // IDMAQUINARIA: NOMBRE
       var column = {};
+      // console.log(value)
       for (let i = 0; i < Object.keys(value).length; i++) {
-          let key = value[i].Id_Tipo.toString();
-          let valor = value[i].Descripcion.toString();
-          column[key]=valor;
+        let key = value[i].Id_Tipo.toString();
+        let valor = value[i].Descripcion.toString();
+        column[key]=valor;
         }
       return column;
     })

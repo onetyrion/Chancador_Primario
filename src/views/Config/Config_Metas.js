@@ -4,7 +4,6 @@ import { makeStyles  } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-// import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
@@ -12,23 +11,16 @@ import CardBody from "components/Card/CardBody.js";
 //DROPDOWN
 import MaterialTable from "material-table";
 import { localization } from "variables/language";
-import { titlesCategoriaAPI } from "API/Transc/categorias";
-import { titlestipofallaAPI } from "API/Transc/tipoFalla";
-import { titlesComponenteAPI } from "API/Transc/componente";
 import { Button, Divider, Input } from "@material-ui/core";
-import { dataMetasAPI } from "API/Transc/fallas";
-import { CreateFallasAPI } from "API/Transc/fallas";
 import { notify } from "react-notify-toast";
-import { DeleteFallasAPI } from "API/Transc/fallas";
-import { PutFallasAPI } from "API/Transc/fallas";
 import CardFooter from "components/Card/CardFooter";
-import { dataMaquinariaAPI } from "API/Transc/maquinaria";
 import { titlesIndicadorAPI } from "API/Transc/indicadorKPI";
 import { dataPMantencionesAPI } from "API/Transc/pMantencion";
 import { titlesMaquinariaAPI } from "API/Transc/maquinaria";
 import { CreateMetasAPI, DeleteMetasAPI } from "API/Transc/pMantencion";
 import { PutMetasAPI } from "API/Transc/pMantencion";
-
+import { getTypeInputs } from "variables/HelpersInputs";
+import { validation_metas } from "./validations_Config";
 
 const styles = {
   cardCategoryWhite: {
@@ -70,26 +62,21 @@ const styles = {
   },
 };
 const useStyles = makeStyles(styles);
-var Data = [ {
-  "Maquinaria": "",
-  "Indicador": "",
-  "Año": "",  
-  "Meta": ""
-}];
 
 const customInput = (props)=>{
   return(
   <Input
-    type="text"
+  type={getTypeInputs(props.columnDef.field)}
     value={props.value ? props.value : ""}
     onChange={e => props.onChange(e.target.value)}
+    // error={true}
   />
 )}
 
 export default function ConfigMetas() {
   const classes = useStyles();
   const [loading,setloading] = React.useState(true);
-  const [dataMetas,SetdataMetas] = React.useState(Data);
+  const [dataMetas,SetdataMetas] = React.useState([]);
   const [columnsMetas,setcolumnsMetas,] = React.useState([]);
   
   React.useEffect(()=>{
@@ -105,7 +92,7 @@ export default function ConfigMetas() {
       {"title":"Maquinaria","field":"Id_maquinaria",lookup: maquinariaData},
       {"title":"Indicador","field":"Id_kpi",lookup: Indicador},
       {"title":"Año","field":"Anio",editComponent:customInput},
-      {"title":"Meta","field":"Meta", editComponent:customInput },
+      {"title":"Meta","field":"Meta", editComponent:customInput},
     ]);      
     SetdataMetas(datapMantencion);
     setloading(false);
@@ -113,6 +100,9 @@ export default function ConfigMetas() {
 
   const rowAdd = (newData)=>(
     new Promise((resolve, reject) => {
+      if (validation_metas(newData)) {
+        return reject();
+      }
       CreateMetasAPI(newData)
         .then((value)=>{
           if (value.errors) {
@@ -128,6 +118,9 @@ export default function ConfigMetas() {
 
   const rowUpdate = (newData, oldData) =>(
     new Promise((resolve, reject) => {
+      if (validation_metas(newData,oldData)) {
+        return reject();
+      }
       PutMetasAPI(newData)
       .then((value)=>{
         console.log("update")

@@ -15,6 +15,9 @@ import { notify } from 'react-notify-toast';
 import dataUsersAPI from 'API/Users';
 import {PutUsersAPI,CreateUsersAPI,DeleteUsersAPI} from 'API/Users';
 import { Input } from "@material-ui/core";
+import { getTypeInputs } from "variables/HelpersInputs";
+import { getChangeInputs } from "variables/HelpersInputs";
+import { validate_rutify } from "variables/HelpersInputs";
 // import DeleteLoginAPI from 'API/Users';
 
 const styles = {
@@ -70,15 +73,15 @@ var Data = [ {
     "createdAt": "",
     "updatedAt": ""
   }];
-  export default function ProfileAccounts(props){
   const customInput = (props)=>{
     return(
     <Input
-      type="text"
+    type={getTypeInputs(props.columnDef.field)}
       value={props.value ? props.value : ""}
-      onChange={e => props.onChange(e.target.value)}
+      onChange={e => props.onChange( getChangeInputs(props,e.target.value))}
     />
   )}
+  export default function ProfileAccounts(props){
   const classes = useStyles();
   const [dataUsers,SetdataUsers] = React.useState(Data);
   const [columns] = React.useState([ 
@@ -109,10 +112,10 @@ var Data = [ {
       setTimeout(() => {
         CreateUsersAPI(newData)
         .then((value)=>{
-          if (value.errores) {
-            notify.show(`${value.errores}`,'error',5000);
+          if (value.errors) {
+            notify.show(`Ha ocurrido un error, revise sus datos`,'error',5000);
           }else{
-            SetdataUsers([...dataUsers, newData]);
+            setDatos();
             notify.show('Se ha Añadido con éxito!','success',5000);
           }
           console.log(value)
@@ -130,10 +133,13 @@ var Data = [ {
         dataUpdate[index] = newData;
         //set on db
         const msg = putUsers(dataUpdate[index]);
-        msg.then((values)=>{
-          //alert("Cambiado con exito")                    
-          //set on state
-          SetdataUsers([...dataUpdate]);
+        msg.then((value)=>{
+          if (value.errors) {
+            notify.show(`Ha ocurrido un error, revise sus datos`,'error',5000);
+          }else{
+            setDatos();
+            notify.show('Se ha Añadido con éxito!','success',5000);
+          }
         })
         .catch((error)=>{
           notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
@@ -147,12 +153,15 @@ var Data = [ {
   const rowDelete = (oldData) =>(
   new Promise((resolve, reject) => {
     setTimeout(() => {
-      const dataDelete = [...dataUsers];
-      const index = oldData.tableData.id;
-      dataDelete.splice(index, 1);
-      SetdataUsers([...dataDelete]);
-      //set on db
       DeleteUsersAPI(oldData.Rut)
+      .then(value=>{
+        if (value.errors) {
+          notify.show(`Ha ocurrido un error, revise sus datos`,'error',5000);
+        }else{
+          setDatos();
+          notify.show('Se ha Añadido con éxito!','success',5000);
+        }
+      })
       // console.log(oldData.Rut);
       resolve()
     }, 0)

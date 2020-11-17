@@ -15,6 +15,8 @@ import { stylesLogin } from 'assets/css/loginTheme';
 import { validarRUT } from 'validar-rut';
 import { notify } from 'react-notify-toast';
 import {Auth, validLogin} from '../../API/Auth';
+import { validate_rutify } from 'variables/HelpersInputs';
+import { format_rutify } from 'variables/HelpersInputs';
 
 export default function Login() {
   const classes = stylesLogin();
@@ -32,7 +34,10 @@ export default function Login() {
   const handleChangeUser = async(e)=>{
     switch (e.target.name) {
       case "rut":
-        (e.target.value.length>0 && validarRUT(e.target.value)) ? setvalidError([validError[0],""]) : setvalidError([validError[0],"El Rut es incorrecto"]);
+        e.target.value=format_rutify(e.target.value)
+        validate_rutify(e.target.value) ? setvalidError([validError[0],""]) :
+        setvalidError([validError[0],"El Rut es incorrecto"]);
+        // (e.target.value.length>0 && validarRUT(e.target.value)) ? setvalidError([validError[0],""]) : setvalidError([validError[0],"El Rut es incorrecto"]);
         setid_username(e.target.value);
         break;
       case "password":
@@ -45,8 +50,8 @@ export default function Login() {
   }
   //FUNCION LOGIN ON API
   const LoginOnToken = async()=>{
-    if ((id_username.length > 0 && validarRUT(id_username)) && pass_username.length > 0) {
-      //console.log(`username: ${id_username}\n password: ${pass_username}`);
+    // console.log(`username: ${id_username}\n password: ${pass_username}`);
+    if ((id_username.length > 0 && validate_rutify(id_username)) && pass_username.length > 0) {
       await Auth(id_username,pass_username)
       .then((value)=>{
         if (value!==undefined) {

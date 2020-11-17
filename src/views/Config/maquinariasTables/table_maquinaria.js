@@ -66,7 +66,7 @@ var Data = [ {
   "Nombre": "",
   "Estado": true,  
   "Area": "",
-  "Tipo": ""
+  "tipo": ""
 }];
 const customInput = (props)=>{
   return(

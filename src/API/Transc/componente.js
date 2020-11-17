@@ -113,6 +113,7 @@ export const titlesComponenteAPI = async()=>{
         let valor = value[i].Denominacion.toString();
         column[key]=valor;
       }
+      column[null]="";
       return column;
     })
     .catch(error => console.log('error', error));

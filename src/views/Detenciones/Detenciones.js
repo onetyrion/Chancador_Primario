@@ -24,12 +24,15 @@ import { localization } from "variables/language";
 import { notify } from 'react-notify-toast';
 
 import {dataMantencionAPI} from 'API/Transc/mantencion';
-import {PutUsersAPI,CreateUsersAPI,DeleteUsersAPI} from 'API/Users';
 import { Input } from "@material-ui/core";
 import { titlesComponenteAPI } from "API/Transc/componente";
 import { titlesFallasAPI } from "API/Transc/fallas";
 import { titletipoMantencionAPI } from "API/Transc/tipoMantencion";
 import { titleEventoAPI } from "API/Transc/eventoMantencion";
+import { CreateMantencionAPI } from "API/Transc/mantencion";
+import { DeleteMantencionAPI } from "API/Transc/mantencion";
+import { PutMantencionAPI } from "API/Transc/mantencion";
+import { getTypeInputs } from "variables/HelpersInputs";
 // import DeleteLoginAPI from 'API/Users';
 
 const styles = {
@@ -76,22 +79,21 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const customInput = (props)=>{
+  // props.columnDef.field === "Fecha_mantencion" && console.log(props)
+  // console.log(getTypeInputs(props.columnDef.field))
   return(
   <Input
-    type="text"
+    type={getTypeInputs(props.columnDef.field)}
+    placeholder={props.columnDef.title}
     value={props.value ? props.value : ""}
     onChange={e => props.onChange(e.target.value)}
   />
 )}
 export default function ProfileAccounts(props){
-  // const hiddenColumn=true;
-    //Fecha	Pieza	Ev. SP	Avería	Tipo	Hrs Progr	Hrs No Prog	Event Prog	Event No Prog	RFCA
-    //Id_componente Id_mantencion Id_evento Id_tipo Fecha_mantencion CantEvento_especial Duracion Descripcion Horas_programadas Horas_no_programadas Cantidad_evProgramados Cantidad_evNoProgramados RCFA Area OT Id_falla
   const classes = useStyles();
   const [dataMantencion,SetdataMantencion] = React.useState();
   const [hiddenColumn,SethiddenColumn] = React.useState(true);
   const [columns,setColumns] = React.useState();
-  const putUsers = PutUsersAPI;
   const mantencionAPI = dataMantencionAPI;
 
   const setDatos = async ()=>{
@@ -133,15 +135,14 @@ export default function ProfileAccounts(props){
   const rowAdd = (newData)=>(
     new Promise((resolve, reject) => {
       setTimeout(() => {
-        CreateUsersAPI(newData)
+        CreateMantencionAPI(newData)
         .then((value)=>{
-          if (value.errores) {
-            notify.show(`${value.errores}`,'error',5000);
+          if (value.errors) {
+            notify.show(`Ha ocurrido un error, revise los datos`,'error',5000);
           }else{
-            SetdataMantencion([...dataMantencion, newData]);
+            setDatos();
             notify.show('Se ha Añadido con éxito!','success',5000);
           }
-          console.log(value)
         })
         resolve();
       }, 0)
@@ -151,15 +152,14 @@ export default function ProfileAccounts(props){
   const rowUpdate = (newData, oldData) =>(
     new Promise((resolve, reject) => {
       setTimeout(() => {
-        const dataUpdate = [...dataMantencion];
-        const index = oldData.tableData.id;
-        dataUpdate[index] = newData;
-        //set on db
-        const msg = putUsers(dataUpdate[index]);
-        msg.then((values)=>{
-          //alert("Cambiado con exito")                    
-          //set on state
-          SetdataMantencion([...dataUpdate]);
+        PutMantencionAPI(newData)
+        .then((value)=>{
+          if (value.errors) {
+            notify.show(`Ha ocurrido un error, revise los datos`,'error',5000);
+          }else{
+            setDatos();
+            notify.show('Se ha Modificado con éxito!','success',5000);
+          }
         })
         .catch((error)=>{
           notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
@@ -167,19 +167,25 @@ export default function ProfileAccounts(props){
         })                        
         resolve();
       }, 0)
-    })
-  )
+    }))
+  
 
   const rowDelete = (oldData) =>(
   new Promise((resolve, reject) => {
     setTimeout(() => {
-      const dataDelete = [...dataMantencion];
-      const index = oldData.tableData.id;
-      dataDelete.splice(index, 1);
-      SetdataMantencion([...dataDelete]);
-      //set on db
-      DeleteUsersAPI(oldData.Rut)
-      // console.log(oldData.Rut);
+      DeleteMantencionAPI(oldData.Id_mantencion)
+        .then((value)=>{
+          if (value.errors) {
+            notify.show(`Ha ocurrido un error, revise los datos`,'error',5000);
+          }else{
+            setDatos();
+            notify.show('Se ha Borrado el registro!','success',5000);
+          }
+        })
+        .catch((error)=>{
+          notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
+          console.log(error);
+        });
       resolve()
     }, 0)
   })
