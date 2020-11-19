@@ -100,7 +100,6 @@ export default function TableMaquinarias(props) {
       {"title":"Tipo","field":"Id_tipo", lookup: titletipoMaquinaria},
     ]);      
     SetdataMaquinaria(maquinasdata);
-    props.setloading(false);
   }
 
   const rowAdd = (newData)=>(

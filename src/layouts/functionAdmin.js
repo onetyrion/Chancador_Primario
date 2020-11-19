@@ -17,7 +17,7 @@ export const switchRoutes = (routes ) =>{
                 return null;
             })
             }
-        <Redirect from="/" to="/dashboard/actual" />
+        <Redirect from="/" to="/user" />
         </Switch>
     )
 }

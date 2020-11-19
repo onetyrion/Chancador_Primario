@@ -1,5 +1,3 @@
-import { element } from "prop-types"
-
 var columnsType= [
     ["Fecha_mantencion","date"],
     ["CantEvento_especial","number"],
@@ -63,7 +61,7 @@ export const validate_rutify = (str) =>{
 		rutDigits = Math.floor(rutDigits / 10)
 	}
     var checkDigit = (s > 0) ? String((s - 1)) : 'K'
-    console.log(checkDigit === rut.slice(-1))
+    // console.log(checkDigit === rut.slice(-1))
 	if (checkDigit === rut.slice(-1)) {
 		return true;
 	} else {

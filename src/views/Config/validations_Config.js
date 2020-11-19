@@ -1,6 +1,6 @@
 import { notify } from "react-notify-toast";
 
-export const validation_metas = (newData,oldData)=>{
+export const validation_metas = (newData)=>{
     let errors = "";
     if (!newData.Id_kpi || !newData.Id_maquinaria || !newData.Anio || !newData.Meta) {
         errors = "No puede dejar campos vacíos";

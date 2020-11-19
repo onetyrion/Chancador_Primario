@@ -41,8 +41,10 @@ export const validLogin = async () =>{
       .then(response => response.json())
       .then(result => {
           if (result.success) {
+            //   console.log(result)
             cookies.set('user-token',result.token, {path: "/"});
             cookies.set('user',result.user.userId, {path: "/"});
+            cookies.set('rol',result.user.rol, {path: "/"});
             return true;
         }else{
             // console.log(result);

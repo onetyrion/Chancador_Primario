@@ -17,7 +17,7 @@ import {PutUsersAPI,CreateUsersAPI,DeleteUsersAPI} from 'API/Users';
 import { Input } from "@material-ui/core";
 import { getTypeInputs } from "variables/HelpersInputs";
 import { getChangeInputs } from "variables/HelpersInputs";
-import { validate_rutify } from "variables/HelpersInputs";
+// import { validate_rutify } from "variables/HelpersInputs";
 // import DeleteLoginAPI from 'API/Users';
 
 const styles = {

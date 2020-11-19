@@ -9,8 +9,8 @@ import TableMaquinaria from './maquinariasTables/table_maquinaria';
 export default function ConfigMaquinarias(props) {
   return (
     <GridContainer>
-      <TableMaquinaria setloading={props.setloading} loading={props.loading}/>
-      <TableComponentes setloading={props.setloading} loading={props.loading}/>
+      <TableMaquinaria/>
+      <TableComponentes/>
    </GridContainer>
   );
 }

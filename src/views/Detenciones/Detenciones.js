@@ -218,7 +218,7 @@ return(
                 exportButton: true,
                 exportDelimiter:";",
                 exportFileName:("REG_DETENCIONES_"+new Date().toLocaleString()),
-                pageSizeOptions:[5, 10, ,20,100],
+                pageSizeOptions:[5, 10, 20, 100]
               }}   
               actions={[
                 {
@@ -227,7 +227,6 @@ return(
                   isFreeAction: true,
                   onClick: (event) => {
                     setDatos();
-                  
                   }
                 }
               ]}

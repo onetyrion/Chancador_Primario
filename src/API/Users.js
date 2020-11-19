@@ -1,4 +1,5 @@
 import Cookies from 'universal-cookie';
+import { Auth } from './Auth';
 
 const cookies = new Cookies();
 const {baseURL} = require("./configAPI")
@@ -33,16 +34,32 @@ export const dataUserfindOne = async()=>{
 //############################## UPDATE USERS
 
 export const PutUsersAPI = async(data)=>{
-    const {Rut,Nombre,Apellidos,Correo_electronico,Estado,Cargo} = data
-    var raw = JSON.stringify({
-      "Nombre":`${Nombre}`,
-      "Apellidos":`${Apellidos}`,
-      "Correo_electronico":`${Correo_electronico}`,
-      "Estado":`${Estado}`,
-      "Cargo":`${Cargo}`,
-      "Id_empresa":`1`
-    });
-    return await fetch(`http://localhost:3100/api/users/${Rut}`, {
+    const {Rut,Nombre,Apellidos,Correo_electronico,Estado,Cargo} = data;
+    var urlFull = "";
+    var raw;
+    if (data.desactiveUser) {
+      const result = await Auth(await cookies.get("user"),data.pass);
+      if (result) {
+        console.log(result.error)
+        return result;
+      }
+        raw = JSON.stringify({
+          "Estado":`${Estado}`,
+        });
+        urlFull = baseURL+`/users/state/${await cookies.get("user")}`;
+      // const Rut = await cookies.get("user") 
+    }else{
+      urlFull=baseURL+`/users/${Rut}`;
+      raw = JSON.stringify({
+        "Nombre":`${Nombre}`,
+        "Apellidos":`${Apellidos}`,
+        "Correo_electronico":`${Correo_electronico}`,
+        "Estado":`${Estado}`,
+        "Cargo":`${Cargo}`,
+        "Id_empresa":`1`
+      });
+    }
+    return await fetch(urlFull, {
       method: 'PUT',
       headers: HeadersGetUsers,
       body: raw,
@@ -50,12 +67,12 @@ export const PutUsersAPI = async(data)=>{
     })
       .then(response => response.json())
       .then(result => {console.log(result);return result})
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('errors', error));
 }
 
 //------------------------------------------DELETE USER
 export const DeleteUsersAPI = async(data)=>{
-return await fetch(`http://localhost:3100/api/registrarusuario/${data}`, {
+return await fetch(baseURL+`/registrarusuario/${data}`, {
     method: 'DELETE',
     headers: HeadersGetUsers,
     redirect: 'follow'
@@ -79,7 +96,7 @@ export const CreateUsersAPI = async(data)=>{
     "Id_empresa":`1`,
     "Id_rol":`1`
   });
-return fetch("http://localhost:3100/api/registrarusuario/", {
+return fetch(baseURL+"/registrarusuario/", {
   method: 'POST',
   headers: HeadersGetUsers,
   body: raw,

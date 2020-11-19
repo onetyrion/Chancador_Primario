@@ -75,7 +75,6 @@ const customInput = (props)=>{
 
 export default function ConfigMetas() {
   const classes = useStyles();
-  const [loading,setloading] = React.useState(true);
   const [dataMetas,SetdataMetas] = React.useState([]);
   const [columnsMetas,setcolumnsMetas,] = React.useState([]);
   
@@ -95,7 +94,6 @@ export default function ConfigMetas() {
       {"title":"Meta","field":"Meta", editComponent:customInput},
     ]);      
     SetdataMetas(datapMantencion);
-    setloading(false);
   }
 
   const rowAdd = (newData)=>(
@@ -118,7 +116,7 @@ export default function ConfigMetas() {
 
   const rowUpdate = (newData, oldData) =>(
     new Promise((resolve, reject) => {
-      if (validation_metas(newData,oldData)) {
+      if (validation_metas(newData)) {
         return reject();
       }
       PutMetasAPI(newData)

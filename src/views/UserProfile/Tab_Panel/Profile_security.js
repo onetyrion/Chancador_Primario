@@ -10,6 +10,10 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import { PutUsersAPI } from "API/Users";
+import { notify } from "react-notify-toast";
+import { logout } from "API/Auth";
+import { PutLoginAPI } from "API/Login";
 
 const Styles = makeStyles({
     cardCategoryWhite: {
@@ -29,8 +33,14 @@ const Styles = makeStyles({
       marginBottom: "3px",
       textDecoration: "none"
     },
-    widthdiv:{width: ((window.screen.width*55)/100)}
-  });
+    widthdiv:{width: ((window.screen.width*55)/100)},
+    formDesactive:{
+        width:"100%",
+        // backgroundColor:"black",
+        display:"flex",
+        paddingLeft:"60px"
+    }
+});
 
 export default function ProfileSecurity(props){
     const classes = Styles();
@@ -61,7 +71,30 @@ export default function ProfileSecurity(props){
       }
 
     const changePassword = async(e)=>{
-        alert("Password");
+        console.log(e.target.pass_current.value)
+        if (e.target.pass_current.value.length>0 && e.target.newPassword.value !== e.target.confirmNewPasword.value) {
+            notify.show("Debe Ingresar la contraseña Actual, y las nuevas contraseña deben coincidir","error");
+        }else{
+            await PutLoginAPI(e.target.confirmNewPasword.value,e.target.pass_current.value)
+            .then(value => {
+                if (value.error) {
+                    notify.show("Contraseña Incorrecta","error");
+                }else{
+                    logout();
+                }
+            })
+        }
+    }
+    const desactiveAccount = async(event)=>{
+        await PutUsersAPI({pass:event,Estado:false,desactiveUser:true})
+        .then(value=>{
+            if (value.error) {
+                notify.show("Contraseña Incorrecta","error");
+            }else{
+                logout();
+            }
+        })
+        // alert(desactive.success);
     }
 
     return(
@@ -74,6 +107,7 @@ export default function ProfileSecurity(props){
                         <p className={classes.cardCategoryWhite} >Es una buena idea utilizar una contraseña segura que no esté utilizando en otro lugar.</p>
                         </CardHeader>
                         <CardBody>
+                        <form className={classes.form} onSubmit={(a)=>{changePassword(a);a.preventDefault()}} >
                         <GridContainer>
                             {/* //Actual Contraseña */}
                             <GridItem xs={12} sm={12} md={5}>
@@ -93,7 +127,7 @@ export default function ProfileSecurity(props){
                             <GridItem xs={12} sm={12} md={6}>
                                 <CustomInput
                                     labelText="Nueva Contraseña"
-                                    id="pass-new"
+                                    id="newPassword"
                                     required
                                     onChange={handleChangePassword}
                                     formControlProps={{
@@ -105,7 +139,7 @@ export default function ProfileSecurity(props){
                             <GridItem xs={12} sm={12} md={6}>
                                 <CustomInput
                                     labelText="Confirma la nueva contraseña"
-                                    id="pass-confirm"
+                                    id="confirmNewPasword"
                                     required
                                     onChange={handleChangePassword}
                                     formControlProps={{
@@ -114,10 +148,11 @@ export default function ProfileSecurity(props){
                                 />
                             </GridItem>
                         </GridContainer>
-                        </CardBody>
                         <CardFooter>
-                        <Button color="warning" type="button" onClick={changePassword}>Cambiar Contraseña</Button>
+                        <Button color="warning" type="submit" >Cambiar Contraseña</Button>
                         </CardFooter>
+                        </form>
+                        </CardBody>
                     </Card>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={12}>
@@ -127,20 +162,23 @@ export default function ProfileSecurity(props){
                         <p className={classes.cardCategoryWhite} >Recuerda que no podrás volver a activarla, solo el administrador del sistema puede hacerlo.</p>
                         </CardHeader>
                         <CardBody>
-                        <GridContainer>
+                        <GridContainer>                            
+                        <form className={classes.formDesactive} onSubmit={(a)=>{desactiveAccount(a.target.off_pass_current.value);a.preventDefault()}} >
                             {/* //Actual Contraseña */}
                             <GridItem xs={12} sm={12} md={6}>
                                 <CustomInput
                                     labelText="Actual Contraseña"
                                     id="off_pass_current"
+                                    required
                                     formControlProps={{
                                     fullWidth: true
                                     }}
                                 />
                             </GridItem>
                             <GridItem xs={12} sm={12} md={6} style={{marginTop:30}}>
-                            <Button color="danger">Desactivar</Button>
+                            <Button color="danger" type="submit">Desactivar</Button>
                             </GridItem>
+                        </form>
                         </GridContainer>
                         
                         </CardBody>

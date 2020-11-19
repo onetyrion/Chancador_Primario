@@ -1,15 +1,12 @@
 import React from "react";
-// creates a beautiful scrollbar
-// import PerfectScrollbar from "perfect-scrollbar";
-// import "perfect-scrollbar/css/perfect-scrollbar.css";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
 import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
-import Sidebar from "components/Sidebar/Sidebar.js";
+// import Sidebar from "components/Sidebar/Sidebar.js";
+import Sidebar from "components/Sidebar/Sidebar1.js";
 import routes from "routes.js";
-// import {getToken, getUser} from '../API/helpers';
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 import bgImage from "assets/img/sidebar-5.jpg";
 import bgImage1 from "assets/img/bgCandelaria.jpg";

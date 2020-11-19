@@ -4,7 +4,8 @@ import { createBrowserHistory } from "history";
 import { Router, Route, Switch } from "react-router-dom";
 import Notifications from 'react-notify-toast';
 // core components
-import Admin from "layouts/Admin.js";
+// import Admin from "layouts/Admin.js";
+import Admin from "layouts/Admin1.js";
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 import login from 'views/Login/Login';
 

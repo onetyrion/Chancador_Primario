@@ -109,7 +109,6 @@ export default function TableComponentes(props) {
       lookup: { true: "Activa", false: 'Desactivada' }},
     ]);  
     SetdataComponents(datatitles(datos));
-    props.setloading(false);
   }
 
   const rowAdd = (newData)=>(

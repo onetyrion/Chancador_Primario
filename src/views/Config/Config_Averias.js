@@ -80,7 +80,6 @@ const customInput = (props)=>{
 
 export default function ConfigAverias() {
   const classes = useStyles();
-  const [loading,setloading] = React.useState(true);
   
   //Modal Variables
   
@@ -106,7 +105,6 @@ export default function ConfigAverias() {
       {"title":"Falla","field":"Falla", lookup: { true: "Activa", false: 'Desactivada' }},
     ]);      
     SetdataFallas(fallasdata);
-    setloading(false);
   }
 
   const rowAdd = (newData)=>(

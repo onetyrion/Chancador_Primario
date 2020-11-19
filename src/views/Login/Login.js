@@ -1,4 +1,5 @@
 import React from 'react';
+//@MATERIAL-UI
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,9 +12,12 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { stylesLogin } from 'assets/css/loginTheme';
-import { validarRUT } from 'validar-rut';
+
+//ASSETS
 import { notify } from 'react-notify-toast';
+import { stylesLogin } from 'assets/css/loginTheme';
+
+//HELPERS & ACTION
 import {Auth, validLogin} from '../../API/Auth';
 import { validate_rutify } from 'variables/HelpersInputs';
 import { format_rutify } from 'variables/HelpersInputs';
@@ -27,7 +31,6 @@ export default function Login() {
   const redirectLogin = async()=>{
     if (await validLogin() && id_username.length===0) {
       window.location.href="/";
-      //alert("LOGEADO");
     }
   }
   redirectLogin()
@@ -49,7 +52,7 @@ export default function Login() {
       }
   }
   //FUNCION LOGIN ON API
-  const LoginOnToken = async()=>{
+  const LoginOnToken = async(event)=>{
     // console.log(`username: ${id_username}\n password: ${pass_username}`);
     if ((id_username.length > 0 && validate_rutify(id_username)) && pass_username.length > 0) {
       await Auth(id_username,pass_username)
@@ -75,7 +78,7 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Bienvenido
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={(a)=>{LoginOnToken();a.preventDefault()}} >
           <TextField
             variant="outlined"
             margin="normal"
@@ -109,8 +112,8 @@ export default function Login() {
             label="Recordarme"
             />
           <Button
-            type="button"
-            onClick={LoginOnToken}
+            type="submit"
+            // onClick={LoginOnToken}
             fullWidth
             variant="contained"
             color="primary"
