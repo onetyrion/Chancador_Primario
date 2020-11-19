@@ -12,9 +12,9 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import { notify } from 'react-notify-toast';
 
 //ASSETS
-import { notify } from 'react-notify-toast';
 import { stylesLogin } from 'assets/css/loginTheme';
 
 //HELPERS & ACTION

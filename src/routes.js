@@ -11,12 +11,7 @@ import Detenciones from "views/Detenciones/Detenciones.js"
 import ConfigAverias from "views/Config/Config_Averias";
 import ConfigMaquinarias from "views/Config/Config_Maquinarias";
 import ConfigMetas from "views/Config/Config_Metas";
-// import TableComponentes from './views/Config/maquinariasTables/table_componentes';
-// import ConfigPage from "views/Config/Config.js";
-// import Login from "views/Login/Login.js";
-// Configuración de dirección www.WEB.com/ES/xxxxx
-// index.js : 34 : 37
-// Admin.js : 26 : 37
+
 let route_layout = "/"
 const dashboardRoutes = [
   {
@@ -26,16 +21,30 @@ const dashboardRoutes = [
     state: "pageCollapse",
     views: [  
     {
-      path: "Actual",
-      name: "Actuales",
-      mini: "AC",
+      path: "primary",
+      name: "Primarios",
+      mini: "PR",
       component: DashboardPage,
       layout: route_layout
     },
     {
-      path: "Historic",
-      name: "Historico",
-      mini: "HT",
+      path: "second",
+      name: "Secundarios",
+      mini: "SC",
+      component: DashboardPage,
+      layout: route_layout
+    },
+    {
+      path: "reports",
+      name: "Reportes",
+      mini: "RP",
+      component: DashboardPage,
+      layout: route_layout
+    },
+    {
+      path: "pivot",
+      name: "Pivot",
+      mini: "PV",
       component: DashboardPage,
       layout: route_layout
     },

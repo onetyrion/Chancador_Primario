@@ -19,7 +19,7 @@ import Icon from "@material-ui/core/Icon";
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks";
 
-import sidebarStyle from "../../TEST/sidebarStyle";
+import sidebarStyle from "assets/jss/material-dashboard-react/components/sidebarStyle";
 
 // import avatar from "assets/img/faces/avatar.jpg";
 

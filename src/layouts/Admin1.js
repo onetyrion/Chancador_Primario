@@ -1,23 +1,24 @@
 import React from "react";
 import cx from "classnames";
 import { Switch, Route, Redirect } from "react-router-dom";
+
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 
-// @material-ui/core components
+// @material-ui/core 
 import { makeStyles } from "@material-ui/core/styles";
+import { Modal } from "@material-ui/core";
 
 // core components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar1.js";
-
-import routes from "routes.js";
-
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
+
+// functions
+import routes from "routes.js";
 import { validLogin } from "API/Auth";
-import { Modal } from "@material-ui/core";
 
 var ps;
 
