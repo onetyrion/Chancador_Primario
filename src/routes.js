@@ -11,6 +11,7 @@ import Detenciones from "views/Detenciones/Detenciones.js"
 import ConfigAverias from "views/Config/Config_Averias";
 import ConfigMaquinarias from "views/Config/Config_Maquinarias";
 import ConfigMetas from "views/Config/Config_Metas";
+import DashboardReports from "views/Dashboard/Dashboard_Reports";
 
 let route_layout = "/"
 const dashboardRoutes = [
@@ -38,7 +39,7 @@ const dashboardRoutes = [
       path: "reports",
       name: "Reportes",
       mini: "RP",
-      component: DashboardPage,
+      component: DashboardReports,
       layout: route_layout
     },
     {

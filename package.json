@@ -9,6 +9,7 @@
   },
   "main": "dist/index.js",
   "dependencies": {
+    "@grapecity/wijmo.react.viewer": "^5.20203.748",
     "@material-ui/core": "^4.10.0",
     "@material-ui/icons": "4.9.1",
     "chart.js": "^2.9.3",
@@ -23,7 +24,9 @@
     "react-chartist": "0.14.3",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "16.13.1",
+    "react-embed": "^3.3.2",
     "react-google-maps": "9.4.5",
+    "react-iframe": "^1.8.0",
     "react-notifications": "^1.6.0",
     "react-notify-toast": "^0.5.1",
     "react-router-dom": "5.2.0",
@@ -31,7 +34,8 @@
     "react-swipeable-views": "0.13.9",
     "serve": "^11.3.2",
     "universal-cookie": "^4.0.4",
-    "validar-rut": "^2.0.2"
+    "validar-rut": "^2.0.2",
+    "x-frame-bypass": "^1.0.2"
   },
   "scripts": {
     "predeploy": "npm run build",
