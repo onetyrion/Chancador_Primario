@@ -1,21 +1,18 @@
 import {
-    getToken,
-    // deleteToken,
-    // setToken
-  } from '../API/helpers';
+    getToken } from '../API/helpers';
   const {baseURL} = require("./configAPI");
   
 
 // ***********************************
 //             Tipos de Mantecion
 // ***********************************
-var HeadersGetUsers = new Headers();
-HeadersGetUsers.append("user-token",getToken());
-HeadersGetUsers.append("Content-Type", "application/json;charset=UTF-8");
+var headers = new Headers();
+headers.append("user-token",getToken());
+headers.append("Content-Type", "application/json;charset=UTF-8");
 
 var requestOptions = {
   method: 'GET',
-  headers: HeadersGetUsers,
+  headers,
   redirect: 'follow'
 };
 export const tiposMantencion = async (year)=>{
@@ -63,12 +60,12 @@ export const eventosMantenciones = async (year)=>{
 //             Disponibilidad Historica
 // ***********************************
 
-export const disponibilidadanual = async (year)=>{
-    console.log(baseURL+"/dm/disponibilidadanual/"+year);
-    return await fetch(baseURL+"/dm/disponibilidadanual/"+year, requestOptions)
+export const disponibilidadanual = async (year,equipo)=>{
+    let urlPeticion = baseURL+`/dm/disponibilidadanual/${year}/${equipo}`
+    // console.log(urlPeticion);
+    return await fetch(urlPeticion, requestOptions)
     .then(responseEvent => responseEvent.json())
     .then(res=>{
-        //console.log(res[0][0]);
         return res;
     })
     .catch(error => console.log('error', error));

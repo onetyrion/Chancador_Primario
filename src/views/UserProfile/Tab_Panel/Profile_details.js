@@ -35,7 +35,7 @@ const Styles = makeStyles({
 export default function ProfileDetails(props){
     const classes = Styles();
     // const datos = ["19.767.283-8","Pepito","Perez Garcia","Planificardor del área de mantenciones","p.garcia@lundinmining.com"];
-    const [dataUsers,SetdataUsers] = React.useState({});
+    const [dataUsers,SetdataUsers] = React.useState(null);
     React.useEffect(()=>{
         setDatos()
       }
@@ -70,7 +70,7 @@ export default function ProfileDetails(props){
                         }}
                         inputProps={{
                             disabled: true,
-                            value:(dataUsers.Rut ? dataUsers.Rut : "")
+                            value:(dataUsers ? dataUsers.Rut : "")
                         }}
                     />
                     </GridItem>
@@ -84,7 +84,7 @@ export default function ProfileDetails(props){
                         }}
                         inputProps={{
                             disabled: true,
-                            value:(dataUsers.Nombre ? dataUsers.Nombre : "")
+                            value:(dataUsers ? dataUsers.Nombre : "")
                           }}
                     />
                     </GridItem>
@@ -98,7 +98,7 @@ export default function ProfileDetails(props){
                         }}
                         inputProps={{
                             disabled: true,
-                            value:(dataUsers.Apellidos ? dataUsers.Apellidos : "")
+                            value:(dataUsers ? dataUsers.Apellidos : "")
                           }}
                     />
                     </GridItem>
@@ -114,7 +114,7 @@ export default function ProfileDetails(props){
                         }}
                         inputProps={{
                             disabled: true,
-                            value:(dataUsers.Cargo ? dataUsers.Cargo : "")
+                            value:(dataUsers ? dataUsers.Cargo : "")
                           }}
                     />
                     </GridItem>
@@ -128,7 +128,7 @@ export default function ProfileDetails(props){
                         }}
                         inputProps={{
                             disabled: true,
-                            value:(dataUsers.Correo_electronico ? dataUsers.Correo_electronico : "")
+                            value:(dataUsers ? dataUsers.Correo_electronico : "")
                           }}
                     />
                     </GridItem>

@@ -86,9 +86,10 @@ export default function ProfileSecurity(props){
         }
     }
     const desactiveAccount = async(event)=>{
-        await PutUsersAPI({pass:event,Estado:false,desactiveUser:true})
+        await PutUsersAPI({pass:event,Estado:0,desactiveUser:true})
         .then(value=>{
-            if (value.error) {
+            console.log(value)
+            if (value.errors || value.error) {
                 notify.show("Contraseña Incorrecta","error");
             }else{
                 logout();

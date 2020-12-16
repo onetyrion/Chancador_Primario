@@ -15,6 +15,9 @@ import logo from "assets/img/candelarialogo.png";
 import {switchRoutes} from './functionAdmin';
 import { validLogin } from "API/Auth";
 import { Modal } from "@material-ui/core";
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 const useStyles = makeStyles(styles);
 
 // let ps;
@@ -38,6 +41,8 @@ export default function Admin({ ...rest }) {
   const handleDrawerToggle = () => { setMobileOpen(!mobileOpen); };
 
   const redirectLogin = async()=>{
+    const usuarioInfo = await cookies.get("user",{path: "/"})
+    console.log(usuarioInfo);
     if (!await validLogin() ) {
       window.location.href="/login";
     }else{

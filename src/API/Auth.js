@@ -1,9 +1,11 @@
+import { notify } from 'react-notify-toast';
 import Cookies from 'universal-cookie';
 const {baseURL} = require("./configAPI");
 const cookies = new Cookies();
 var HeadersLogin = new Headers();
 
 HeadersLogin.append("Content-Type", "application/json;charset=UTF-8");
+
 export const Auth = async (rut,pass) => {
     var body = {
         method: 'POST',
@@ -16,10 +18,11 @@ export const Auth = async (rut,pass) => {
       .then(response => response.json())
       .then(async result => {
           if (result.success) {
+              console.log(result.user)
               await cookies.set('user',result.user.Rut, {path: "/"});
               await cookies.set('user-token',result.success, {path: "/"});
-              console.log(result.user.Rut)
-              window.location.href="./";
+              await cookies.set('rol',result.user.Rol, {path: "/"});
+              window.location.reload();
             }else{
                 console.log (result);
                 return result;
@@ -27,10 +30,9 @@ export const Auth = async (rut,pass) => {
       });
     } catch (error) {
         // console.log("ha ocurrido un error");
-        return {success:null,error:error};
+        return {success:null,errors:error};
     }
 }
-
 export const validLogin = async () =>{
     var vauthHeaders = new Headers();
     vauthHeaders.append("user-token",await cookies.get('user-token'));
@@ -39,27 +41,31 @@ export const validLogin = async () =>{
     try {
         return await fetch(baseURL+"/vauth", body)
       .then(response => response.json())
-      .then(result => {
+      .then(async result => {
           if (result.success) {
-            //   console.log(result)
-            cookies.set('user-token',result.token, {path: "/"});
-            cookies.set('user',result.user.userId, {path: "/"});
-            cookies.set('rol',result.user.rol, {path: "/"});
+            console.log(result.user.rol)
+            cookies.remove("rol",{path: "/"})
+            await cookies.set('user-token',result.token, {path: "/"});
+            await cookies.set('user',result.user.userId, {path: "/"});
+            await cookies.set('rol',result.user.rol, {path: "/"});
             return true;
         }else{
             // console.log(result);
-            cookies.remove('user-token',{ path: '/' });
-            cookies.remove('user',{ path: '/' });
+            await cookies.remove('user-token',{ path: '/' });
+            await cookies.remove('user',{ path: '/' });
+            await cookies.remove('rol',{ path: '/' });
             return false;
         }
       });
     } catch (error) {
-        return {error}
+        notify.show("Error del Servidor, Intente más tarde","error")
+        return false
     }
 }
 export const logout = async () =>{
     // alert("SALIDA")
-    cookies.remove('user-token',{ path: '/' });
-    cookies.remove('user',{ path: '/' });
-    window.location.href="./";
+    await cookies.remove('user-token',{ path: '/' });
+    await cookies.remove('user',{ path: '/' });
+    await cookies.remove('rol',{ path: '/' });
+    window.location.reload();
 }

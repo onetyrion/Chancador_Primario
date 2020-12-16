@@ -59,6 +59,7 @@ export const PutUsersAPI = async(data)=>{
         "Id_empresa":`1`
       });
     }
+    console.log(urlFull)
     return await fetch(urlFull, {
       method: 'PUT',
       headers: HeadersGetUsers,
@@ -67,8 +68,9 @@ export const PutUsersAPI = async(data)=>{
     })
       .then(response => response.json())
       .then(result => {console.log(result);return result})
-      .catch(error => console.log('errors', error));
+      .catch(errors => {console.log('errors', errors);return errors});
 }
+
 
 //------------------------------------------DELETE USER
 export const DeleteUsersAPI = async(data)=>{

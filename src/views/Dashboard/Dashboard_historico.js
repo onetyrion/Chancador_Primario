@@ -1,39 +1,28 @@
 import React from "react";
 // react plugin for creating charts
-// import ChartistGraph from "react-chartist";
+import { Doughnut } from 'react-chartjs-2';
 // @material-ui/core
+import { FormControl, InputLabel, Select, MenuItem, Radio, FormControlLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
+// import AccessTime from "@material-ui/icons/AccessTime";
+import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
+// import CardFooter from "components/Card/CardFooter.js";
 import Button from "components/CustomButtons/Button.js";
-// @material-ui/icons
-import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
-import { FormControl, InputLabel, Select, MenuItem, Radio, FormControlLabel } from "@material-ui/core";
 
-import TableList1 from "views/TableList/TableList_dashHistoric.js";
-import {
-  disp_histChart,
-  mttr_histChart,
-  mtbf_histChart,
-  mtbme_histChart,
-  averiasChart,
-  componentesChart,
-  eventMantChart
-} from "variables/charts.js";
-//import Dashboard_diario from "views/Dashboard/Dashboard_diario.js";
+import { disp_metas } from "variables/charts.js";
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import stylesRadio from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js";
 
-import { Bar, Pie, Line } from 'react-chartjs-2';
-// import { tiposMantencion, tiposComponentes,eventosMantenciones,disponibilidadanual,mttranual,mtbfanual,mtbmeanual } from "API/DM";
+import { disponibilidadanual } from "API/DM";
+import { titlesMaquinariaAPI } from "API/Transc/maquinaria";
 
 const useStyles = makeStyles(styles);
 const useStylesRadio = makeStyles(stylesRadio);
@@ -42,112 +31,47 @@ export default function DashboardHistorico(props) {
 
   const classes = useStyles();
   const classesRadio = useStylesRadio();
-  const [month, setMonth] = React.useState('1');
+  const [Equipo, setEquipo] = React.useState('1');
   const [year, setYear] = React.useState('2019');
   const [RadioValueFilter, setRadioValueFilter] = React.useState("b");
+  const [listMaquinarias, setlistMaquinarias] = React.useState("Chancador Primario");
 
-  const [DataTipo] = React.useState(0,0,0);
-  const [DataEvento] = React.useState(0,0,0);
-  const [DataDisponibilidad] = React.useState([]);
-  const [DataDisponibilidadAnual] = React.useState(0);
-  const [DataMTTR] = React.useState([]);
-  const [DataMTBF] = React.useState([]);
-  const [DataMTBME] = React.useState([]);
-  const [DataComponente] = React.useState(
-    {
-      Programadas:[0,0,0,0],
-      NoProgramadas:[0,0,0,0]
-    }
-  );
+  const [DataMeta,setDataMeta] = React.useState([0,0,0,0]);//DISPONIBILIDAD, MTTR, MTBF, MTBME
+  const [data, setdata] = React.useState(null);
 
   React.useEffect(()=>{
     setDatos()
   }
   ,[]); 
   const setDatos = async ()=>{
-
-    //DATOS Tipos de mantencion HRS
-    // var datosTipos = await tiposMantencion(RadioValueFilter === "a" ? month : year)
-    // .then((res)=>{
-    //     setDataTipo([Math.round(res.Total),Math.round(res.Mecanica),Math.round(res.Electrica)]);
-    //     //console.log(res.Mecanica)
-    //   return res;
-    // }).catch((error) => console.log(error));
-
-    //DATOS componentes de mantencion HRS 
-    // var datosComponentes = await tiposComponentes(RadioValueFilter === "a" ? month : year)
-    // .then((res)=>{
-    //     var values= {Programadas:[res.Comp1[1],res.Comp2[1],res.Comp3[1],res.Comp4[1]],
-    //       NoProgramadas: [res.Comp1[2],res.Comp2[2],res.Comp3[2],res.Comp4[2]]
-    //     };
-    //     // console.log(values)
-    //     setDataComponente(values);
-    //   return res;
-    // }).catch((error) => console.log(error));
-
-    //DATOS eventos de mantencion HRS 
-    // var datosEventos = await eventosMantenciones(RadioValueFilter === "a" ? month : year)
-    // .then((res)=>{
-    //     var values= res;
-    //     //console.log(values);
-    //     setDataEvento([values.Totales,values.Programadas,values.NoProgramadas]);
-    //   return res;
-    // }).catch((error) => console.log(error));
-    
-    //DATOS Disponibilidad
-    // var datosDisponibilidad = await disponibilidadanual(year)
-    // .then((res)=>{
-    //     var values= res;
-    //     //console.log(values);
-    //     setDataDisponibilidad(values);
-    //   return res;
-    // }).catch((error) => console.log(error));
-  
-    //DATOS MTTR
-    // var datosMTTR = await mttranual(year)
-    // .then((res)=>{
-    //     var values= res;
-    //     //console.log(values);
-    //     setDataMTTR(values);
-    //   return res;
-    // }).catch((error) => console.log(error));
-
-    //DATOS MTBF
-    // var datosMTBF = await mtbfanual(year)
-    // .then((res)=>{
-    //     var values= res;
-    //     //console.log(values);
-    //     setDataMTBF(values);
-    //     setDataDisponibilidadAnual(getDisponibilidadAnual());
-    //   return res;
-    // }).catch((error) => console.log(error));
-
-    //DATOS MTBME
-    // var datosMTBME = await mtbmeanual(year)
-    // .then((res)=>{
-    //     var values= res;
-    //     //console.log(values);
-    //     setDataMTBME(values);
-    //     //setDataDisponibilidadAnual(getDisponibilidadAnual());
-    //   return res;
-    // }).catch((error) => console.log(error));
-
+    //GET DATA FROM MAQUINARIAS
+    await titlesMaquinariaAPI()
+    .then(res => { setEquipo(res) })
+    //GET DATA FROM INDICADORES AND SET ON STATE
+    await disponibilidadanual(year,listMaquinarias)
+    .then((res)=>{
+      if(!res.errors){
+        setDataMeta(
+          [((res.Disponiblidad_Anual * 100)/res.Disponibilidad_Metas),
+            ((res.MTTR * 100)/res.MTTR_Metas),
+            ((res.MTBF * 100)/res.MTBF_Metas),
+            ((res.MTBME * 100)/res.MTBME_Metas)
+          ]);
+        setdata(res);
+      }else{
+        setdata(null);
+      }
+    })
   }
 
+    //SET SELECT AÑO AND EQUIPO
   const handleChange = (event,type) => { 
-    event.target.value<1990 ?
-    setMonth(event.target.value)
+    (typeof (event.target.value) == "string") ?
+    setlistMaquinarias(event.target.value)
     :
     setYear(event.target.value);
   };
-  // const getDisponibilidadAnual = () => {
-  //   let count = DataDisponibilidad.length;
-  //   let values = DataDisponibilidad.reduce((previous, current) => current += previous);
-  //   //console.log(values);
-  //   values /= count;
-  //   return (values)
-  // }
-  if (!props.droppanel2) {
+
   return (
     <div className={(window.screen.width<500) ? classes.DivWidth : null}>
       <GridContainer>
@@ -156,20 +80,18 @@ export default function DashboardHistorico(props) {
           <Card>
           <CardHeader color="danger">
             <h4 className={classes.cardTitleWhite}>Filtros</h4>
-              <p className={classes.cardCategoryWhite}>
-                
-              </p>
             </CardHeader>
-            <CardBody className={(window.screen.width>1200) ? classes.filtrosbox : null}>    
-            <FormControl className={classes.formControl} >
+            <CardBody className={(window.screen.width>1200) ? classes.filtrosbox : null}>
+            {/* RADIO BUTTONS */}
+            <FormControl className={classes.formControl} >              
               <FormControlLabel
-                value="Seleccionar Mes"
+                value="Seleccionar Equipo"
                 control={
                   <Radio
                     checked={RadioValueFilter === "a"}
                     onChange={() => setRadioValueFilter("a")}
                     value="a" 
-                    name="radio button Month"
+                    name="radio button Equipo"
                     aria-label="A"
                     icon={<FiberManualRecord className={classesRadio.radioUnchecked} />}
                     checkedIcon={<FiberManualRecord className={classesRadio.radioChecked} />}
@@ -178,7 +100,7 @@ export default function DashboardHistorico(props) {
                     }}
                   />
               }
-                label="Seleccionar Mes"
+                label="Seleccionar Equipo"
                 labelPlacement="end"
               />
               <FormControlLabel
@@ -200,28 +122,20 @@ export default function DashboardHistorico(props) {
                 label="Seleccionar Año"
                 labelPlacement="end"
               />
-              </FormControl>   
+              </FormControl>  
+            {/* SELECTS */}               
               {(RadioValueFilter==="a") ?
                 <FormControl className={classes.formControl} >
-                  <InputLabel id="select-month-historic">Mes</InputLabel>
+                  <InputLabel id="select-Equipo-historic">Equipo</InputLabel>
                   <Select
-                    labelId="select-month-historic-label"
-                    id="select-month-historic"
-                    value={month}
+                    labelId="select-Equipo-label"
+                    id="select-Equipo-historic"
+                    value={listMaquinarias}
                     onChange={handleChange}
                   >
-                    <MenuItem value={1}>Enero</MenuItem>
-                    <MenuItem value={2}>Febrero</MenuItem>
-                    <MenuItem value={3}>Marzo</MenuItem>
-                    <MenuItem value={4}>Abril</MenuItem>
-                    <MenuItem value={5}>Mayo</MenuItem>
-                    <MenuItem value={6}>Junio</MenuItem>
-                    <MenuItem value={7}>Julio</MenuItem>
-                    <MenuItem value={8}>Agosto</MenuItem>
-                    <MenuItem value={9}>Septiembre</MenuItem>
-                    <MenuItem value={10}>Octubre</MenuItem>
-                    <MenuItem value={11}>Noviembre</MenuItem>
-                    <MenuItem value={12}>Diciembre</MenuItem>
+                    {Object.entries(Equipo).map((values,index)=>
+                    <MenuItem value={values[1]} key={index}>{values[1]}</MenuItem>
+                    )}
                   </Select>
                 </FormControl>
                 :
@@ -248,176 +162,85 @@ export default function DashboardHistorico(props) {
           </Card>
        </GridItem>
 
-        {/* ////////////DISPONIBILIDAD CHART1 */}
+        {/* ////////////DISPONIBILIDAD CHART */}
         <GridItem xs={12} sm={12} md={6}>
           <Card chart>
             <CardHeader >
-              {/* <ChartistGraph
-                className="ct-chart"
-                data={disp_histChart(DataDisponibilidad).data}
-                type="Line"
-                options={disp_histChart.options}
-                listener={disp_histChart.animation}
-              /> */}
-              <Line data={disp_histChart({DataDisponibilidad,RadioValueFilter})} options={disp_histChart.options}/>
+              <Doughnut data={disp_metas("Disponibilidad",data)} options={{circumference: (1.0 * Math.PI), rotation:(1 * Math.PI),legend: { display: false},}} />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Disponibilidad Historica</h4>
+              <h4 className={classes.cardTitle}>Disponibilidad Anual</h4>
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                 <ArrowUpward className={classes.upArrowCardCategory} /> 
-                {Math.round(DataDisponibilidadAnual)}%
+                {Math.round(DataMeta[0])}%
                 </span>{" "}
-                Disponibilidad Anual Real.
+                Completado de la Meta
               </p>
             </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> Actualizado hace 4 minutos
-              </div>
-            </CardFooter>
           </Card>
 
         </GridItem>
         
-        {/* ////////////MTTR CHART2 */}
-        <GridItem xs={12} sm={12} md={6}>
-          <Card chart>
-            <CardHeader>
-              {/* <ChartistGraph
-                className="ct-chart"
-                data={mttr_histChart.data}
-                type="Bar"
-                options={mttr_histChart.options}
-                responsiveOptions={mttr_histChart.responsiveOptions}
-                listener={mttr_histChart.animation}
-              /> */}
-            <Bar data={mttr_histChart(DataMTTR)}/>
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>MTTR Anual</h4>
-              <p className={classes.cardCategory}>Tiempo medio entre reparaciones mensuales de {year}</p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> Actualizado hace 4 minutos
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        
-        {/* ////////////MTBF CHART3 */}
+        {/* ////////////MTTR CHART */}
         <GridItem xs={12} sm={12} md={6}>
           <Card chart>
             <CardHeader >
-              {/* <ChartistGraph
-                className="ct-chart"
-                data={mtbf_histChart.data}
-                type="Bar"
-                options={mtbf_histChart.options}
-                responsiveOptions={mtbf_histChart.responsiveOptions}
-                listener={mtbf_histChart.animation}
-              /> */}
-            <Bar data={mtbf_histChart(DataMTBF)}/>
+              <Doughnut data={disp_metas("MTTR",data)} options={{circumference: (1.0 * Math.PI), rotation:(1 * Math.PI),legend: { display: false},}} />
+            </CardHeader>
+            <CardBody>
+              <h4 className={classes.cardTitle}>MTTR Anual</h4>
+              <p className={classes.cardCategory}>
+                <span className={classes.successText}>
+                <ArrowUpward className={classes.upArrowCardCategory} /> 
+                {Math.round(DataMeta[1])}%
+                </span>{" "}
+                Completado de la Meta
+              </p>
+            </CardBody>
+          </Card>
+        </GridItem>
+
+        {/* ////////////MTTR CHART */}
+        <GridItem xs={12} sm={12} md={6}>
+          <Card chart>
+            <CardHeader >
+              <Doughnut data={disp_metas("MTBF",data)} options={{circumference: (1.0 * Math.PI), rotation:(1 * Math.PI),legend: { display: false},}} />
             </CardHeader>
             <CardBody>
               <h4 className={classes.cardTitle}>MTBF Anual</h4>
-              <p className={classes.cardCategory}>Tiempo medio entre fallas mensuales de {year}</p>
+              <p className={classes.cardCategory}>
+                <span className={classes.successText}>
+                <ArrowUpward className={classes.upArrowCardCategory} /> 
+                {Math.round(DataMeta[2])}%
+                </span>{" "}
+                Completado de la Meta
+              </p>
             </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> Actualizado hace 4 minutos
-              </div>
-            </CardFooter>
           </Card>
         </GridItem>
-        
-        {/* ////////////MTBME CHART4 */}
+     
+        {/* ////////////MTBME CHART */}
         <GridItem xs={12} sm={12} md={6}>
           <Card chart>
-            <CardHeader>
-              {/* <ChartistGraph
-                className="ct-chart"
-                data={mtbfme_histChart.data}
-                type="Bar"
-                options={mtbme_histChart.options}
-                responsiveOptions={mtbme_histChart.responsiveOptions}
-                listener={mtbme_histChart.animation}
-              /> */}
-            <Bar data={mtbme_histChart(DataMTBME)}/>
+            <CardHeader >
+              <Doughnut data={disp_metas("MTBME",data)} options={{circumference: (1.0 * Math.PI), rotation:(1 * Math.PI),legend: { display: false},}} />
             </CardHeader>
             <CardBody>
               <h4 className={classes.cardTitle}>MTBME Anual</h4>
-              <p className={classes.cardCategory}>Tiempo medio entre detenciones mensuales del {year}</p>
+              <p className={classes.cardCategory}>
+                <span className={classes.successText}>
+                <ArrowUpward className={classes.upArrowCardCategory} /> 
+                {Math.round(DataMeta[3])}%
+                </span>{" "}
+                Completado de la Meta
+              </p>
             </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> Actualizado hace 4 minutos
-              </div>
-            </CardFooter>
           </Card>
         </GridItem>
 
-        {/* Total horas de mantención */}
-        <GridItem xs={12} sm={12} md={6}>
-            <Card chart>
-              <CardHeader>
-                <Bar data={averiasChart(DataTipo)} options={{legend: { display: true}}}/>
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Horas de Mantención por Tipo de Mantención</h4>
-                <p className={classes.cardCategory}>
-                  <span className={classes.successText}>
-                    <ArrowUpward className={classes.upArrowCardCategory} /> 6%
-                  </span>{" "}
-                 Más que el periodo anterior
-                </p>
-              </CardBody>
-            </Card>
-          </GridItem>          
-
-          {/* COMPONENTES AFECTADOS */}
-          <GridItem xs={12} sm={12} md={6}>
-            <Card chart>
-              <CardHeader>
-                <Bar data={componentesChart(DataComponente)} options={componentesChart.options}/>
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Horas de Mantención por Componentes Afectados</h4>
-                <p className={classes.cardCategory}>
-                  <span className={classes.successText}>
-                    <ArrowUpward className={classes.upArrowCardCategory} /> 6%
-                  </span>{" "}
-                 Más que el periodo anterior
-                </p>
-              </CardBody>
-            </Card>
-          </GridItem>   
-          
-          {/* EVENTOS */}
-          <GridItem xs={12} sm={12} md={6}>
-            <Card chart>
-              <CardHeader>
-              <Pie data={eventMantChart(DataEvento)} options={{legend: { display: false},}} />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Eventos de mantención con más horas</h4>
-                <p className={classes.cardCategory}>
-                  <span className={classes.successText}>
-                    {Math.round(DataEvento[0])} hrs
-                  </span>{" "}
-                  en total
-                </p>
-              </CardBody>
-            </Card>
-          </GridItem> 
       </GridContainer>
-
+            
     </div>
   )
-  }else{
-    return (
-       <TableList1/> 
-    )
-  }
 }

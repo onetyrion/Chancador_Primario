@@ -1,6 +1,7 @@
 import React from "react";
 import cx from "classnames";
 import { Switch, Route, Redirect } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
@@ -21,7 +22,7 @@ import routes from "routes.js";
 import { validLogin } from "API/Auth";
 
 var ps;
-
+const cookies = new Cookies();
 const useStyles = makeStyles(styles);
 
 export default function Dashboard(props) {
@@ -30,6 +31,7 @@ export default function Dashboard(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [miniActive, setMiniActive] = React.useState(false);
   const [loading,setloading] = React.useState(true);
+  const [rolUser,setRolUser] = React.useState(3);
   // styles
   const classes = useStyles();
   const mainPanelClasses = classes.mainPanel + " " +
@@ -64,11 +66,16 @@ export default function Dashboard(props) {
   
   // functions for changeing the states from components
   const redirectLogin = async()=>{
-    if (!await validLogin() ) {
-      window.location.href="/login";
-    }else{
-      setloading(false);
-    }
+    // const usuarioInfo = await cookies.get("rol",{path: "/"})
+    // console.log(await cookies.get("rol",{path: "/"}));
+    await validLogin()
+    .then(res=>{
+      if(!res) window.location.href="/login";
+      else {
+        setloading(false);
+        // setRolUser(usuarioInfo)
+      }
+    })
   }
 
   const handleDrawerToggle = () => {
@@ -97,7 +104,7 @@ export default function Dashboard(props) {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "/") {
+      if (prop.layout === "/" ) {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -106,7 +113,8 @@ export default function Dashboard(props) {
           />
         );
       } else {
-        return null;
+        alert("aqui")
+        return <Redirect from="/" to="/users" />;
       }
     });
   };
@@ -155,15 +163,19 @@ export default function Dashboard(props) {
           handleDrawerToggle={handleDrawerToggle}
           {...rest}
         />
-        {/* On the /maps/full-screen-maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+
         <div className={classes.content}>
-            <div className={classes.container}>
+          <div className={classes.container}>
+            {loading ?
+            "Cargando"
+            :
               <Switch>
-                {getRoutes(routes)}
-                <Redirect from="/" to="/user" />
+              {getRoutes(routes)} 
+              <Redirect from="/" to="/home" />
               </Switch>
-            </div>
+            } 
           </div>
+        </div>
         <Footer fluid />
       </div>
     </div>

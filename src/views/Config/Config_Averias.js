@@ -12,7 +12,7 @@ import CardBody from "components/Card/CardBody.js";
 import MaterialTable from "material-table";
 import { localization } from "variables/language";
 import { titlesCategoriaAPI } from "API/Transc/categorias";
-import { titlestipofallaAPI } from "API/Transc/tipoFalla";
+// import { titlestipofallaAPI } from "API/Transc/tipoFalla";
 import { titlesComponenteAPI } from "API/Transc/componente";
 import { Input } from "@material-ui/core";
 import { dataFallasAPI } from "API/Transc/fallas";
@@ -65,8 +65,8 @@ var Data = [ {
   "ID": "",
   "Descripción": "",
   "Componente": "",  
-  "Categoría": "",
-  "Tipo": ""
+  "Categoría": ""
+  // "Tipo": ""
 }];
 
 const customInput = (props)=>{
@@ -94,13 +94,13 @@ export default function ConfigAverias() {
   const setDatos = async ()=>{
     var fallasdata = await dataFallasAPI();
     var categorias = await titlesCategoriaAPI(); 
-    var tipoFalla = await titlestipofallaAPI(); 
+    // var tipoFalla = await titlestipofallaAPI(); 
     var components = await titlesComponenteAPI(); 
     setcolumnsFallas([ 
       {"title":"ID","field":"Id_falla",editable: 'never',editComponent:customInput},
       {"title":"Descripción","field":"Descripcion_causa",editComponent:customInput},
       {"title":"Categoría","field":"Id_categoria", lookup: categorias},
-      {"title":"Tipo","field":"Id_tipo", lookup: tipoFalla},
+      // {"title":"Tipo","field":"Id_tipo", lookup: tipoFalla},
       {"title":"Componente","field":"Id_componente", lookup: components},
       {"title":"Falla","field":"Falla", lookup: { true: "Activa", false: 'Desactivada' }},
     ]);      
