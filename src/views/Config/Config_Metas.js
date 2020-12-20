@@ -11,15 +11,14 @@ import CardBody from "components/Card/CardBody.js";
 //DROPDOWN
 import MaterialTable from "material-table";
 import { localization } from "variables/language";
-import { Button, Divider, Input } from "@material-ui/core";
+import { Input } from "@material-ui/core";
 import { notify } from "react-notify-toast";
-import CardFooter from "components/Card/CardFooter";
 import { titlesIndicadorAPI } from "API/Transc/indicadorKPI";
 import { dataPMantencionesAPI } from "API/Transc/pMantencion";
 import { titlesMaquinariaAPI } from "API/Transc/maquinaria";
 import { CreateMetasAPI, DeleteMetasAPI } from "API/Transc/pMantencion";
 import { PutMetasAPI } from "API/Transc/pMantencion";
-import { getTypeInputs } from "variables/HelpersInputs";
+import { getTypeInputs, getChangeInputs } from "variables/HelpersInputs";
 import { validation_metas } from "./validations_Config";
 
 const styles = {
@@ -68,7 +67,8 @@ const customInput = (props)=>{
   <Input
   type={getTypeInputs(props.columnDef.field)}
     value={props.value ? props.value : ""}
-    onChange={e => props.onChange(e.target.value)}
+    onChange={e => props.onChange( getChangeInputs(props,e.target.value))}
+    // onChange={e => props.onChange(e.target.value)}
     // error={true}
   />
 )}
@@ -92,6 +92,7 @@ export default function ConfigMetas() {
       {"title":"Indicador","field":"Id_kpi",lookup: Indicador},
       {"title":"Año","field":"Anio",editComponent:customInput},
       {"title":"Meta","field":"Meta", editComponent:customInput},
+      {"title":"Unidad","field":"unidad", editComponent:customInput},
     ]);      
     SetdataMetas(datapMantencion);
   }
@@ -155,14 +156,10 @@ export default function ConfigMetas() {
 
   return (
     <GridContainer>
-      
       <GridItem xs={12} sm={12} md={12}>
         <Card >
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Gestión de Metas</h4>
-            <p className={classes.cardCategoryWhite}>
-              
-            </p>
           </CardHeader>
           <CardBody>
             <MaterialTable 
@@ -175,14 +172,9 @@ export default function ConfigMetas() {
                 onRowUpdate: rowUpdate,
                 onRowDelete: rowDelete
                 }}
-              localization={localization}//LENGUAJE
+              localization={localization}//Set Idioma
               />
-            <p className={classes.TextGray}>*Las metas mensuales de la disponibilidad corresponde a el promedio de la disponibiliad de los últimos 91 días,por ende, no se puede editar*</p>
           </CardBody>
-          <CardFooter className={classes.CardFooterBox}>
-            <Divider light/>
-            <Button color="primary">Añadir Meta</Button>
-          </CardFooter>
         </Card>
       </GridItem>    
    </GridContainer>

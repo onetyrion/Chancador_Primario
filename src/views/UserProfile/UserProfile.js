@@ -59,14 +59,13 @@ const useStyles = makeStyles((theme) => ({
   //widthdiv:{width:"700px"}
 }));
 
-export default function VerticalTabs() {
+export default function ProfileMain(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <div className={classes.root}>
       <GridContainer>
@@ -81,7 +80,9 @@ export default function VerticalTabs() {
           >
             <Tab label="Detalles" {...a11yProps(0)} />
             <Tab label="Seguridad" {...a11yProps(1)} />
+            {props.rolUser === "1" &&
             <Tab label="Usuarios" {...a11yProps(2)} />
+          }
           </Tabs>
         </GridItem>
 

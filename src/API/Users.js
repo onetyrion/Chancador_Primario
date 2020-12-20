@@ -88,6 +88,18 @@ return await fetch(baseURL+`/registrarusuario/${data}`, {
 export const CreateUsersAPI = async(data)=>{
   const {Rut,Nombre,Apellidos,Correo_electronico,Estado,Cargo} = data;
   let EstadoUser = (Estado ? "1" : "0"); 
+  let Rol = 3;
+  switch (Cargo) {
+    case "Administrador":
+      Rol=1;
+      break;
+    case "Planificador":
+      Rol=2;
+      break;  
+    default:
+      Rol=3;
+      break;
+  }
   var raw = JSON.stringify({
     "Rut":`${Rut}`,
     "Nombre":`${Nombre}`,
@@ -96,7 +108,7 @@ export const CreateUsersAPI = async(data)=>{
     "Estado":`${EstadoUser}`,
     "Cargo":`${Cargo}`,
     "Id_empresa":`1`,
-    "Id_rol":`1`
+    "Id_rol":`${Rol}`
   });
 return fetch(baseURL+"/registrarusuario/", {
   method: 'POST',

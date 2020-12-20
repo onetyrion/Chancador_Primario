@@ -71,31 +71,41 @@ export default function ProfileSecurity(props){
       }
 
     const changePassword = async(e)=>{
-        console.log(e.target.pass_current.value)
-        if (e.target.pass_current.value.length>0 && e.target.newPassword.value !== e.target.confirmNewPasword.value) {
+        if (e.target.pass_current.value.length===0) {
+            notify.show("Debe Ingresar la contraseña Actual, y las nuevas contraseña deben coincidir","error");
+        }else if(e.target.newPassword.value !== e.target.confirmNewPasword.value){
             notify.show("Debe Ingresar la contraseña Actual, y las nuevas contraseña deben coincidir","error");
         }else{
-            await PutLoginAPI(e.target.confirmNewPasword.value,e.target.pass_current.value)
-            .then(value => {
-                if (value.error) {
+            if ((!e.target.newPassword.value && !e.target.confirmNewPasword.value)) {
+                notify.show("Debe Ingresar la contraseña Actual, y las nuevas contraseña deben coincidir","error");
+            }else{
+                await PutLoginAPI(e.target.confirmNewPasword.value,e.target.pass_current.value)
+                .then(value => {
+                    if (value.error) {
+                        notify.show("Contraseña Incorrecta","error");
+                    }else{
+                        logout();
+                    }
+                })
+            }
+        }
+    }
+
+    //DESACTIVAR LA CONTRASENNA
+    const desactiveAccount = async(event)=>{
+        if (event) {
+            await PutUsersAPI({pass:event,Estado:0,desactiveUser:true})
+            .then(value=>{
+                console.log(value)
+                if (value.errors || value.error) {
                     notify.show("Contraseña Incorrecta","error");
                 }else{
                     logout();
                 }
-            })
+            })            
+        } else {
+            notify.show("Debe Ingresar una Contraseña Valida","error");            
         }
-    }
-    const desactiveAccount = async(event)=>{
-        await PutUsersAPI({pass:event,Estado:0,desactiveUser:true})
-        .then(value=>{
-            console.log(value)
-            if (value.errors || value.error) {
-                notify.show("Contraseña Incorrecta","error");
-            }else{
-                logout();
-            }
-        })
-        // alert(desactive.success);
     }
 
     return(

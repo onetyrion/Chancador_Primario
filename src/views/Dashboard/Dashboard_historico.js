@@ -42,6 +42,7 @@ export default function DashboardHistorico(props) {
   React.useEffect(()=>{
     setDatos()
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   ,[]); 
   const setDatos = async ()=>{
     //GET DATA FROM MAQUINARIAS
@@ -59,6 +60,7 @@ export default function DashboardHistorico(props) {
           ]);
         setdata(res);
       }else{
+        setDataMeta([0,0,0,0]);
         setdata(null);
       }
     })

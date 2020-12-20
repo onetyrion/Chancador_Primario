@@ -43,7 +43,6 @@ export const validLogin = async () =>{
       .then(response => response.json())
       .then(async result => {
           if (result.success) {
-            console.log(result.user.rol)
             cookies.remove("rol",{path: "/"})
             await cookies.set('user-token',result.token, {path: "/"});
             await cookies.set('user',result.user.userId, {path: "/"});

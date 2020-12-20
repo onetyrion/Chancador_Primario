@@ -46,7 +46,7 @@ export const PutLoginAPI = async(data,currentPass)=>{
   const rol = await cookies.get('rol', {path: "/"});
   const result = await Auth(user,currentPass);
   if (result) {
-    console.log(result.error)
+    // console.log(result.error)
     return result;
   }
   var raw = JSON.stringify({

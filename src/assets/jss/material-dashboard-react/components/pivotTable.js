@@ -12,26 +12,25 @@ function PivotTable(props){
   const reportComplete = () => {
     console.log(">>>>>", myRef.webdatarocks.getReport());
   }
-
+  const getData = async()=>{
+    await fetch(props.urlData, {
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .then(response => {
+        const {pivotDates} = response
+        setData(pivotDates)
+    })
+    .catch(error => {
+      setData([])
+      console.error('Error:', error)
+    });
+  }
   //Recibe datos de un json
   useEffect(() => {
-
-    const getData = async()=>{
-      await fetch(props.urlData, {
-        headers:{
-          'Content-Type': 'application/json'
-        }
-      }).then(res => res.json())
-      .then(response => {
-          const {pivotDates} = response
-          setData(pivotDates)
-      })
-      .catch(error => {
-        setData([])
-        console.error('Error:', error)
-      });
-    }
     getData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
  
   return (

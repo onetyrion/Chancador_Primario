@@ -8,7 +8,6 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
 import {dataUserfindOne} from "API/Users";
 
 const Styles = makeStyles({
@@ -53,94 +52,91 @@ export default function ProfileDetails(props){
 
     return(
         <div className={(window.screen.width>1200) ? classes.widthdiv : null} >
-            <Card >
-                <CardHeader color="info">
-                <h4 className={classes.cardTitleWhite}>Perfil</h4>
-                <p className={classes.cardCategoryWhite}>Para actualizar tus datos habla con tu supervisor</p>
-                </CardHeader>
-                <CardBody>
-                <GridContainer>
-                    {/* //RUT */}
-                    <GridItem xs={12} sm={12} md={3}>
-                    <CustomInput
-                        labelText="Rut"
-                        id="rut"
-                        formControlProps={{
-                        fullWidth: true
+          <Card >
+            <CardHeader color="info">
+            <h4 className={classes.cardTitleWhite}>Perfil</h4>
+            <p className={classes.cardCategoryWhite}>Para actualizar tus datos habla con tu supervisor</p>
+            </CardHeader>
+            <CardBody>
+              <GridContainer>
+                  {/* //RUT */}
+                  <GridItem xs={12} sm={12} md={3}>
+                  <CustomInput
+                      labelText="Rut"
+                      id="rut"
+                      formControlProps={{
+                      fullWidth: true
+                      }}
+                      inputProps={{
+                          disabled: true,
+                          value:(dataUsers ? dataUsers.Rut : "")
+                      }}
+                  />
+                  </GridItem>
+                  {/* //NOMBRE */}
+                  <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                      labelText="Nombre"
+                      id="first-name"
+                      formControlProps={{
+                      fullWidth: true
+                      }}
+                      inputProps={{
+                          disabled: true,
+                          value:(dataUsers ? dataUsers.Nombre : "")
                         }}
-                        inputProps={{
-                            disabled: true,
-                            value:(dataUsers ? dataUsers.Rut : "")
+                  />
+                  </GridItem>
+                  {/* //APELLIDO */}
+                  <GridItem xs={12} sm={12} md={5}>
+                  <CustomInput
+                      labelText="Apellido"
+                      id="last-name"
+                      formControlProps={{
+                      fullWidth: true
+                      }}
+                      inputProps={{
+                          disabled: true,
+                          value:(dataUsers ? dataUsers.Apellidos : "")
                         }}
-                    />
-                    </GridItem>
-                    {/* //NOMBRE */}
-                    <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                        labelText="Nombre"
-                        id="first-name"
-                        formControlProps={{
-                        fullWidth: true
+                  />
+                  </GridItem>
+              </GridContainer>
+              <GridContainer>
+                  {/* //CARGO */}
+                  <GridItem xs={12} sm={12} md={6}>
+                  <CustomInput
+                      labelText="Cargo"
+                      id="type"
+                      formControlProps={{
+                      fullWidth: true
+                      }}
+                      inputProps={{
+                          disabled: true,
+                          value:(dataUsers ? dataUsers.Cargo : "")
                         }}
-                        inputProps={{
-                            disabled: true,
-                            value:(dataUsers ? dataUsers.Nombre : "")
-                          }}
-                    />
-                    </GridItem>
-                    {/* //APELLIDO */}
-                    <GridItem xs={12} sm={12} md={5}>
-                    <CustomInput
-                        labelText="Apellido"
-                        id="last-name"
-                        formControlProps={{
-                        fullWidth: true
+                  />
+                  </GridItem>
+                  {/* //CORREO ELECTRONICO */}
+                  <GridItem xs={12} sm={12} md={6}>
+                  <CustomInput
+                      labelText="Dirección de correo"
+                      id="email-address"
+                      formControlProps={{
+                      fullWidth: true
+                      }}
+                      inputProps={{
+                          disabled: true,
+                          value:(dataUsers ? dataUsers.Correo_electronico : "")
                         }}
-                        inputProps={{
-                            disabled: true,
-                            value:(dataUsers ? dataUsers.Apellidos : "")
-                          }}
-                    />
-                    </GridItem>
-                </GridContainer>
-                <GridContainer>
-                    {/* //CARGO */}
-                    <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                        labelText="Cargo"
-                        id="type"
-                        formControlProps={{
-                        fullWidth: true
-                        }}
-                        inputProps={{
-                            disabled: true,
-                            value:(dataUsers ? dataUsers.Cargo : "")
-                          }}
-                    />
-                    </GridItem>
-                    {/* //CORREO ELECTRONICO */}
-                    <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                        labelText="Dirección de correo"
-                        id="email-address"
-                        formControlProps={{
-                        fullWidth: true
-                        }}
-                        inputProps={{
-                            disabled: true,
-                            value:(dataUsers ? dataUsers.Correo_electronico : "")
-                          }}
-                    />
-                    </GridItem>
-
-                </GridContainer>
-                
-                </CardBody>
-                
-                <CardFooter>
-                {/* <Button color="info">Guardar Perfil</Button> */}
-                </CardFooter>
-            </Card>
+                  />
+                  </GridItem>
+              </GridContainer>                
+            </CardBody>                
+            {/* <CardFooter> */}
+            {/* <Button color="info">Guardar Perfil</Button> */}
+            {/* </CardFooter> */}
+          </Card>
         </div>
     )
 }

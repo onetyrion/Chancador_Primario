@@ -91,7 +91,7 @@ var Data = [ {
     {"title":"Correo","field":"Correo_electronico",editComponent:customInput},
     {"title":"Estado","field":"Estado",
     lookup: { true: "Activa", false: 'Desactivada' }},
-    {"title":"Cargo","field":"Cargo",editComponent:customInput}
+    {"title":"Cargo/Rol","field":"Cargo",lookup:{"Administrador":"Administrador","Planificador":"Planificador","Lector":"Lector"}}
   ]);
   const putUsers = PutUsersAPI;
   const usersAPI = dataUsersAPI;
@@ -155,14 +155,13 @@ var Data = [ {
     setTimeout(() => {
       DeleteUsersAPI(oldData.Rut)
       .then(value=>{
-        if (value.errors) {
+        if (value && value.errors) {
           notify.show(`Ha ocurrido un error, revise sus datos`,'error',5000);
         }else{
           setDatos();
           notify.show('Se ha Añadido con éxito!','success',5000);
         }
       })
-      // console.log(oldData.Rut);
       resolve()
     }, 0)
   })

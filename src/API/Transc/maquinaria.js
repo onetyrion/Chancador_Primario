@@ -50,7 +50,7 @@ export const CreateMaquinariaAPI = async(data)=>{
     "Id_area":`${Id_area}`,
     "Id_tipo":`${Id_tipo}`,
   });
-return fetch("http://localhost:3100/api/maquinaria/", {
+return fetch(baseURL+"/api/maquinaria/", {
   method: 'POST',
   headers: HeadersGetMaquinarias,
   body: raw,
@@ -70,7 +70,7 @@ return fetch("http://localhost:3100/api/maquinaria/", {
 // ############################## DELETE USER
 
 export const DeleteMaquinariaAPI = async(data)=>{
-  return await fetch(`http://localhost:3100/api/maquinaria/${data}`, {
+  return await fetch(baseURL+`/api/maquinaria/${data}`, {
     method: 'DELETE',
     headers: HeadersGetMaquinarias,
     redirect: 'follow'
@@ -98,7 +98,7 @@ export const PutMaquinariaAPI = async(data)=>{
     "Id_area":`${Id_area}`,
     "Id_tipo":`${Id_tipo}`,
   });
-    return await fetch(`http://localhost:3100/api/maquinaria/${Id_maquinaria}`, {
+    return await fetch(baseURL+`api/maquinaria/${Id_maquinaria}`, {
       method: 'PUT',
       headers: HeadersGetMaquinarias,
       body: raw,

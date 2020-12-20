@@ -1,13 +1,15 @@
-import {
-    getToken } from '../API/helpers';
-  const {baseURL} = require("./configAPI");
+import moment from 'moment';
+import Cookies from 'universal-cookie';
+
+const {baseURL} = require("./configAPI");
+const cookies = new Cookies();
   
 
 // ***********************************
 //             Tipos de Mantecion
 // ***********************************
 var headers = new Headers();
-headers.append("user-token",getToken());
+headers.append("user-token",cookies.get('user-token'));
 headers.append("Content-Type", "application/json;charset=UTF-8");
 
 var requestOptions = {
@@ -113,4 +115,51 @@ export const mtbmeanual = async (year)=>{
         return res;
     })
     .catch(error => console.log('error', error));
+}
+
+// ***********************************
+//             PROGRAMACION ETL
+// ***********************************
+
+export const getETLSchedule = async (year)=>{
+    // console.log(baseURL+"/dm/mtbmeanual/"+year);
+    return await fetch(baseURL+"/dm/ETL", requestOptions)
+    .then(responseEvent => responseEvent.json())
+    .then(res=>{
+        //console.log(res);
+        return res;
+    })
+    .catch(error => console.log('error', error));
+}
+
+export const setETLSchedule = async (dataraw)=>{
+    dataraw.active_start_time=moment(dataraw.active_start_date+" "+dataraw.active_start_time).format('HHmmss');
+    dataraw.active_end_time=moment(dataraw.active_end_date+" "+dataraw.active_end_time).format('HHmmss');
+    dataraw.active_start_date=moment(dataraw.active_start_date).format('YYYYMMDD');
+    dataraw.active_end_date=moment(dataraw.active_end_date).format('YYYYMMDD');
+    console.log(dataraw);
+    var raw = JSON.stringify({
+        "intjob_name":"JobDetencionesDM",
+        "intname":"Shedule_JobDetencionesDM",
+        "intenabled":1,
+        "intfreq_type":dataraw.freq_type,
+        "intfreq_interval":1,
+        "intfreq_subday_type":1,
+        "intfreq_subday_interval":1,
+        "intfreq_relative_interval":0,
+        "intfreq_recurrence_factor":0,
+        "intactive_start_date":dataraw.active_start_date,
+        "intactive_end_date":dataraw.active_end_date,
+        "intactive_start_time":dataraw.active_start_time,
+        "intactive_end_time":dataraw.active_end_time,
+    })
+    return await fetch(baseURL+"/dm/ETL", {
+        method: 'POST',
+        headers: headers,
+        body: raw,
+        redirect: 'follow'
+      })
+    .then(responseEvent => responseEvent.json())
+    .then(res=>{ console.log(res); return res; })
+    .catch(error => error);
 }

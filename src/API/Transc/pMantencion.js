@@ -13,25 +13,19 @@ var requestOptions = {
   headers: HeadersGetPMantencion,
   redirect: 'follow'
 };
-// export const titlesMaquinariaAPI = async()=>{
-//   return await fetch(baseURL+"/maquinaria", requestOptions)
-//     .then(response => response.json())
-//     .then(value => {
-//       // IDMAQUINARIA: NOMBRE
-//       var column = {};
-//       for (let i = 0; i < Object.keys(value).length; i++) {
-//           let key = value[i].Id_maquinaria.toString();
-//           let valor = value[i].Nombre_maquinaria.toString();
-//           column[key]=valor;
-//         }
-//       return column;
-//     })
-//     .catch(error => console.log('error', error));
-// }
+
 export const dataPMantencionesAPI = async()=>{
   return await fetch(baseURL+"/pmantencion", requestOptions)
     .then(response => response.json())
     .then(value => {
+      value.forEach(element => {
+        if (element["Id_kpi"]===1) {
+          element["unidad"]="Porcentaje"
+        }else{
+          element["unidad"]="Horas"        
+        }
+      });
+      // console.log(value)
       return value;
     })
     .catch(error => {

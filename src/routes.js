@@ -12,13 +12,13 @@ import Detenciones from "views/Detenciones/Detenciones.js"
 import ConfigAverias from "views/Config/Config_Averias";
 import ConfigMaquinarias from "views/Config/Config_Maquinarias";
 import ConfigMetas from "views/Config/Config_Metas";
+import ConfigETL from "views/Config/Config_ETL";
 import DashboardReports from "views/Dashboard/Reports/Dashboard_Reports";
 import pivotDetenciones from "views/Dashboard/Detenciones_pivotTable";
 import pivotDisponibilidad from "views/Dashboard/Disponibilidad_pivotTable";
 import reportDisponibilidad from "views/Dashboard/Reports/reportDisponibilidad";
 import reportDetenciones from "views/Dashboard/Reports/reportDetenciones";
 import HomeDashboard from "views/Dashboard/Dashboard_historico";
-import { validLogin } from 'API/Auth';
 
 let route_layout = "/",dashboardRoutes=[];
 const cookies = new Cookies();
@@ -124,6 +124,13 @@ const AdminRoutes = [
         name: "Metas",
         mini: "MT",
         component: ConfigMetas,
+        layout: route_layout
+      },
+      {
+        path: "etl",
+        name: "Programación ETL",
+        mini: "ETL",
+        component: ConfigETL,
         layout: route_layout
       }
     ]
@@ -263,15 +270,15 @@ const LectoresRoutes = [
 switch (getPrivilegesRol()) {
   case 1:
     dashboardRoutes = AdminRoutes;
-    console.log("Administrador")
+    // console.log("Administrador")
     break;
   case 2:
     dashboardRoutes = PlanificadorRoutes;
-    console.log("Planificador")
+    // console.log("Planificador")
     break;
   default:
     dashboardRoutes = LectoresRoutes;
-    console.log("Lector")
+    // console.log("Lector")
     break;
 }
 

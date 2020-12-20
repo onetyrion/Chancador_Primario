@@ -26,10 +26,23 @@ export const getChangeInputs = (name,value)=>{
             value=format_rutify(value);
             break;
         case "Correo_electronico":
-            console.log(validateEmail(value));
+            // console.log(validateEmail(value));
             // value=validateEmail(value);
             break;
+        case "unidad":
+            if(name.rowData.Id_kpi==="1")
+            value="Porcentaje";
+            else value="Horas";
+            // name.rowData.Anio=2
+            break;   
+        case "Id_kpi":
+            // console.log(name.rowData);
+            if(name.rowData.Id_kpi==="1")
+            name.rowData.unidad="Porcentaje";
+            else name.rowData.unidad="Horas";
+            break;                      
         default:
+            // console.log(name.rowData.Id_kpi)
             break;
     }
     return value;

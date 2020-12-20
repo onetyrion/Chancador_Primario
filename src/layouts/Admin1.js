@@ -31,7 +31,7 @@ export default function Dashboard(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [miniActive, setMiniActive] = React.useState(false);
   const [loading,setloading] = React.useState(true);
-  const [rolUser,setRolUser] = React.useState(3);
+  const [rolUser,setRolUser] = React.useState(null);
   // styles
   const classes = useStyles();
   const mainPanelClasses = classes.mainPanel + " " +
@@ -66,14 +66,14 @@ export default function Dashboard(props) {
   
   // functions for changeing the states from components
   const redirectLogin = async()=>{
-    // const usuarioInfo = await cookies.get("rol",{path: "/"})
+    const usuarioInfo = await cookies.get("rol",{path: "/"})
     // console.log(await cookies.get("rol",{path: "/"}));
     await validLogin()
     .then(res=>{
       if(!res) window.location.href="/login";
       else {
         setloading(false);
-        // setRolUser(usuarioInfo)
+        setRolUser(usuarioInfo)
       }
     })
   }
@@ -108,8 +108,9 @@ export default function Dashboard(props) {
         return (
           <Route
             path={prop.layout + prop.path}
-            component={prop.component}
+            render={(props) => (<prop.component {...props} rolUser={rolUser}/>)}
             key={key}
+            
           />
         );
       } else {
