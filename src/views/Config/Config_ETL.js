@@ -61,7 +61,7 @@ const useStyles = makeStyles(styles);
 export default function ConfigETL() {
   const classes = useStyles();
   const [nextrundate,Setnextrundate] = React.useState("1");
-  const [nextruntime,Setnextruntime] = React.useState("");
+  // const [nextruntime,Setnextruntime] = React.useState("");
   const [freq_type,Setfreq_type] = React.useState("");
   const [active_start_date,Setactive_start_date] = React.useState("");
   const [active_end_date,Setactive_end_date] = React.useState("");
@@ -76,15 +76,13 @@ export default function ConfigETL() {
   const setDatos = async ()=>{
     await getETLSchedule()
     .then((res)=>{
-        // moment.locale('es');
-        // console.log(moment.locale('es').moment(res.ScheduleJob.next_run_date+" "+res.ScheduleJob.next_run_time).format('LLLL'));
-        // console.log(res.ScheduleJob.next_run_date);
-        Setnextrundate(moment(res.ScheduleJob.next_run_date.toString()).format('DD-MM-YYYY'))
-        Setnextruntime(moment(res.ScheduleJob.next_run_date+" "+res.ScheduleJob.next_run_time).format('HH:mm:ss'))
+        // console.log(res.ScheduleJob.Occurs_detail);
+        Setnextrundate("Ocurre "+res.ScheduleJob.Occurs_detail+" "+res.ScheduleJob.Frequency)
+        // Setnextruntime(moment(res.ScheduleJob.next_run_date+" "+res.ScheduleJob.next_run_time).format('HH:mm:ss'))
         Setfreq_type(res.ScheduleJob.freq_type)
-        Setactive_start_date(moment(res.ScheduleJob.active_start_date.toString()).format('DD-MM-YYYY'))
+        Setactive_start_date(moment(res.ScheduleJob.active_start_date.toString()).format('YYYY-MM-DD'))
         Setactive_start_time(moment(res.ScheduleJob.active_start_date+" "+res.ScheduleJob.active_start_time).format('HH:mm:ss'))
-        Setactive_end_date(moment(res.ScheduleJob.active_end_date.toString()).format('DD-MM-YYYY'))
+        Setactive_end_date(moment(res.ScheduleJob.active_end_date.toString()).format('YYYY-MM-DD'))
         Setactive_end_time(moment(res.ScheduleJob.active_end_date+" "+res.ScheduleJob.active_end_time).format('HH:mm:ss'))
         return res;
     })
@@ -119,7 +117,7 @@ export default function ConfigETL() {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Gestión de la programación del proceso ETL</h4>
               <p className={classes.cardCategoryWhite}>
-                La próxima ejecucución será {nextrundate} a las {nextruntime}
+              {nextrundate}
               </p>
           </CardHeader>
         <form className={classes.form} onSubmit={(a)=>{dataAdd();a.preventDefault()}} >

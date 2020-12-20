@@ -1,8 +1,8 @@
 import moment from 'moment';
 import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const {baseURL} = require("./configAPI");
-const cookies = new Cookies();
   
 
 // ***********************************
@@ -63,6 +63,7 @@ export const eventosMantenciones = async (year)=>{
 // ***********************************
 
 export const disponibilidadanual = async (year,equipo)=>{
+    // console.log(year,equipo)
     let urlPeticion = baseURL+`/dm/disponibilidadanual/${year}/${equipo}`
     // console.log(urlPeticion);
     return await fetch(urlPeticion, requestOptions)
@@ -137,7 +138,11 @@ export const setETLSchedule = async (dataraw)=>{
     dataraw.active_end_time=moment(dataraw.active_end_date+" "+dataraw.active_end_time).format('HHmmss');
     dataraw.active_start_date=moment(dataraw.active_start_date).format('YYYYMMDD');
     dataraw.active_end_date=moment(dataraw.active_end_date).format('YYYYMMDD');
-    console.log(dataraw);
+    dataraw.freq_type=parseInt(dataraw.freq_type);
+    dataraw.active_start_date=parseInt(dataraw.active_start_date);
+    dataraw.active_start_time=parseInt(dataraw.active_start_time);
+    dataraw.active_end_date=parseInt(dataraw.active_end_date);
+    dataraw.active_end_time=parseInt(dataraw.active_end_time);
     var raw = JSON.stringify({
         "intjob_name":"JobDetencionesDM",
         "intname":"Shedule_JobDetencionesDM",
@@ -147,12 +152,14 @@ export const setETLSchedule = async (dataraw)=>{
         "intfreq_subday_type":1,
         "intfreq_subday_interval":1,
         "intfreq_relative_interval":0,
-        "intfreq_recurrence_factor":0,
+        "intfreq_recurrence_factor":dataraw.freq_type===8 || dataraw.freq_type===16 ? 1 : 0,
         "intactive_start_date":dataraw.active_start_date,
         "intactive_end_date":dataraw.active_end_date,
         "intactive_start_time":dataraw.active_start_time,
         "intactive_end_time":dataraw.active_end_time,
     })
+
+    console.log(raw);
     return await fetch(baseURL+"/dm/ETL", {
         method: 'POST',
         headers: headers,

@@ -7,8 +7,8 @@ const disp_metas = (indicador,values)=>{
   let pom=0, actual = 0, delta_pom = 0, delta_actual = 0;
   if (values) {
     values=metasCalculo(indicador,values)
-    pom = values[0] && values[0] ? (values[0]).toFixed(2) : 0;
-    actual = values[0] && values[0]  ? (values[1]).toFixed(2) : 0;
+    pom = values[0] && values[1] ? (values[0]).toFixed(2) : 0;
+    actual = values[0] && values[1]  ? (values[1]).toFixed(2) : 0;
     if (Math.round(pom-actual)<0) {
       delta_pom=((pom-actual)*-1).toFixed(2);;
     }else{
