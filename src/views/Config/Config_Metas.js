@@ -1,6 +1,6 @@
 import React from "react";
 // @material-ui/core components
-import { makeStyles  } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -28,11 +28,11 @@ const styles = {
       margin: "0",
       fontSize: "14px",
       marginTop: "0",
-      marginBottom: "0"
+      marginBottom: "0",
     },
     "& a,& a:hover,& a:focus": {
-      color: "#FFFFFF"
-    }
+      color: "#FFFFFF",
+    },
   },
   cardTitleWhite: {
     color: "#FFFFFF",
@@ -46,137 +46,149 @@ const styles = {
       color: "#777",
       fontSize: "65%",
       fontWeight: "400",
-      lineHeight: "1"
-    }
-  },  
+      lineHeight: "1",
+    },
+  },
   formControl: {
     margin: 10,
     minWidth: 200,
     maxWidth: 300,
   },
-  filtrosbox:{
+  filtrosbox: {
     width: "70%",
     margin: "auto",
-    display: "inline"
+    display: "inline",
   },
 };
 const useStyles = makeStyles(styles);
 
-const customInput = (props)=>{
-  return(
-  <Input
-  type={getTypeInputs(props.columnDef.field)}
-    value={props.value ? props.value : ""}
-    onChange={e => props.onChange( getChangeInputs(props,e.target.value))}
-    // onChange={e => props.onChange(e.target.value)}
-    // error={true}
-  />
-)}
+const customInput = (props) => {
+  return (
+    <Input
+      type={getTypeInputs(props.columnDef.field)}
+      value={props.value ? props.value : ""}
+      onChange={(e) => props.onChange(getChangeInputs(props, e.target.value))}
+      // onChange={e => props.onChange(e.target.value)}
+      // error={true}
+    />
+  );
+};
 
 export default function ConfigMetas() {
   const classes = useStyles();
-  const [dataMetas,SetdataMetas] = React.useState([]);
-  const [columnsMetas,setcolumnsMetas,] = React.useState([]);
-  
-  React.useEffect(()=>{
+  const [dataMetas, SetdataMetas] = React.useState([]);
+  const [columnsMetas, setcolumnsMetas] = React.useState([]);
+
+  React.useEffect(() => {
     setDatos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]); 
-  
-  const setDatos = async ()=>{
-    var maquinariaData = await titlesMaquinariaAPI();
-    var Indicador = await titlesIndicadorAPI(); 
-    var datapMantencion = await dataPMantencionesAPI(); 
-    setcolumnsMetas([ 
-      {"title":"Maquinaria","field":"Id_maquinaria",lookup: maquinariaData},
-      {"title":"Indicador","field":"Id_kpi",lookup: Indicador},
-      {"title":"Año","field":"Anio",editComponent:customInput},
-      {"title":"Meta","field":"Meta", editComponent:customInput},
-      {"title":"Unidad","field":"unidad", editComponent:customInput},
-    ]);      
-    SetdataMetas(datapMantencion);
-  }
+  }, []);
 
-  const rowAdd = (newData)=>(
+  const setDatos = async () => {
+    var maquinariaData = await titlesMaquinariaAPI();
+    var Indicador = await titlesIndicadorAPI();
+    var datapMantencion = await dataPMantencionesAPI();
+    setcolumnsMetas([
+      { title: "Maquinaria", field: "Id_maquinaria", lookup: maquinariaData },
+      { title: "Indicador", field: "Id_kpi", lookup: Indicador },
+      { title: "Año", field: "Anio", editComponent: customInput },
+      { title: "Meta", field: "Meta", editComponent: customInput },
+      { title: "Unidad", field: "unidad", editComponent: customInput },
+    ]);
+    SetdataMetas(datapMantencion);
+  };
+
+  const rowAdd = (newData) =>
     new Promise((resolve, reject) => {
       if (validation_metas(newData)) {
         return reject();
       }
-      CreateMetasAPI(newData)
-        .then((value)=>{
-          if (value.errors) {
-            notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
-          }else{
-            setDatos();
-            notify.show('Se ha Añadido con éxito!','success',5000);
-          }
-        })
-        resolve();
-    })
-  )
+      CreateMetasAPI(newData).then((value) => {
+        if (value.errors) {
+          notify.show(
+            `Ha ocurrido un error, verifique los datos ingresados`,
+            "error",
+            5000
+          );
+        } else {
+          setDatos();
+          notify.show("Se ha Añadido con éxito!", "success", 5000);
+        }
+      });
+      resolve();
+    });
 
-  const rowUpdate = (newData, oldData) =>(
+  const rowUpdate = (newData, oldData) =>
     new Promise((resolve, reject) => {
       if (validation_metas(newData)) {
         return reject();
       }
       PutMetasAPI(newData)
-      .then((value)=>{
-        console.log("update")
-        if (value.errors) {
-          notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
-        }else{
-          setDatos()
-          notify.show('Se ha Modificado con éxito!','success',5000);
-        }
-      })
-      .catch((error)=>{
-        notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
-        console.log(error);
-      })                       
+        .then((value) => {
+          console.log("update");
+          if (value.errors) {
+            notify.show(
+              `Ha ocurrido un error, verifique los datos ingresados`,
+              "error",
+              5000
+            );
+          } else {
+            setDatos();
+            notify.show("Se ha Modificado con éxito!", "success", 5000);
+          }
+        })
+        .catch((error) => {
+          notify.show(
+            "Ha ocurrido un error, intentelo más tarde.",
+            "error",
+            5000
+          );
+          console.log(error);
+        });
       resolve();
-    })
-  )
+    });
 
-  const rowDelete = (oldData) =>(
-  new Promise((resolve, reject) => {
-    console.log(oldData)
-    DeleteMetasAPI(oldData.Id_ProgramaMantencion)
-    .then((value)=>{
-      if (JSON.parse(value).errors) {
-        notify.show(`Ha ocurrido un error al eliminar el registro`,'error',5000);
-      }else{
-        setDatos()
-        notify.show('Se ha Eliminado con éxito!','warning',5000);
-      }
-    })
-      resolve()
-  })
-  )
+  const rowDelete = (oldData) =>
+    new Promise((resolve, reject) => {
+      console.log(oldData);
+      DeleteMetasAPI(oldData.Id_ProgramaMantencion).then((value) => {
+        if (JSON.parse(value).errors) {
+          notify.show(
+            `Ha ocurrido un error al eliminar el registro`,
+            "error",
+            5000
+          );
+        } else {
+          setDatos();
+          notify.show("Se ha Eliminado con éxito!", "warning", 5000);
+        }
+      });
+      resolve();
+    });
 
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
-        <Card >
+        <Card>
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Gestión de Metas</h4>
           </CardHeader>
           <CardBody>
-            <MaterialTable 
+            <MaterialTable
               title=""
               data={dataMetas}
               columns={columnsMetas}
-              parentChildData={(row, rows) => rows.find(a => console.log())}
+              parentChildData={(row, rows) => rows.find((a) => console.log())}
               editable={{
-                onRowAdd: rowAdd,                    
+                onRowAdd: rowAdd,
                 onRowUpdate: rowUpdate,
-                onRowDelete: rowDelete
-                }}
-              localization={localization}//Set Idioma
-              />
+                onRowDelete: rowDelete,
+              }}
+              localization={localization} //Set Idioma
+            />
           </CardBody>
         </Card>
-      </GridItem>    
-   </GridContainer>
+      </GridItem>
+    </GridContainer>
   );
 }

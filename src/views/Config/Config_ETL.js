@@ -14,11 +14,11 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import CardFooter from "components/Card/CardFooter";
+import CustomInput from "components/CustomInput/CustomInput";
 
 //DROPDOWN
 import { notify } from "react-notify-toast";
-import CardFooter from "components/Card/CardFooter";
-import CustomInput from "components/CustomInput/CustomInput";
 import { getETLSchedule, setETLSchedule } from "API/DM";
 import moment from "moment";
 // import { setETLSchedule } from "API/Transc/pMantencion";

@@ -26,7 +26,7 @@ export default function AdminNavbarLinks(props) {
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
-  const handleClickNotification = event => {
+  const handleClickNotification = (event) => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
     } else {
@@ -36,7 +36,7 @@ export default function AdminNavbarLinks(props) {
   const handleCloseNotification = () => {
     setOpenNotification(null);
   };
-  const handleClickProfile = event => {
+  const handleClickProfile = (event) => {
     if (openProfile && openProfile.contains(event.target)) {
       setOpenProfile(null);
     } else {
@@ -48,7 +48,7 @@ export default function AdminNavbarLinks(props) {
   };
   const closeSession = () => {
     logout();
-  }
+  };
   return (
     <div>
       {/* Button dropdown list Notification */}
@@ -87,7 +87,7 @@ export default function AdminNavbarLinks(props) {
               id="notification-menu-list-grow"
               style={{
                 transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
+                  placement === "bottom" ? "center top" : "center bottom",
               }}
             >
               <Paper>
@@ -130,7 +130,7 @@ export default function AdminNavbarLinks(props) {
           )}
         </Poppers>
       </div>
-      
+
       {/* Button Dashboard */}
       {/* <Button
         color={window.innerWidth > 959 ? "transparent" : "white"}
@@ -158,9 +158,7 @@ export default function AdminNavbarLinks(props) {
         >
           <Person className={classes.icons} />
           <Hidden mdUp implementation="css">
-            <li className={classes.linkText}>
-              Cerrar Sesión
-            </li>
+            <li className={classes.linkText}>Cerrar Sesión</li>
           </Hidden>
         </Button>
         <Poppers
@@ -180,7 +178,7 @@ export default function AdminNavbarLinks(props) {
               id="profile-menu-list-grow"
               style={{
                 transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
+                  placement === "bottom" ? "center top" : "center bottom",
               }}
             >
               <Paper>
@@ -190,16 +188,14 @@ export default function AdminNavbarLinks(props) {
                     <MenuItem
                       onClick={closeSession}
                       className={classes.dropdownItem}
-                    > 
-                    {!props.SidebarMobile ?
-                    "Cerrar Sesión"
-                  :
-                      <Hidden mdUp implementation="css" >
-                      <p className={classes.linkText}>
-                        Salir
-                      </p>
-                    </Hidden>
-                  }
+                    >
+                      {!props.SidebarMobile ? (
+                        "Cerrar Sesión"
+                      ) : (
+                        <Hidden mdUp implementation="css">
+                          <p className={classes.linkText}>Salir</p>
+                        </Hidden>
+                      )}
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>

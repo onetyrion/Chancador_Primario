@@ -3,47 +3,46 @@ import {
   whiteColor,
   grayColor,
   hexToRgb,
-  dangerColor
+  dangerColor,
 } from "assets/jss/material-dashboard-react.js";
 
 const dashboardStyle = {
   successText: {
-    color: successColor[0]
+    color: successColor[0],
   },
   dangerText: {
-    color:dangerColor[0]
+    color: dangerColor[0],
   },
   upArrowCardCategory: {
     width: "16px",
-    height: "16px"
+    height: "16px",
   },
-  Tabs:{
+  Tabs: {
     backgroundColor: "#333",
     color: "#fff",
   },
-  DivWidth:{
-    width:"120%",
-    margin: "0 -10%"
+  DivWidth: {
+    width: "120%",
+    margin: "0 -10%",
   },
-  ConteinerWidth:{
-  },
-  TabsWidth:{
+  ConteinerWidth: {},
+  TabsWidth: {
     width: "65%",
-    margin: "auto"
+    margin: "auto",
   },
-  filtrosbox:{
+  filtrosbox: {
     width: "70%",
     margin: "auto",
-    display: "inline"
+    display: "inline",
   },
-  FiltrosWidth:{
+  FiltrosWidth: {
     marginLeft: "40px",
-    width:"200px"
+    width: "200px",
   },
-  BtnFiltroWidth:{
+  BtnFiltroWidth: {
     marginLeft: "40px",
-    width:"140px"
-  }, 
+    width: "140px",
+  },
   formControl: {
     margin: 10,
     minWidth: 200,
@@ -60,15 +59,15 @@ const dashboardStyle = {
       height: "16px",
       position: "relative",
       marginRight: "3px",
-      marginLeft: "3px"
+      marginLeft: "3px",
     },
     "& .fab,& .fas,& .far,& .fal,& .material-icons": {
       top: "4px",
       fontSize: "16px",
       position: "relative",
       marginRight: "3px",
-      marginLeft: "3px"
-    }
+      marginLeft: "3px",
+    },
   },
   cardCategory: {
     color: grayColor[0],
@@ -76,14 +75,14 @@ const dashboardStyle = {
     fontSize: "14px",
     marginTop: "0",
     paddingTop: "10px",
-    marginBottom: "0"
+    marginBottom: "0",
   },
   cardCategoryWhite: {
     color: "rgba(" + hexToRgb(whiteColor) + ",.62)",
     margin: "0",
     fontSize: "14px",
     marginTop: "0",
-    marginBottom: "0"
+    marginBottom: "0",
   },
   cardTitle: {
     color: grayColor[2],
@@ -96,8 +95,8 @@ const dashboardStyle = {
     "& small": {
       color: grayColor[1],
       fontWeight: "400",
-      lineHeight: "1"
-    }
+      lineHeight: "1",
+    },
   },
   cardTitleWhite: {
     color: whiteColor,
@@ -110,9 +109,9 @@ const dashboardStyle = {
     "& small": {
       color: grayColor[1],
       fontWeight: "400",
-      lineHeight: "1"
-    }
-  }
+      lineHeight: "1",
+    },
+  },
 };
 
 export default dashboardStyle;

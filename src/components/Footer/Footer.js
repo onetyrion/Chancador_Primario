@@ -1,13 +1,12 @@
 /*eslint-disable*/
 import React from "react";
-import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 // core components
 import styles from "assets/jss/material-dashboard-react/components/footerStyle.js";
-import {home} from "variables/general";
+import { home } from "variables/general";
 const useStyles = makeStyles(styles);
 
 export default function Footer(props) {
@@ -23,12 +22,20 @@ export default function Footer(props) {
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="https://distritocandelaria.cl" target="_blank" className={classes.block}>
+              <a
+                href="https://distritocandelaria.cl"
+                target="_blank"
+                className={classes.block}
+              >
                 Distrito Candelaria
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="https://lundinmining.com/" target="_blank" className={classes.block}>
+              <a
+                href="https://lundinmining.com/"
+                target="_blank"
+                className={classes.block}
+              >
                 Lundin Mining
               </a>
             </ListItem>
@@ -39,13 +46,13 @@ export default function Footer(props) {
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
-              href="https://www.github.com/onetyrion"
-              target="_blank"
-              className={classes.a}
+                href="https://www.github.com/onetyrion"
+                target="_blank"
+                className={classes.a}
               >
-              &copy; {1900 + new Date().getYear()}{" "}
-              ByteNet, Repositorio del sistema
-            </a>
+                &copy; {1900 + new Date().getYear()} ByteNet, Repositorio del
+                sistema
+              </a>
             </ListItem>
           </List>
         </div>

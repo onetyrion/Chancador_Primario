@@ -1,6 +1,6 @@
 import React from "react";
 // @material-ui/core components
-import { makeStyles  } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -28,11 +28,11 @@ const styles = {
       margin: "0",
       fontSize: "14px",
       marginTop: "0",
-      marginBottom: "0"
+      marginBottom: "0",
     },
     "& a,& a:hover,& a:focus": {
-      color: "#FFFFFF"
-    }
+      color: "#FFFFFF",
+    },
   },
   cardTitleWhite: {
     color: "#FFFFFF",
@@ -46,140 +46,168 @@ const styles = {
       color: "#777",
       fontSize: "65%",
       fontWeight: "400",
-      lineHeight: "1"
-    }
-  },  
+      lineHeight: "1",
+    },
+  },
   formControl: {
     margin: 10,
     minWidth: 200,
     maxWidth: 300,
   },
-  filtrosbox:{
+  filtrosbox: {
     width: "70%",
     margin: "auto",
-    display: "inline"
+    display: "inline",
   },
 };
 const useStyles = makeStyles(styles);
-var Data = [ {
-  "ID": "",
-  "Descripción": "",
-  "Componente": "",  
-  "Categoría": ""
-  // "Tipo": ""
-}];
+var Data = [
+  {
+    ID: "",
+    Descripción: "",
+    Componente: "",
+    Categoría: "",
+    // "Tipo": ""
+  },
+];
 
-const customInput = (props)=>{
-  return(
-  <Input
-    type="text"
-    value={props.value ? props.value : ""}
-    onChange={e => props.onChange(e.target.value)}
-  />
-)}
+const customInput = (props) => {
+  return (
+    <Input
+      type="text"
+      value={props.value ? props.value : ""}
+      onChange={(e) => props.onChange(e.target.value)}
+    />
+  );
+};
 
 export default function ConfigAverias() {
   const classes = useStyles();
-  
+
   //Modal Variables
-  
-  const [dataFallas,SetdataFallas] = React.useState(Data);
-  const [columnsFallas,setcolumnsFallas,] = React.useState([]);
-  
-  React.useEffect(()=>{
+
+  const [dataFallas, SetdataFallas] = React.useState(Data);
+  const [columnsFallas, setcolumnsFallas] = React.useState([]);
+
+  React.useEffect(() => {
     setDatos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]); 
-  
-  const setDatos = async ()=>{
+  }, []);
+
+  const setDatos = async () => {
     var fallasdata = await dataFallasAPI();
-    var categorias = await titlesCategoriaAPI(); 
-    // var tipoFalla = await titlestipofallaAPI(); 
-    var components = await titlesComponenteAPI(); 
-    setcolumnsFallas([ 
-      {"title":"ID","field":"Id_falla",editable: 'never',editComponent:customInput},
-      {"title":"Descripción","field":"Descripcion_causa",editComponent:customInput},
-      {"title":"Categoría","field":"Id_categoria", lookup: categorias},
+    var categorias = await titlesCategoriaAPI();
+    // var tipoFalla = await titlestipofallaAPI();
+    var components = await titlesComponenteAPI();
+    setcolumnsFallas([
+      {
+        title: "ID",
+        field: "Id_falla",
+        editable: "never",
+        editComponent: customInput,
+      },
+      {
+        title: "Descripción",
+        field: "Descripcion_causa",
+        editComponent: customInput,
+      },
+      { title: "Categoría", field: "Id_categoria", lookup: categorias },
       // {"title":"Tipo","field":"Id_tipo", lookup: tipoFalla},
-      {"title":"Componente","field":"Id_componente", lookup: components},
-      {"title":"Falla","field":"Falla", lookup: { true: "Activa", false: 'Desactivada' }},
-    ]);      
+      { title: "Componente", field: "Id_componente", lookup: components },
+      {
+        title: "Falla",
+        field: "Falla",
+        lookup: { true: "Activa", false: "Desactivada" },
+      },
+    ]);
     SetdataFallas(fallasdata);
-  }
+  };
 
-  const rowAdd = (newData)=>(
+  const rowAdd = (newData) =>
     new Promise((resolve, reject) => {
-      CreateFallasAPI(newData)
-        .then((value)=>{
-          if (value.errors) {
-            notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
-          }else{
-            setDatos();
-            notify.show('Se ha Añadido con éxito!','success',5000);
-          }
-        })
-        resolve();
-    })
-  )
+      CreateFallasAPI(newData).then((value) => {
+        if (value.errors) {
+          notify.show(
+            `Ha ocurrido un error, verifique los datos ingresados`,
+            "error",
+            5000
+          );
+        } else {
+          setDatos();
+          notify.show("Se ha Añadido con éxito!", "success", 5000);
+        }
+      });
+      resolve();
+    });
 
-  const rowUpdate = (newData, oldData) =>(
+  const rowUpdate = (newData, oldData) =>
     new Promise((resolve, reject) => {
       // const dataUpdate = [...dataMaquinaria];
       // const index = oldData.tableData.id;
       // dataUpdate[index] = newData;
       //set on db
-      const msg = PutFallasAPI(newData,oldData);
-      msg.then((value)=>{
-        if (value.errors) {
-          notify.show(`Ha ocurrido un error, verifique los datos ingresados`,'error',5000);
-        }else{
-          setDatos()
-          notify.show('Se ha Modificado con éxito!','success',5000);
-        }
-      })
-      .catch((error)=>{
-        notify.show('Ha ocurrido un error, intentelo más tarde.','error',5000);
-        console.log(error);
-      })                       
+      const msg = PutFallasAPI(newData, oldData);
+      msg
+        .then((value) => {
+          if (value.errors) {
+            notify.show(
+              `Ha ocurrido un error, verifique los datos ingresados`,
+              "error",
+              5000
+            );
+          } else {
+            setDatos();
+            notify.show("Se ha Modificado con éxito!", "success", 5000);
+          }
+        })
+        .catch((error) => {
+          notify.show(
+            "Ha ocurrido un error, intentelo más tarde.",
+            "error",
+            5000
+          );
+          console.log(error);
+        });
       resolve();
-    })
-  )
+    });
 
-  const rowDelete = (oldData) =>(
-  new Promise((resolve, reject) => {
-    DeleteFallasAPI(oldData.Id_falla,oldData.Id_componente)
-    .then((value)=>{
-      if (JSON.parse(value).errors) {
-        notify.show(`Ha ocurrido un error al eliminar el registro`,'error',5000);
-      }else{
-        setDatos()
-        notify.show('Se ha Eliminado con éxito!','warning',5000);
-      }
-    })
-      resolve()
-  })
-  )
+  const rowDelete = (oldData) =>
+    new Promise((resolve, reject) => {
+      DeleteFallasAPI(oldData.Id_falla, oldData.Id_componente).then((value) => {
+        if (JSON.parse(value).errors) {
+          notify.show(
+            `Ha ocurrido un error al eliminar el registro`,
+            "error",
+            5000
+          );
+        } else {
+          setDatos();
+          notify.show("Se ha Eliminado con éxito!", "warning", 5000);
+        }
+      });
+      resolve();
+    });
 
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
-        <Card >
+        <Card>
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Gestión de Fallas</h4>
           </CardHeader>
           <CardBody>
-            <MaterialTable 
+            <MaterialTable
               title=""
               data={dataFallas}
               columns={columnsFallas}
-              parentChildData={(row, rows) => rows.find(a => console.log())}
+              parentChildData={(row, rows) => rows.find((a) => console.log())}
               editable={{
-                onRowAdd: rowAdd,                    
+                onRowAdd: rowAdd,
                 onRowUpdate: rowUpdate,
-                onRowDelete: rowDelete
-                }}
-              localization={localization}//LENGUAJE
-              />
+                onRowDelete: rowDelete,
+              }}
+              localization={localization} //LENGUAJE
+            />
             {/* <Table 
               tableHeaderColor="primary"
               tableHead={["ID","Falla","Componente","Categoría","Descripción","Tipo","Acción"]}
@@ -192,7 +220,7 @@ export default function ConfigAverias() {
             /> */}
           </CardBody>
         </Card>
-      </GridItem>     
-   </GridContainer>
+      </GridItem>
+    </GridContainer>
   );
 }
