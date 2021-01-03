@@ -72,11 +72,12 @@ export default function Login() {
     <Container component="main" maxWidth="xs" className={classes.windows}>
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Bienvenido
+        </Avatar> */}
+        <img src={require("assets/img/logofull.png")} height="100px"></img>
+        <Typography component="h1" variant="h5" style={{textAlign:"center"}}>
+          Bienvenido al sistema de análisis de detenciones BI
         </Typography>
         <form className={classes.form} onSubmit={(a)=>{LoginOnToken();a.preventDefault()}} >
           <TextField
