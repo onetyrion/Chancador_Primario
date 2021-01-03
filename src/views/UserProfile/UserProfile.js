@@ -5,11 +5,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import GridContainer from 'components/Grid/GridContainer.js';
+import GridItem from 'components/Grid/GridItem.js';
 
 import ProfileDetails from './Tab_Panel/Profile_details.js';
 import ProfileSecurity from './Tab_Panel/Profile_security.js';
-import GridContainer from 'components/Grid/GridContainer.js';
-import GridItem from 'components/Grid/GridItem.js';
 import ProfileAccounts from './Tab_Panel/Profile_accounts.js';
 
 function TabPanel(props) {

@@ -3,14 +3,14 @@ import React from "react";
 import GridContainer from "components/Grid/GridContainer.js";
 
 //Components
-import TableComponentes from './maquinariasTables/table_componentes';
-import TableMaquinaria from './maquinariasTables/table_maquinaria';
+import TableComponentes from "./maquinariasTables/table_componentes";
+import TableMaquinaria from "./maquinariasTables/table_maquinaria";
 
 export default function ConfigMaquinarias(props) {
   return (
     <GridContainer>
-      <TableMaquinaria/>
-      <TableComponentes/>
-   </GridContainer>
+      <TableMaquinaria />
+      <TableComponentes />
+    </GridContainer>
   );
 }
